@@ -1,0 +1,7 @@
+[
+  {"ps_exp_id": "EURUSD__cfg061", "symbol": "EURUSD", "model": "xgboost", "qc_sharpe": -0.790, "verdict": "FAIL"},
+  {"ps_exp_id": "NZDUSD__cfg048", "symbol": "NZDUSD", "model": "xgboost", "qc_sharpe": 0.806,  "verdict": "PASS"},
+  {"ps_exp_id": "USDJPY__cfg057", "symbol": "USDJPY", "model": "xgboost", "qc_sharpe": 1.108,  "verdict": "PASS"},
+  {"ps_exp_id": "USDCAD__cfg032", "symbol": "USDCAD", "model": "xgboost", "qc_sharpe": -0.848, "verdict": "FAIL"},
+  {"ps_exp_id": "USDCHF__cfg078", "symbol": "USDCHF", "model": "lightgbm", "qc_sharpe": -0.484, "verdict": "FAIL"}
+]
