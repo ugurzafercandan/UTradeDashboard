@@ -1,4 +1,516 @@
 {
-  "generated_at": null,
-  "signals": []
+  "generated_at": "2026-05-03 18:28",
+  "signals": [
+    {
+      "signal_id": "P15_XAUUSD",
+      "symbol": "XAUUSD",
+      "total_trades": 3,
+      "win_rate": 0.3333,
+      "cumulative_pnl_pct": -0.9043,
+      "sharpe": -16.4753,
+      "equity_curve": [
+        0.4963,
+        -0.3738,
+        -0.9043
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-30T18:05:01.690070+00:00",
+          "close_time": "2026-05-01T00:05:01.588827+00:00",
+          "symbol": "XAUUSD",
+          "direction": "LONG",
+          "open_price": 4607.6615,
+          "close_price": 4630.530000000001,
+          "pips": null,
+          "pnl_pct": 0.49631467068491236
+        },
+        {
+          "open_time": "2026-05-01T06:05:01.582244+00:00",
+          "close_time": "2026-05-01T10:05:04.149626+00:00",
+          "symbol": "XAUUSD",
+          "direction": "LONG",
+          "open_price": 4609.21,
+          "close_price": 4569.1050000000005,
+          "pips": null,
+          "pnl_pct": -0.8701057231065533
+        },
+        {
+          "open_time": "2026-05-01T18:05:01.590585+00:00",
+          "close_time": "2026-05-02T00:05:01.570090+00:00",
+          "symbol": "XAUUSD",
+          "direction": "LONG",
+          "open_price": 4638.99,
+          "close_price": 4614.38,
+          "pips": null,
+          "pnl_pct": -0.530503406991601
+        }
+      ]
+    },
+    {
+      "signal_id": "P16_USDCAD",
+      "symbol": "USDCAD",
+      "total_trades": 2,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": -0.1899,
+      "sharpe": -27.4955,
+      "equity_curve": [
+        0.0,
+        -0.1899
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-27T16:48:50.287820+00:00",
+          "close_time": "2026-04-30T07:23:45.629211+00:00",
+          "symbol": "USDCAD",
+          "direction": "LONG",
+          "open_price": 1.36561,
+          "close_price": 1.36561,
+          "pips": null,
+          "pnl_pct": 0.0
+        },
+        {
+          "open_time": "2026-04-30T18:05:01.844288+00:00",
+          "close_time": "2026-05-01T06:05:01.731828+00:00",
+          "symbol": "USDCAD",
+          "direction": "LONG",
+          "open_price": 1.3612449999999998,
+          "close_price": 1.35866,
+          "pips": null,
+          "pnl_pct": -0.189899687418491
+        }
+      ]
+    },
+    {
+      "signal_id": "P17_GBPNZD",
+      "symbol": "GBPNZD",
+      "total_trades": 3,
+      "win_rate": 1.0,
+      "cumulative_pnl_pct": 0.4095,
+      "sharpe": 49.941,
+      "equity_curve": [
+        0.257,
+        0.3531,
+        0.4095
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-27T16:48:50.746108+00:00",
+          "close_time": "2026-04-28T16:35:00.873538+00:00",
+          "symbol": "GBPNZD",
+          "direction": "LONG",
+          "open_price": 2.29158,
+          "close_price": 2.29747,
+          "pips": null,
+          "pnl_pct": 0.2570279021461154
+        },
+        {
+          "open_time": "2026-04-30T18:05:02.109271+00:00",
+          "close_time": "2026-05-01T06:05:01.964567+00:00",
+          "symbol": "GBPNZD",
+          "direction": "LONG",
+          "open_price": 2.3047649999999997,
+          "close_price": 2.3069800000000003,
+          "pips": null,
+          "pnl_pct": 0.09610524283389077
+        },
+        {
+          "open_time": "2026-05-01T10:05:05.177105+00:00",
+          "close_time": "2026-05-01T12:05:01.968518+00:00",
+          "symbol": "GBPNZD",
+          "direction": "LONG",
+          "open_price": 2.3079549999999998,
+          "close_price": 2.309255,
+          "pips": null,
+          "pnl_pct": 0.056326921452111454
+        }
+      ]
+    },
+    {
+      "signal_id": "P21_XAUUSD",
+      "symbol": "XAUUSD",
+      "total_trades": 2,
+      "win_rate": 0.5,
+      "cumulative_pnl_pct": 1.3817,
+      "sharpe": 27.4955,
+      "equity_curve": [
+        0.0,
+        1.3817
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-28T16:04:55.870334+00:00",
+          "close_time": "2026-04-30T08:21:05.039223+00:00",
+          "symbol": "XAUUSD",
+          "direction": "LONG",
+          "open_price": 4719.96,
+          "close_price": 4719.96,
+          "pips": null,
+          "pnl_pct": 0.0
+        },
+        {
+          "open_time": "2026-05-01T10:05:07.702685+00:00",
+          "close_time": "2026-05-01T16:10:28.798844+00:00",
+          "symbol": "XAUUSD",
+          "direction": "LONG",
+          "open_price": 4569.1050000000005,
+          "close_price": 4632.235,
+          "pips": null,
+          "pnl_pct": 1.381671027476917
+        }
+      ]
+    },
+    {
+      "signal_id": "P23_XAUUSD",
+      "symbol": "XAUUSD",
+      "total_trades": 1,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": 0.0,
+      "sharpe": null,
+      "equity_curve": [
+        0.0
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-28T16:04:57.004921+00:00",
+          "close_time": "2026-04-30T08:21:05.039223+00:00",
+          "symbol": "XAUUSD",
+          "direction": "LONG",
+          "open_price": 4719.96,
+          "close_price": 4719.96,
+          "pips": null,
+          "pnl_pct": 0.0
+        }
+      ]
+    },
+    {
+      "signal_id": "P31_AUDNZD",
+      "symbol": "AUDNZD",
+      "total_trades": 1,
+      "win_rate": 1.0,
+      "cumulative_pnl_pct": 0.6474,
+      "sharpe": null,
+      "equity_curve": [
+        0.6474
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-28T16:05:00.668043+00:00",
+          "close_time": "2026-04-30T07:48:30.869235+00:00",
+          "symbol": "AUDNZD",
+          "direction": "LONG",
+          "open_price": 1.21333,
+          "close_price": 1.221185,
+          "pips": null,
+          "pnl_pct": 0.6473918884392494
+        }
+      ]
+    },
+    {
+      "signal_id": "P35_EURCHF",
+      "symbol": "EURCHF",
+      "total_trades": 2,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": -0.1869,
+      "sharpe": -626.586,
+      "equity_curve": [
+        -0.0894,
+        -0.1869
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-30T18:05:12.740092+00:00",
+          "close_time": "2026-05-01T00:05:10.814370+00:00",
+          "symbol": "EURCHF",
+          "direction": "LONG",
+          "open_price": 0.917535,
+          "close_price": 0.916715,
+          "pips": null,
+          "pnl_pct": -0.08936988779720043
+        },
+        {
+          "open_time": "2026-05-01T06:05:10.255871+00:00",
+          "close_time": "2026-05-02T00:05:19.908646+00:00",
+          "symbol": "EURCHF",
+          "direction": "LONG",
+          "open_price": 0.91726,
+          "close_price": 0.9163650000000001,
+          "pips": null,
+          "pnl_pct": -0.09757320716044177
+        }
+      ]
+    },
+    {
+      "signal_id": "P36_EURGBP",
+      "symbol": "EURGBP",
+      "total_trades": 1,
+      "win_rate": 1.0,
+      "cumulative_pnl_pct": 0.062,
+      "sharpe": null,
+      "equity_curve": [
+        0.062
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-05-01T06:05:11.569573+00:00",
+          "close_time": "2026-05-01T10:05:44.154550+00:00",
+          "symbol": "EURGBP",
+          "direction": "LONG",
+          "open_price": 0.8624799999999999,
+          "close_price": 0.863015,
+          "pips": null,
+          "pnl_pct": 0.06203042389389473
+        }
+      ]
+    },
+    {
+      "signal_id": "P37_GBPCAD",
+      "symbol": "GBPCAD",
+      "total_trades": 1,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": -0.0041,
+      "sharpe": null,
+      "equity_curve": [
+        -0.0041
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-28T16:24:09.820558+00:00",
+          "close_time": "2026-05-01T18:05:22.464616+00:00",
+          "symbol": "GBPCAD",
+          "direction": "LONG",
+          "open_price": 1.84774,
+          "close_price": 1.8476650000000001,
+          "pips": null,
+          "pnl_pct": -0.00405901263163785
+        }
+      ]
+    },
+    {
+      "signal_id": "P39_GBPCAD",
+      "symbol": "GBPCAD",
+      "total_trades": 1,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": 0.0,
+      "sharpe": null,
+      "equity_curve": [
+        0.0
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-28T16:24:13.056758+00:00",
+          "close_time": "2026-04-30T07:24:00.257099+00:00",
+          "symbol": "GBPCAD",
+          "direction": "LONG",
+          "open_price": 1.84774,
+          "close_price": 1.84774,
+          "pips": null,
+          "pnl_pct": 0.0
+        }
+      ]
+    },
+    {
+      "signal_id": "P43_EURUSD",
+      "symbol": "EURUSD",
+      "total_trades": 1,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": -0.2481,
+      "sharpe": null,
+      "equity_curve": [
+        -0.2481
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-05-01T16:11:23.858164+00:00",
+          "close_time": "2026-05-01T18:05:26.414008+00:00",
+          "symbol": "EURUSD",
+          "direction": "LONG",
+          "open_price": 1.1767400000000001,
+          "close_price": 1.17382,
+          "pips": null,
+          "pnl_pct": -0.24814317521287907
+        }
+      ]
+    },
+    {
+      "signal_id": "P44_USDJPY",
+      "symbol": "USDJPY",
+      "total_trades": 3,
+      "win_rate": 0.6667,
+      "cumulative_pnl_pct": 0.15,
+      "sharpe": 44.8931,
+      "equity_curve": [
+        0.0,
+        0.0757,
+        0.15
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-30T12:05:31.844059+00:00",
+          "close_time": "2026-04-30 17:23:41",
+          "symbol": "USDJPY",
+          "direction": "LONG",
+          "open_price": 1.5716800000000002,
+          "close_price": 1.5716800000000002,
+          "pips": null,
+          "pnl_pct": 0.0
+        },
+        {
+          "open_time": "2026-05-01T10:06:07.294998+00:00",
+          "close_time": "2026-05-01T12:05:22.633677+00:00",
+          "symbol": "USDJPY",
+          "direction": "LONG",
+          "open_price": 156.4735,
+          "close_price": 156.59199999999998,
+          "pips": null,
+          "pnl_pct": 0.07573167341433737
+        },
+        {
+          "open_time": "2026-05-01T18:05:28.189101+00:00",
+          "close_time": "2026-05-02T00:05:28.216103+00:00",
+          "symbol": "USDJPY",
+          "direction": "LONG",
+          "open_price": 156.94400000000002,
+          "close_price": 157.0605,
+          "pips": null,
+          "pnl_pct": 0.07423029870525386
+        }
+      ]
+    },
+    {
+      "signal_id": "P46_USDCAD",
+      "symbol": "USDCAD",
+      "total_trades": 2,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": 0.0,
+      "sharpe": null,
+      "equity_curve": [
+        0.0,
+        0.0
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-30T09:11:02.805974+00:00",
+          "close_time": "2026-04-30T09:51:02.058948+00:00",
+          "symbol": "USDCAD",
+          "direction": "LONG",
+          "open_price": 1.36803,
+          "close_price": 1.36803,
+          "pips": null,
+          "pnl_pct": 0.0
+        },
+        {
+          "open_time": "2026-04-30T09:41:55.048373+00:00",
+          "close_time": "2026-04-30T09:51:02.058948+00:00",
+          "symbol": "USDCAD",
+          "direction": "LONG",
+          "open_price": 1.36803,
+          "close_price": 1.36803,
+          "pips": null,
+          "pnl_pct": 0.0
+        }
+      ]
+    },
+    {
+      "signal_id": "P47_AUDUSD",
+      "symbol": "AUDUSD",
+      "total_trades": 3,
+      "win_rate": 0.3333,
+      "cumulative_pnl_pct": 0.0556,
+      "sharpe": 22.4499,
+      "equity_curve": [
+        0.0,
+        0.0,
+        0.0556
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-30T09:11:04.800930+00:00",
+          "close_time": "2026-04-30T09:51:02.058948+00:00",
+          "symbol": "AUDUSD",
+          "direction": "LONG",
+          "open_price": 0.71187,
+          "close_price": 0.71187,
+          "pips": null,
+          "pnl_pct": 0.0
+        },
+        {
+          "open_time": "2026-04-30T09:41:56.798368+00:00",
+          "close_time": "2026-04-30T09:51:02.058948+00:00",
+          "symbol": "AUDUSD",
+          "direction": "LONG",
+          "open_price": 0.71187,
+          "close_price": 0.71187,
+          "pips": null,
+          "pnl_pct": 0.0
+        },
+        {
+          "open_time": "2026-05-01T06:05:22.624558+00:00",
+          "close_time": "2026-05-01T10:06:13.293905+00:00",
+          "symbol": "AUDUSD",
+          "direction": "LONG",
+          "open_price": 0.719105,
+          "close_price": 0.7195050000000001,
+          "pips": null,
+          "pnl_pct": 0.05562470014811008
+        }
+      ]
+    },
+    {
+      "signal_id": "P48_GBPUSD",
+      "symbol": "GBPUSD",
+      "total_trades": 2,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": 0.0,
+      "sharpe": null,
+      "equity_curve": [
+        0.0,
+        0.0
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-04-30T09:11:06.444872+00:00",
+          "close_time": "2026-04-30T09:51:02.058948+00:00",
+          "symbol": "GBPUSD",
+          "direction": "LONG",
+          "open_price": 1.347345,
+          "close_price": 1.347345,
+          "pips": null,
+          "pnl_pct": 0.0
+        },
+        {
+          "open_time": "2026-04-30T09:41:58.519376+00:00",
+          "close_time": "2026-04-30T09:51:02.058948+00:00",
+          "symbol": "GBPUSD",
+          "direction": "LONG",
+          "open_price": 1.347345,
+          "close_price": 1.347345,
+          "pips": null,
+          "pnl_pct": 0.0
+        }
+      ]
+    },
+    {
+      "signal_id": "P76_GBPCAD",
+      "symbol": "GBPCAD",
+      "total_trades": 1,
+      "win_rate": 0.0,
+      "cumulative_pnl_pct": -0.1745,
+      "sharpe": null,
+      "equity_curve": [
+        -0.1745
+      ],
+      "recent_trades": [
+        {
+          "open_time": "2026-05-01T21:12:04.807715+00:00",
+          "close_time": "2026-05-02T00:05:38.267242+00:00",
+          "symbol": "GBPCAD",
+          "direction": "LONG",
+          "open_price": 1.8476650000000001,
+          "close_price": 1.84444,
+          "pips": null,
+          "pnl_pct": -0.17454462794933245
+        }
+      ]
+    }
+  ]
 }
