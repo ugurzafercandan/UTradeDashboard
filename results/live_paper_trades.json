@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-03 18:36",
+  "generated_at": "2026-05-03 18:46",
   "signals": [
     {
       "signal_id": "P15_XAUUSD",
@@ -26,6 +26,7 @@
           "close_price": 4630.530000000001,
           "pnl": 49.63146706849123,
           "pnl_pct": 0.49631467068491236,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         },
         {
@@ -37,6 +38,7 @@
           "close_price": 4569.1050000000005,
           "pnl": -87.01057231065533,
           "pnl_pct": -0.8701057231065533,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         },
         {
@@ -48,6 +50,7 @@
           "close_price": 4614.38,
           "pnl": -53.05034069916011,
           "pnl_pct": -0.530503406991601,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -76,6 +79,7 @@
           "close_price": 1.36561,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 10000.0,
           "close_reason": "stale_data_voided"
         },
         {
@@ -87,6 +91,7 @@
           "close_price": 1.35866,
           "pnl": -18.9899687418491,
           "pnl_pct": -0.189899687418491,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -116,6 +121,7 @@
           "close_price": 2.29747,
           "pnl": 25.702790214611536,
           "pnl_pct": 0.2570279021461154,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         },
         {
@@ -127,6 +133,7 @@
           "close_price": 2.3069800000000003,
           "pnl": 9.610524283389076,
           "pnl_pct": 0.09610524283389077,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         },
         {
@@ -138,6 +145,7 @@
           "close_price": 2.309255,
           "pnl": 5.632692145211146,
           "pnl_pct": 0.056326921452111454,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -166,6 +174,7 @@
           "close_price": 4719.96,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 10000.0,
           "close_reason": "bad_scale_voided"
         },
         {
@@ -177,6 +186,7 @@
           "close_price": 4632.235,
           "pnl": 138.1671027476917,
           "pnl_pct": 1.381671027476917,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -204,6 +214,7 @@
           "close_price": 4719.96,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 10000.0,
           "close_reason": "bad_scale_voided"
         }
       ]
@@ -231,6 +242,7 @@
           "close_price": 1.221185,
           "pnl": 64.73918884392495,
           "pnl_pct": 0.6473918884392494,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -259,6 +271,7 @@
           "close_price": 0.916715,
           "pnl": -2.9492062973076143,
           "pnl_pct": -0.08936988779720043,
+          "lot_size": 3300.0,
           "close_reason": "signal_exit"
         },
         {
@@ -270,6 +283,7 @@
           "close_price": 0.9163650000000001,
           "pnl": -3.2199158362945783,
           "pnl_pct": -0.09757320716044177,
+          "lot_size": 3300.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -297,6 +311,7 @@
           "close_price": 0.863015,
           "pnl": 2.0470039884985263,
           "pnl_pct": 0.06203042389389473,
+          "lot_size": 3300.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -324,6 +339,7 @@
           "close_price": 1.8476650000000001,
           "pnl": -0.13394741684404907,
           "pnl_pct": -0.00405901263163785,
+          "lot_size": 3300.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -351,6 +367,7 @@
           "close_price": 1.84774,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 3300.0,
           "close_reason": "duplicate_symbol_voided"
         }
       ]
@@ -378,6 +395,7 @@
           "close_price": 1.17382,
           "pnl": -24.814317521287908,
           "pnl_pct": -0.24814317521287907,
+          "lot_size": 10000.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -407,6 +425,7 @@
           "close_price": 1.5716800000000002,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 2500.0,
           "close_reason": "corrupt_entry_price_voided"
         },
         {
@@ -418,6 +437,7 @@
           "close_price": 156.59199999999998,
           "pnl": 1.893291835358434,
           "pnl_pct": 0.07573167341433737,
+          "lot_size": 2500.0,
           "close_reason": "signal_exit"
         },
         {
@@ -429,6 +449,7 @@
           "close_price": 157.0605,
           "pnl": 1.8557574676313464,
           "pnl_pct": 0.07423029870525386,
+          "lot_size": 2500.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -457,6 +478,7 @@
           "close_price": 1.36803,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 5000.0,
           "close_reason": "excluded_signal"
         },
         {
@@ -468,6 +490,7 @@
           "close_price": 1.36803,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 5000.0,
           "close_reason": "excluded_signal"
         }
       ]
@@ -497,6 +520,7 @@
           "close_price": 0.71187,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 5000.0,
           "close_reason": "excluded_signal"
         },
         {
@@ -508,6 +532,7 @@
           "close_price": 0.71187,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 5000.0,
           "close_reason": "excluded_signal"
         },
         {
@@ -519,6 +544,7 @@
           "close_price": 0.7195050000000001,
           "pnl": 2.781235007405504,
           "pnl_pct": 0.05562470014811008,
+          "lot_size": 5000.0,
           "close_reason": "signal_exit"
         }
       ]
@@ -547,6 +573,7 @@
           "close_price": 1.347345,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 5000.0,
           "close_reason": "excluded_signal"
         },
         {
@@ -558,6 +585,7 @@
           "close_price": 1.347345,
           "pnl": 0.0,
           "pnl_pct": 0.0,
+          "lot_size": 5000.0,
           "close_reason": "excluded_signal"
         }
       ]
@@ -585,6 +613,7 @@
           "close_price": 1.84444,
           "pnl": -4.3636156987333115,
           "pnl_pct": -0.17454462794933245,
+          "lot_size": 2500.0,
           "close_reason": "signal_exit"
         }
       ]
