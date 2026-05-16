@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-16",
-  "source": "USO-372 MT5 Strategy Tester — 2025 Forward Test (2025-01-01 to 2026-05-14)",
+  "generated_at": "2026-05-17",
+  "source": "USO-372 / USO-377 MT5 Strategy Tester — 2025 Forward Test (2025-01-01 to 2026-05-14)",
   "platform": "Alpari-MT5-Demo (Build 5836)",
   "ea": "SignalReplay",
   "initial_deposit": 100000,
@@ -9,11 +9,11 @@
   "history_quality": "100%",
   "period": "H1",
   "summary": {
-    "total_signals": 16,
-    "profitable_signals": 16,
-    "combined_net_profit": 2649,
-    "avg_sharpe": 5.88,
-    "total_trades": 5422,
+    "total_signals": 22,
+    "profitable_signals": 22,
+    "combined_net_profit": 8054,
+    "avg_sharpe": 7.21,
+    "total_trades": 6850,
     "test_period": "2025-01-01 to 2026-05-14"
   },
   "signals": [
@@ -31,18 +31,42 @@
     },
     {
       "rank": 2,
-      "model": "P33",
-      "symbol": "EURCHF",
-      "horizon_h": 30,
-      "sharpe": 8.92,
-      "profit_factor": 2.66,
-      "net_profit": 230,
-      "max_dd_pct": 0.03,
-      "win_pct": 66,
-      "trades": 476
+      "model": "P5",
+      "symbol": "GBPAUD",
+      "horizon_h": 24,
+      "sharpe": 16.39,
+      "profit_factor": 3.61,
+      "net_profit": 307,
+      "max_dd_pct": 0.02,
+      "win_pct": 68,
+      "trades": 352
     },
     {
       "rank": 3,
+      "model": "P1",
+      "symbol": "EURUSD",
+      "horizon_h": 24,
+      "sharpe": 13.67,
+      "profit_factor": 7.10,
+      "net_profit": 259,
+      "max_dd_pct": 0.01,
+      "win_pct": 68,
+      "trades": 169
+    },
+    {
+      "rank": 4,
+      "model": "P33",
+      "symbol": "EURCHF",
+      "horizon_h": 30,
+      "sharpe": 9.11,
+      "profit_factor": 2.71,
+      "net_profit": 196,
+      "max_dd_pct": 0.03,
+      "win_pct": 67,
+      "trades": 476
+    },
+    {
+      "rank": 5,
       "model": "P43",
       "symbol": "EURUSD",
       "horizon_h": 24,
@@ -54,7 +78,19 @@
       "trades": 376
     },
     {
-      "rank": 4,
+      "rank": 6,
+      "model": "P22",
+      "symbol": "XAUUSD",
+      "horizon_h": 120,
+      "sharpe": 8.11,
+      "profit_factor": 3.78,
+      "net_profit": 1345,
+      "max_dd_pct": 0.25,
+      "win_pct": 66,
+      "trades": 141
+    },
+    {
+      "rank": 7,
       "model": "P47",
       "symbol": "AUDUSD",
       "horizon_h": 24,
@@ -66,31 +102,43 @@
       "trades": 473
     },
     {
-      "rank": 5,
+      "rank": 8,
       "model": "P31",
       "symbol": "AUDNZD",
       "horizon_h": 60,
-      "sharpe": 6.35,
-      "profit_factor": 1.93,
-      "net_profit": 58,
+      "sharpe": 6.81,
+      "profit_factor": 2.04,
+      "net_profit": 108,
       "max_dd_pct": 0.01,
-      "win_pct": 55,
+      "win_pct": 57,
       "trades": 314
     },
     {
-      "rank": 6,
+      "rank": 9,
+      "model": "P14",
+      "symbol": "GBPCAD",
+      "horizon_h": 240,
+      "sharpe": 6.33,
+      "profit_factor": 7.09,
+      "net_profit": 459,
+      "max_dd_pct": 0.03,
+      "win_pct": 72,
+      "trades": 284
+    },
+    {
+      "rank": 10,
       "model": "P32",
       "symbol": "GBPCAD",
       "horizon_h": 30,
-      "sharpe": 5.64,
-      "profit_factor": 2.05,
-      "net_profit": 148,
-      "max_dd_pct": 0.03,
-      "win_pct": 55,
+      "sharpe": 5.97,
+      "profit_factor": 2.13,
+      "net_profit": 220,
+      "max_dd_pct": 0.05,
+      "win_pct": 56,
       "trades": 236
     },
     {
-      "rank": 7,
+      "rank": 11,
       "model": "P48",
       "symbol": "GBPUSD",
       "horizon_h": 24,
@@ -102,7 +150,19 @@
       "trades": 420
     },
     {
-      "rank": 8,
+      "rank": 12,
+      "model": "P4",
+      "symbol": "GBPNZD",
+      "horizon_h": 24,
+      "sharpe": 5.23,
+      "profit_factor": 1.89,
+      "net_profit": 161,
+      "max_dd_pct": 0.02,
+      "win_pct": 53,
+      "trades": 306
+    },
+    {
+      "rank": 13,
       "model": "P34",
       "symbol": "EURGBP",
       "horizon_h": 30,
@@ -114,7 +174,7 @@
       "trades": 267
     },
     {
-      "rank": 9,
+      "rank": 14,
       "model": "P46",
       "symbol": "USDCAD",
       "horizon_h": 24,
@@ -126,7 +186,7 @@
       "trades": 284
     },
     {
-      "rank": 10,
+      "rank": 15,
       "model": "P38",
       "symbol": "EURCHF",
       "horizon_h": 60,
@@ -138,7 +198,19 @@
       "trades": 498
     },
     {
-      "rank": 11,
+      "rank": 16,
+      "model": "P16",
+      "symbol": "USDCAD",
+      "horizon_h": 240,
+      "sharpe": 4.73,
+      "profit_factor": 3.18,
+      "net_profit": 189,
+      "max_dd_pct": 0.03,
+      "win_pct": 64,
+      "trades": 296
+    },
+    {
+      "rank": 17,
       "model": "P44",
       "symbol": "USDJPY",
       "horizon_h": 24,
@@ -150,19 +222,31 @@
       "trades": 353
     },
     {
-      "rank": 12,
+      "rank": 18,
       "model": "P30",
       "symbol": "EURGBP",
       "horizon_h": 30,
-      "sharpe": 4.44,
-      "profit_factor": 1.63,
-      "net_profit": 54,
-      "max_dd_pct": 0.02,
-      "win_pct": 50,
+      "sharpe": 4.67,
+      "profit_factor": 1.67,
+      "net_profit": 43,
+      "max_dd_pct": 0.01,
+      "win_pct": 51,
       "trades": 263
     },
     {
-      "rank": 13,
+      "rank": 19,
+      "model": "P21",
+      "symbol": "XAUUSD",
+      "horizon_h": 120,
+      "sharpe": 4.61,
+      "profit_factor": 2.24,
+      "net_profit": 584,
+      "max_dd_pct": 0.23,
+      "win_pct": 66,
+      "trades": 121
+    },
+    {
+      "rank": 20,
       "model": "P36",
       "symbol": "EURGBP",
       "horizon_h": 30,
@@ -174,40 +258,28 @@
       "trades": 261
     },
     {
-      "rank": 14,
-      "model": "P39",
-      "symbol": "GBPCAD",
+      "rank": 21,
+      "model": "P23",
+      "symbol": "XAUUSD",
       "horizon_h": 120,
-      "sharpe": 1.44,
-      "profit_factor": 1.40,
-      "net_profit": 74,
-      "max_dd_pct": 0.04,
-      "win_pct": 49,
-      "trades": 169
+      "sharpe": 4.00,
+      "profit_factor": 2.59,
+      "net_profit": 901,
+      "max_dd_pct": 0.27,
+      "win_pct": 66,
+      "trades": 116
     },
     {
-      "rank": 15,
-      "model": "P37",
-      "symbol": "GBPCAD",
-      "horizon_h": 120,
-      "sharpe": 1.07,
-      "profit_factor": 1.25,
-      "net_profit": 53,
-      "max_dd_pct": 0.05,
-      "win_pct": 44,
-      "trades": 185
-    },
-    {
-      "rank": 16,
-      "model": "P35",
-      "symbol": "EURCHF",
-      "horizon_h": 120,
-      "sharpe": 1.02,
-      "profit_factor": 1.21,
-      "net_profit": 40,
-      "max_dd_pct": 0.06,
-      "win_pct": 53,
-      "trades": 282
+      "rank": 22,
+      "model": "P15",
+      "symbol": "XAUUSD",
+      "horizon_h": 240,
+      "sharpe": 3.94,
+      "profit_factor": 1.95,
+      "net_profit": 1290,
+      "max_dd_pct": 0.53,
+      "win_pct": 65,
+      "trades": 279
     }
   ]
 }
