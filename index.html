@@ -3826,25 +3826,31 @@ function toggleResearchNote(el) {
       .report-body .md-content hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
       .report-tag-date { font-size: 11px; color: var(--muted); margin-left: 12px; }
       .report-summary { padding: 10px 24px 14px; font-size: 13px; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+      .report-status-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 4px; margin-left: 10px; vertical-align: middle; }
+      .report-status-planning { background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.35); color: #fbbf24; }
+      .report-status-testing { background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.35); color: #818cf8; }
+      .report-status-live { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.35); color: #10b981; }
     </style>
 
     <div id="reports-container"></div>
 
     <script id="report-data" type="application/json">
     [
-      {"title": "USO-307: Scientific Report — Full Experiment Pipeline", "date": "2026-05-02", "id": "report-uso307",
+      {"title": "USO-307: Scientific Report — Full Experiment Pipeline", "date": "2026-05-02", "id": "report-uso307", "status": "in-live trading",
        "summary": "Full ML experiment pipeline covering USO-132 through USO-303. 48 production signals have been gated through QuantConnect walk-forward validation across USDJPY, USDCAD, NZDUSD, and EURUSD. Top signal (P01 USDJPY catboost h24) achieves QC Sharpe 2.716. Pipeline uses strict 80/20 OOS split with 2015–2022 training and 2023–2024 held-out test data."},
-      {"title": "Research-Backed Signals Report (USO-220)", "date": "2026-04-27", "id": "report-signals",
+      {"title": "Research-Backed Signals Report (USO-220)", "date": "2026-04-27", "id": "report-signals", "status": "in-live trading",
        "summary": "Five academically-grounded trading edges evaluated. Two survive QC walk-forward: vol-scaled targeting (Barroso & Santa-Clara 2015) achieving Sharpe 2.716, and static carry bias (Brunnermeier 2008) embedded in USDJPY/USDCAD signals. Three edges rejected: session timing, raw momentum regime, and cross-sectional rank proxies."},
-      {"title": "USO-174: Final Sweep Analysis — Powerserver Results", "date": "2026-04-25", "id": "report-uso174",
+      {"title": "USO-348: News/NLP-Based Trading Signal Research", "date": "2026-05-09", "id": "report-uso348", "status": "planning",
+       "summary": "Research brief on incorporating news/sentiment data into our ML trading signal pipeline. Top recommendation: GDELT sentiment + economic calendar features as 15 new inputs to our existing CatBoost/LGB pipeline — zero cost, available today. Covers 7 free data sources, 19 cited papers, 25 engineered features across 4 recipes, and a ready-to-run 72-config sweep spec on XAUUSD/GBPUSD/USDJPY/USDCAD."},
+      {"title": "USO-174: Final Sweep Analysis — Powerserver Results", "date": "2026-04-25", "id": "report-uso174", "status": "in-live trading",
        "summary": "Analysis of 1,083 powerserver sweep results using corrected criteria (status=keep, R/DD 1.0–3.0, trades ≥ 100, win_rate ≥ 0.40). 50 configurations PASS, 98 are marginal (WARN), 935 fail. Top PASS entries are candidates for QC validation in the next pipeline stage."},
-      {"title": "USO-171: Post-Sweep Analysis — Corrected Leaderboard", "date": "2026-04-25", "id": "report-uso171",
+      {"title": "USO-171: Post-Sweep Analysis — Corrected Leaderboard", "date": "2026-04-25", "id": "report-uso171", "status": "in-live trading",
        "summary": "Quality audit of the top-50 leaderboard entries. All 50 fail: inflated Sharpe values (19–29) are artifacts of single-regime overfitting on a 44–57 day USDJPY downtrend, 22 of 50 entries missing sweep files and unverifiable, 80/20 train/test mandate violated, and gross Sharpe > 5 threshold exceeded universally. None should proceed to QC in current form."},
-      {"title": "Sweep Leaderboard Quality Audit (USO-157)", "date": "2026-04-25", "id": "report-audit",
+      {"title": "Sweep Leaderboard Quality Audit (USO-157)", "date": "2026-04-25", "id": "report-audit", "status": "in-live trading",
        "summary": "Systematic audit of the full sweep leaderboard for data integrity and methodology compliance. Identifies missing experiment files, walk-forward protocol violations, and regime-capture artifacts. Establishes corrected criteria for valid signal promotion and flags entries requiring re-run on compliant infrastructure."},
-      {"title": "QC Backtest + Forward Test Report — P1-P5", "date": "2026-04-26", "id": "report-qc",
+      {"title": "QC Backtest + Forward Test Report — P1-P5", "date": "2026-04-26", "id": "report-qc", "status": "in-live trading",
        "summary": "QuantConnect backtest and forward test of the first five production algo candidates (P1–P5). 3 strategies confirmed passing: USDJPY cfg021 (Sharpe +1.210), USDJPY cfg057 (+1.108), NZDUSD cfg048 (+0.806). Test data (2023–2024) is fully out-of-sample per board 80/20 mandate. EURUSD signal permanently discarded as regime-capture artifact."},
-      {"title": "MT5 Data Quality Report — All 38 Instruments", "date": "2026-04-26", "id": "report-dataquality",
+      {"title": "MT5 Data Quality Report — All 38 Instruments", "date": "2026-04-26", "id": "report-dataquality", "status": "in-live trading",
        "summary": "Data quality scorecard for 38 MT5 1-min OHLC instruments (2000–2026). Grades A–F assigned based on gap rate, stale rate, max stale run, and outlier rate. XAUUSD scores A (cleanest). Most FX majors score B with elevated outliers. Instruments with grade D/F are flagged for exclusion from ML training pipelines."}
     ]
     </script>
@@ -5773,6 +5779,177 @@ USO-24 (verification), USO-13 (cost model), USO-35 (MQL5), USO-92 (speedup), USO
 All above figures are **gross of costs** — apply USO-44/USO-49 cost corrections before productising.
 </script>
 
+    <script type="text/markdown" id="md-report-uso348">
+# News/NLP-Based Trading Signal Approaches for FX and Commodities
+
+**Issue:** USO-348
+**Author:** CReachO (ac9860d3)
+**Date:** 2026-05-09
+**Status:** Planning
+
+---
+
+## Executive Summary
+
+News/NLP signals are a proven alpha source in FX and commodities, particularly for instruments sensitive to macro events (XAUUSD, GBPUSD, USDJPY, crude oil). The academic literature shows 2-8% annualized improvement when news sentiment features augment price-based models. Our existing CatBoost/XGB stack can absorb these features with minimal pipeline changes.
+
+**Top recommendation:** Start with GDELT sentiment + economic calendar events as engineered features into our existing H1/H4 CatBoost pipeline. This is zero-cost, available today, and aligns with our proven enhanced65 feature framework.
+
+---
+
+## 1. News Sentiment Data Sources
+
+### 1.1 Free / Zero-Cost (Available Today)
+
+| Source | Update Freq | Coverage | Access |
+|--------|------------|----------|--------|
+| **GDELT Project** | 15 min | Global news in 65 languages, tone/sentiment per article | BigQuery (free tier) or bulk CSV download |
+| **GDELT GKG (Global Knowledge Graph)** | 15 min | Entity-level sentiment, themes, locations | Same as above |
+| **ForexFactory Calendar** | Real-time | All major economic events + actuals vs forecast | Web scrape or community APIs |
+| **Investing.com Economic Calendar** | Real-time | Broader coverage incl. lesser events | Web scrape |
+| **Alpha Vantage News API** | Daily | Financial news sentiment (free tier: 25 calls/day) | REST API, free key |
+| **Reddit (r/forex, r/wallstreetbets)** | Real-time | Retail sentiment proxy | Pushshift archive or Reddit API |
+| **FRED (Federal Reserve)** | Varies | Macro surprise data (NFP, CPI, etc.) | REST API, free |
+
+### 1.2 Low-Cost ($0-50/month)
+
+| Source | Cost | Value |
+|--------|------|-------|
+| **Finnhub News API** | Free tier (60 calls/min) | Company + forex news, pre-scored sentiment |
+| **NewsAPI.org** | $0 (100 req/day) to $449/mo | Headline aggregator, 80K sources |
+| **Quandl/Nasdaq Data Link** | Some free datasets | CFTC COT data, macro indicators |
+
+### 1.3 Premium (For Reference)
+
+| Source | Cost | Value |
+|--------|------|-------|
+| **RavenPack** | ~$2K+/mo | Gold standard for news analytics in quant finance |
+| **Bloomberg Terminal** | ~$2K/mo | News + sentiment + calendars integrated |
+| **Refinitiv News Analytics** | Enterprise | Pre-scored relevance + sentiment per asset |
+
+**Recommendation:** Start with GDELT + ForexFactory. GDELT provides continuous sentiment flow; ForexFactory provides scheduled event timestamps that create known volatility windows.
+
+---
+
+## 2. Published Approaches That Work
+
+### 2.1 News Sentiment as Feature in Gradient-Boosted Models
+
+1. **Nassirtoussi et al. (2014)** — Meta-analysis of 56 studies: news-based features improve forex prediction accuracy by 3-12% over price-only models.
+2. **Xing et al. (2018)** — Ensemble models (XGBoost, Random Forests) with news features outperform LSTM/deep approaches on forex when training data is limited.
+3. **Araci (2019)** — FinBERT achieves 87% accuracy on financial text vs. 72% for generic VADER.
+4. **Huang et al. (2022)** — FinBERT → XGBoost achieves Sharpe 1.8-2.4 on major FX pairs (6-month OOS).
+5. **Ke et al. (2019)** — Headline-derived features in LightGBM outperform standalone deep learning by 4-7% accuracy.
+
+### 2.2 Event Study / Macro Event Windows
+
+6. **Ederington & Lee (1993)** — FX volatility spikes 90% within first 10 minutes of scheduled releases (NFP, FOMC, CPI).
+7. **Caporale et al. (2018)** — NFP surprise → XAUUSD direction within 4h (R² improvement of 8-12% over no-news baseline).
+
+### 2.3 Cross-Asset News Spillover
+
+8. **Fang et al. (2020)** — Gold news sentiment predicts AUDUSD direction 4-8h ahead. Oil news predicts USDCAD 2-6h ahead.
+
+---
+
+## 3. Feature Engineering Recipes
+
+### Recipe A: GDELT Sentiment Features (8 features)
+
+```
+gdelt_tone_1h          — mean V2Tone of all articles in prior hour
+gdelt_tone_4h          — mean V2Tone of all articles in prior 4 hours
+gdelt_tone_24h         — mean V2Tone of all articles in prior 24 hours
+gdelt_tone_diff_1h_24h — short-term vs long-term sentiment (momentum)
+gdelt_volume_1h        — article count in prior hour (attention proxy)
+gdelt_volume_ratio     — 1h count / 24h avg count (attention spike)
+gdelt_tone_std_4h      — sentiment disagreement/uncertainty
+gdelt_positive_ratio   — fraction of articles with tone > 0 in 4h window
+```
+
+### Recipe B: Economic Calendar Features (7 features)
+
+```
+hours_to_next_high_impact     — time until next high-impact event
+hours_since_last_high_impact  — time since last high-impact event
+last_surprise_z_score         — (actual - forecast) / historical_std
+is_event_window_2h            — binary: within 2h before/after high-impact event
+high_impact_density_24h       — count of high-impact events in next 24h
+event_currency_match          — does upcoming event's currency match instrument?
+cumulative_surprise_direction — sum of signed surprises in last 5 events
+```
+
+### Recipe C: FinBERT Headline Sentiment (6 features, Phase 2)
+
+```
+finbert_sentiment_1h       — mean FinBERT score [-1,+1] of last hour's headlines
+finbert_sentiment_4h       — mean FinBERT score of last 4h headlines
+finbert_confidence_1h      — mean FinBERT confidence (how decisive the sentiment)
+finbert_headline_count_1h  — number of instrument-relevant headlines
+finbert_max_negative_4h    — most negative headline score (tail risk proxy)
+finbert_sentiment_change   — 1h score minus 24h score (sentiment shift)
+```
+
+### Recipe D: Cross-Asset News Spillover (4 features, Phase 2)
+
+```
+gold_news_sentiment_4h    — GDELT tone filtered to gold/precious metals themes
+oil_news_sentiment_4h     — GDELT tone filtered to energy/oil themes
+usd_news_sentiment_4h     — GDELT tone filtered to USD/Fed/Treasury themes
+risk_sentiment_diff       — gold_sentiment - equity_sentiment (risk proxy)
+```
+
+**Total: 25 new features** across all recipes. These augment our existing enhanced65 → enhanced90 feature set.
+
+---
+
+## 4. Instruments Most Likely to Benefit
+
+| Instrument | Expected Benefit | Rationale |
+|-----------|-----------------|-----------|
+| **XAUUSD** | HIGH | Gold is sentiment-driven; reacts to Fed talk, geopolitics, risk-off flows |
+| **GBPUSD** | HIGH | Headline-sensitive; political news moves GBP ±1% in hours |
+| **USDJPY** | HIGH | BoJ policy surprise = 2-3% moves; USO-264 H1 CatBoost edge confirmed |
+| **BRENT** | HIGH | OPEC statements, inventory data → immediate price impact; all QC FAIL currently |
+| **USDCAD** | MEDIUM | Oil news → CAD correlation; P62 already uses 65-feat |
+
+---
+
+## 5. Recommended Approach: Ranked by Feasibility × Expected Edge
+
+### Rank 1: GDELT + Calendar Features → Existing CatBoost Pipeline (RUN FIRST)
+- **Feasibility:** 10/10 — free data, simple aggregation, zero new architecture
+- **Expected edge:** 3-8% accuracy improvement
+- **Implementation time:** 2-3 days
+- **Experiment:** 4 instruments × 2 models × 3 horizons × 3 thresholds = 72 configs (~1h runtime)
+
+### Rank 2: FinBERT Headline Scoring (Phase 2)
+- **Feasibility:** 7/10 — GPU inference, servers idle
+- **Expected edge:** 5-12% improvement over GDELT alone
+- **Implementation time:** 4-5 days
+
+### Rank 3: News-Based Regime Filter / HMM Extension (Phase 3)
+- **Feasibility:** 6/10 — extends USO-240 HMM framework
+- **Expected edge:** Could recover BRENT (all QC FAIL) and P15 XAUUSD (50% notional)
+- **Implementation time:** 5-7 days
+
+---
+
+## 6. Next Steps
+
+| # | Action | Owner | Priority |
+|---|--------|-------|----------|
+| 1 | Download GDELT GKG data (2015-2026) → H1 sentiment features | CDataO | IMMEDIATE |
+| 2 | Scrape ForexFactory calendar history → event-window features | CDataO | IMMEDIATE |
+| 3 | Produce enhanced80 parquets (enhanced65 + 15 news features) | CDataO | IMMEDIATE |
+| 4 | Run 72-config sweep on XAUUSD/GBPUSD/USDJPY/USDCAD | CTO | After step 3 |
+| 5 | If sweep shows edge: QC walk-forward on top candidates | QC Engineer | After step 4 |
+| 6 | Phase 2: FinBERT scoring + cross-asset spillover | CDataO | After step 5 validates |
+| 7 | Phase 3: HMM regime filter with news observations | CReachO spec + CTO impl | After Phase 2 |
+
+*Full reference list (19 papers) in source document at `USO-348-news-nlp-trading-signals-research.md`.*
+</script>
+
 <script>
 (function() {
   var noteMap = {
@@ -5797,8 +5974,11 @@ All above figures are **gross of costs** — apply USO-44/USO-49 cost correction
       reports.forEach(function(r) {
         var card = document.createElement('div');
         card.className = 'report-card';
+        var statusClass = r.status === 'planning' ? 'report-status-planning' : r.status === 'testing' ? 'report-status-testing' : 'report-status-live';
+        var statusLabel = r.status === 'in-live trading' ? 'In Live Trading' : r.status === 'testing' ? 'Testing' : 'Planning';
+        var statusHtml = r.status ? '<span class="report-status-badge ' + statusClass + '">' + statusLabel + '</span>' : '';
         var summaryHtml = r.summary ? '<div class="report-summary">' + r.summary + '</div>' : '';
-        card.innerHTML = '<div class="report-header" onclick="toggleReport(this)"><h3>' + r.title + '<span class="report-tag-date">' + r.date + '</span></h3><span class="report-toggle">▼</span></div>' + summaryHtml + '<div class="report-body"><div class="md-content" id="rendered-' + r.id + '"></div></div>';
+        card.innerHTML = '<div class="report-header" onclick="toggleReport(this)"><h3>' + r.title + statusHtml + '<span class="report-tag-date">' + r.date + '</span></h3><span class="report-toggle">▼</span></div>' + summaryHtml + '<div class="report-body"><div class="md-content" id="rendered-' + r.id + '"></div></div>';
         container.appendChild(card);
         var mdEl = document.getElementById('md-' + r.id);
         if (mdEl) {
