@@ -6941,13 +6941,6 @@ risk_sentiment_diff       — gold_sentiment - equity_sentiment (risk proxy)
       </div>
     </div>
 
-    <!-- P/L by symbol mini chart -->
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px;">
-      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">P&amp;L by Position</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">Unrealised profit/loss per open ticket (USD)</div>
-      <canvas id="oo-pl-chart" height="60"></canvas>
-    </div>
-
     <!-- Orders table -->
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
@@ -8143,7 +8136,6 @@ function initCReachoCharts() {
   var ooSortKey = 'profit';
   var ooSortAsc = false;
   var ooData = null;
-  var ooPlChart = null;
   var ooRefreshTimer = null;
 
   function fmtDuration(mins) {
@@ -8187,41 +8179,6 @@ function initCReachoCharts() {
 
     var ts = data.updated_at ? new Date(data.updated_at).toLocaleString() : '—';
     document.getElementById('oo-last-updated').textContent = 'Updated: ' + ts;
-  }
-
-  function renderOoChart(orders) {
-    var labels = orders.map(function(o){return '#' + o.ticket + ' ' + o.symbol;});
-    var profits = orders.map(function(o){return o.profit || 0;});
-    var colors = profits.map(function(p){return p >= 0 ? 'rgba(16,185,129,0.7)' : 'rgba(239,68,68,0.7)';});
-    var borders = profits.map(function(p){return p >= 0 ? '#10b981' : '#ef4444';});
-
-    if (ooPlChart) { ooPlChart.destroy(); ooPlChart = null; }
-    var ctx = document.getElementById('oo-pl-chart');
-    if (!ctx) return;
-    ooPlChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: profits,
-          backgroundColor: colors,
-          borderColor: borders,
-          borderWidth: 1,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {display: false},
-          tooltip: {callbacks: {label: function(ctx) { return '$' + ctx.raw.toFixed(2); }}}
-        },
-        scales: {
-          x: {ticks: {color: '#64748b', font: {size: 10}}, grid: {color: 'rgba(255,255,255,0.03)'}},
-          y: {ticks: {color: '#64748b', font: {size: 10}, callback: function(v) { return '$' + v; }}, grid: {color: 'rgba(255,255,255,0.05)'}}
-        }
-      }
-    });
   }
 
   function renderOoTable(orders) {
@@ -8277,7 +8234,6 @@ function initCReachoCharts() {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       ooData = await res.json();
       renderOoSummary(ooData);
-      renderOoChart(ooData.orders || []);
       renderOoTable(ooData.orders || []);
     } catch(e) {
       var tbody = document.getElementById('oo-tbody');
