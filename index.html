@@ -295,6 +295,7 @@ function toggleResearchNote(el) {
   <button data-tab="reports" onclick="showTab('reports')">Published Reports</button>
   <button data-tab="architecture" onclick="showTab('architecture')">Architecture</button>
   <button data-tab="mt5-backtests" onclick="showTab('mt5-backtests')" style="color:#a78bfa">MT5 Backtests</button>
+  <button data-tab="open-orders" onclick="showTab('open-orders')" style="color:#f59e0b">Open Orders</button>
   <button data-tab="subscribe" onclick="showTab('subscribe')" style="color:#10b981;border-bottom-color:transparent">Subscribe</button>
 </nav>
 
@@ -6907,6 +6908,96 @@ risk_sentiment_diff       — gold_sentiment - equity_sentiment (risk proxy)
     </div>
   </div><!-- end tab-mt5-backtests -->
 
+  <!-- ── OPEN ORDERS ── -->
+  <div class="section" id="tab-open-orders">
+    <div class="section-title">MT5 Open Orders — Live Terminal</div>
+    <div class="section-desc">
+      Live positions from the MT5 terminal (Alpari-MT5-Demo). Data source: <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;font-size:11px">results/mt5_open_orders.json</code> written by the SignalReplay EA.
+      <span id="oo-last-updated" style="margin-left:16px;font-size:11px;color:var(--muted)">Loading…</span>
+      <button onclick="loadOpenOrders()" style="margin-left:12px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:var(--accent);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;font-family:var(--font)">↻ Refresh</button>
+    </div>
+
+    <!-- Account summary cards -->
+    <div class="grid-4" id="oo-summary-cards">
+      <div class="card">
+        <div class="card-title">Equity</div>
+        <div class="card-value" id="oo-equity">—</div>
+        <div class="card-sub" id="oo-balance-sub">Balance: —</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Floating P&amp;L</div>
+        <div class="card-value" id="oo-floating-pl">—</div>
+        <div class="card-sub">unrealised across all open</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Open Positions</div>
+        <div class="card-value" id="oo-count">—</div>
+        <div class="card-sub" id="oo-lots-sub">— lots total</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Free Margin</div>
+        <div class="card-value" id="oo-free-margin">—</div>
+        <div class="card-sub" id="oo-margin-level-sub">Margin level: —</div>
+      </div>
+    </div>
+
+    <!-- P/L by symbol mini chart -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px;">
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;">P&amp;L by Position</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">Unrealised profit/loss per open ticket (USD)</div>
+      <canvas id="oo-pl-chart" height="60"></canvas>
+    </div>
+
+    <!-- Orders table -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text)">
+          Open Positions <span style="color:var(--muted);font-weight:400;font-size:11px;">(click headers to sort)</span>
+        </div>
+        <div style="display:flex;gap:8px;font-size:11px;">
+          <span id="oo-buy-count" style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#10b981;padding:2px 8px;border-radius:4px;">BUY: —</span>
+          <span id="oo-sell-count" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:2px 8px;border-radius:4px;">SELL: —</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="oo-table">
+          <thead>
+            <tr>
+              <th style="cursor:pointer" onclick="ooSort('ticket')">Ticket</th>
+              <th style="cursor:pointer" onclick="ooSort('symbol')">Symbol</th>
+              <th style="cursor:pointer" onclick="ooSort('type')">Type</th>
+              <th style="cursor:pointer" onclick="ooSort('lots')">Lots</th>
+              <th style="cursor:pointer" onclick="ooSort('open_price')">Open Price</th>
+              <th style="cursor:pointer" onclick="ooSort('current_price')">Current</th>
+              <th style="cursor:pointer" onclick="ooSort('profit')">P&amp;L ($) ▾</th>
+              <th style="cursor:pointer" onclick="ooSort('swap')">Swap</th>
+              <th style="cursor:pointer" onclick="ooSort('duration_min')">Duration</th>
+              <th>Signal</th>
+              <th>Open Time</th>
+            </tr>
+          </thead>
+          <tbody id="oo-tbody">
+            <tr><td colspan="11" style="color:var(--muted);text-align:center;padding:20px;">Loading open orders…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="oo-table-footer" style="margin-top:12px;font-size:11px;color:var(--muted);">
+        Data refreshes every 30 seconds. Place the <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">mt5_open_orders.json</code> exporter EA on the MT5 chart to keep this view live.
+      </div>
+    </div>
+
+    <!-- How to wire it up -->
+    <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);border-radius:8px;padding:20px;margin-top:24px;">
+      <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;">How to connect live MT5 data</div>
+      <ol style="font-size:12px;color:var(--muted);line-height:2;padding-left:18px;">
+        <li>Attach the <strong style="color:var(--text)">OpenOrdersExporter EA</strong> to any chart in MT5 (Alpari-MT5-Demo).</li>
+        <li>The EA writes <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">mt5_open_orders.json</code> to MT5's <code>Files/</code> folder every 30 s.</li>
+        <li>The sync script copies it to <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">results/mt5_open_orders.json</code> in this repo, commits, and pushes.</li>
+        <li>This page auto-refreshes the data every 30 seconds via <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">fetch()</code>.</li>
+      </ol>
+    </div>
+  </div><!-- end tab-open-orders -->
+
 </div><!-- end .container -->
 
 <script>
@@ -8043,6 +8134,172 @@ function initCReachoCharts() {
   }
 
   initMt5();
+})();
+</script>
+
+<script>
+// ── Open Orders Tab ──────────────────────────────────────────────
+(function() {
+  var ooSortKey = 'profit';
+  var ooSortAsc = false;
+  var ooData = null;
+  var ooPlChart = null;
+  var ooRefreshTimer = null;
+
+  function fmtDuration(mins) {
+    if (mins < 60) return mins + 'm';
+    var h = Math.floor(mins / 60), m = mins % 60;
+    return h + 'h' + (m ? ' ' + m + 'm' : '');
+  }
+
+  function fmtPrice(sym, price) {
+    if (!price) return '—';
+    if (sym === 'XAUUSD') return price.toFixed(2);
+    return price.toFixed(5);
+  }
+
+  function renderOoSummary(data) {
+    var acc = data.account || {};
+    var eq = acc.equity != null ? '$' + acc.equity.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
+    var bal = acc.balance != null ? '$' + acc.balance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
+    var pl = acc.floating_pl != null ? acc.floating_pl : 0;
+    var plStr = (pl >= 0 ? '+$' : '-$') + Math.abs(pl).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+    var fm = acc.free_margin != null ? '$' + acc.free_margin.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
+    var ml = acc.margin_level_pct != null ? acc.margin_level_pct.toFixed(0) + '%' : '—';
+
+    var orders = data.orders || [];
+    var lots = orders.reduce(function(s,o){return s + (o.lots||0);}, 0);
+    var buys = orders.filter(function(o){return o.type==='BUY';}).length;
+    var sells = orders.filter(function(o){return o.type==='SELL';}).length;
+
+    document.getElementById('oo-equity').textContent = eq;
+    document.getElementById('oo-equity').className = 'card-value';
+    document.getElementById('oo-balance-sub').textContent = 'Balance: ' + bal;
+    var plEl = document.getElementById('oo-floating-pl');
+    plEl.textContent = plStr;
+    plEl.className = 'card-value ' + (pl >= 0 ? 'positive' : 'negative');
+    document.getElementById('oo-count').textContent = orders.length;
+    document.getElementById('oo-lots-sub').textContent = lots.toFixed(2) + ' lots total';
+    document.getElementById('oo-free-margin').textContent = fm;
+    document.getElementById('oo-margin-level-sub').textContent = 'Margin level: ' + ml;
+    document.getElementById('oo-buy-count').textContent = 'BUY: ' + buys;
+    document.getElementById('oo-sell-count').textContent = 'SELL: ' + sells;
+
+    var ts = data.updated_at ? new Date(data.updated_at).toLocaleString() : '—';
+    document.getElementById('oo-last-updated').textContent = 'Updated: ' + ts;
+  }
+
+  function renderOoChart(orders) {
+    var labels = orders.map(function(o){return '#' + o.ticket + ' ' + o.symbol;});
+    var profits = orders.map(function(o){return o.profit || 0;});
+    var colors = profits.map(function(p){return p >= 0 ? 'rgba(16,185,129,0.7)' : 'rgba(239,68,68,0.7)';});
+    var borders = profits.map(function(p){return p >= 0 ? '#10b981' : '#ef4444';});
+
+    if (ooPlChart) { ooPlChart.destroy(); ooPlChart = null; }
+    var ctx = document.getElementById('oo-pl-chart');
+    if (!ctx) return;
+    ooPlChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: profits,
+          backgroundColor: colors,
+          borderColor: borders,
+          borderWidth: 1,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {display: false},
+          tooltip: {callbacks: {label: function(ctx) { return '$' + ctx.raw.toFixed(2); }}}
+        },
+        scales: {
+          x: {ticks: {color: '#64748b', font: {size: 10}}, grid: {color: 'rgba(255,255,255,0.03)'}},
+          y: {ticks: {color: '#64748b', font: {size: 10}, callback: function(v) { return '$' + v; }}, grid: {color: 'rgba(255,255,255,0.05)'}}
+        }
+      }
+    });
+  }
+
+  function renderOoTable(orders) {
+    var sorted = orders.slice().sort(function(a, b) {
+      var av = a[ooSortKey], bv = b[ooSortKey];
+      if (typeof av === 'string') av = av.toLowerCase();
+      if (typeof bv === 'string') bv = bv.toLowerCase();
+      if (av < bv) return ooSortAsc ? -1 : 1;
+      if (av > bv) return ooSortAsc ? 1 : -1;
+      return 0;
+    });
+
+    var rows = sorted.map(function(o) {
+      var pl = o.profit || 0;
+      var plStr = (pl >= 0 ? '+$' : '-$') + Math.abs(pl).toFixed(2);
+      var plColor = pl >= 0 ? 'var(--green)' : 'var(--red)';
+      var typeColor = o.type === 'BUY' ? 'var(--green)' : 'var(--red)';
+      var openTime = o.open_time ? new Date(o.open_time).toLocaleString() : '—';
+      var swap = o.swap != null ? o.swap.toFixed(2) : '—';
+      var signal = o.signal || o.model || '—';
+      return '<tr>' +
+        '<td style="font-size:11px;color:var(--muted)">' + o.ticket + '</td>' +
+        '<td><strong>' + o.symbol + '</strong></td>' +
+        '<td style="color:' + typeColor + ';font-weight:700;font-size:11px">' + o.type + '</td>' +
+        '<td style="text-align:right">' + (o.lots || '—') + '</td>' +
+        '<td style="font-variant-numeric:tabular-nums">' + fmtPrice(o.symbol, o.open_price) + '</td>' +
+        '<td style="font-variant-numeric:tabular-nums">' + fmtPrice(o.symbol, o.current_price) + '</td>' +
+        '<td style="color:' + plColor + ';font-weight:700;font-variant-numeric:tabular-nums">' + plStr + '</td>' +
+        '<td style="color:var(--muted);font-size:11px">' + swap + '</td>' +
+        '<td style="color:var(--muted);font-size:11px">' + fmtDuration(o.duration_min || 0) + '</td>' +
+        '<td style="font-size:11px;color:var(--accent)">' + signal + '</td>' +
+        '<td style="font-size:11px;color:var(--muted)">' + openTime + '</td>' +
+        '</tr>';
+    });
+
+    var tbody = document.getElementById('oo-tbody');
+    if (tbody) tbody.innerHTML = rows.length ? rows.join('') : '<tr><td colspan="11" style="color:var(--muted);text-align:center;padding:20px;">No open positions.</td></tr>';
+  }
+
+  window.ooSort = function(key) {
+    if (ooSortKey === key) {
+      ooSortAsc = !ooSortAsc;
+    } else {
+      ooSortKey = key;
+      ooSortAsc = false;
+    }
+    if (ooData) renderOoTable(ooData.orders || []);
+  };
+
+  window.loadOpenOrders = async function() {
+    try {
+      var res = await fetch('results/mt5_open_orders.json?_=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      ooData = await res.json();
+      renderOoSummary(ooData);
+      renderOoChart(ooData.orders || []);
+      renderOoTable(ooData.orders || []);
+    } catch(e) {
+      var tbody = document.getElementById('oo-tbody');
+      if (tbody) tbody.innerHTML = '<tr><td colspan="11" style="color:var(--red);text-align:center;padding:20px;">Failed to load open orders. Check that results/mt5_open_orders.json exists.</td></tr>';
+      var upd = document.getElementById('oo-last-updated');
+      if (upd) upd.textContent = 'Load failed — ' + new Date().toLocaleTimeString();
+    }
+  };
+
+  // Auto-refresh every 30 seconds when the tab is visible
+  function scheduleRefresh() {
+    if (ooRefreshTimer) clearInterval(ooRefreshTimer);
+    ooRefreshTimer = setInterval(function() {
+      var tab = document.getElementById('tab-open-orders');
+      if (tab && tab.classList.contains('active')) {
+        loadOpenOrders();
+      }
+    }, 30000);
+  }
+
+  loadOpenOrders();
+  scheduleRefresh();
 })();
 </script>
 
