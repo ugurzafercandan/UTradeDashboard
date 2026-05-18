@@ -6979,6 +6979,37 @@ risk_sentiment_diff       — gold_sentiment - equity_sentiment (risk proxy)
       </div>
     </div>
 
+    <!-- Closed orders — Performance per Algo -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-top:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text)">Performance per Algo — Closed Orders <span style="color:var(--muted);font-weight:400;font-size:11px;">(click headers to sort)</span></div>
+          <div id="co-subtitle" style="font-size:11px;color:var(--muted);margin-top:2px;">Loading…</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="co-table">
+          <thead>
+            <tr>
+              <th style="cursor:pointer" onclick="coSort('model')">Model ▾</th>
+              <th style="cursor:pointer" onclick="coSort('symbol')">Symbol</th>
+              <th style="cursor:pointer" onclick="coSort('trades')">Trades</th>
+              <th style="cursor:pointer" onclick="coSort('win_pct')">Win%</th>
+              <th style="cursor:pointer" onclick="coSort('net_profit')">Net Profit ($)</th>
+              <th style="cursor:pointer" onclick="coSort('profit_factor')">PF</th>
+              <th style="cursor:pointer" onclick="coSort('avg_profit')">Avg Win ($)</th>
+              <th style="cursor:pointer" onclick="coSort('avg_loss')">Avg Loss ($)</th>
+              <th style="cursor:pointer" onclick="coSort('max_dd')">Max DD ($)</th>
+              <th>Last Trade</th>
+            </tr>
+          </thead>
+          <tbody id="co-tbody">
+            <tr><td colspan="10" style="color:var(--muted);text-align:center;padding:20px;">Loading closed order history…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- How to wire it up -->
     <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);border-radius:8px;padding:20px;margin-top:24px;">
       <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;">How to connect live MT5 data</div>
@@ -8256,6 +8287,89 @@ function initCReachoCharts() {
 
   loadOpenOrders();
   scheduleRefresh();
+})();
+</script>
+
+<script>
+// ── Closed Orders — Performance per Algo ────────────────────────
+(function() {
+  var coSortKey = 'net_profit';
+  var coSortAsc = false;
+  var coData = null;
+
+  function renderCoTable(algos) {
+    var sorted = algos.slice().sort(function(a, b) {
+      var av = a[coSortKey], bv = b[coSortKey];
+      if (typeof av === 'string') av = av.toLowerCase();
+      if (typeof bv === 'string') bv = bv.toLowerCase();
+      if (av < bv) return coSortAsc ? -1 : 1;
+      if (av > bv) return coSortAsc ? 1 : -1;
+      return 0;
+    });
+
+    var totalProfit = algos.reduce(function(s, a) { return s + (a.net_profit || 0); }, 0);
+    var totalTrades = algos.reduce(function(s, a) { return s + (a.trades || 0); }, 0);
+    var sub = document.getElementById('co-subtitle');
+    if (sub) sub.textContent = algos.length + ' algos · ' + totalTrades.toLocaleString() + ' total closed trades · Net: ' + (totalProfit >= 0 ? '+$' : '-$') + Math.abs(totalProfit).toFixed(2);
+
+    var rows = sorted.map(function(a) {
+      var pl = a.net_profit || 0;
+      var plStr = (pl >= 0 ? '+$' : '-$') + Math.abs(pl).toFixed(2);
+      var plColor = pl >= 0 ? 'var(--green)' : 'var(--red)';
+      var winColor = a.win_pct >= 65 ? 'var(--green)' : a.win_pct >= 55 ? 'var(--yellow)' : 'var(--red)';
+      var pfColor = a.profit_factor >= 3 ? 'var(--green)' : a.profit_factor >= 2 ? 'var(--accent)' : 'var(--yellow)';
+      var lastTrade = a.last_trade ? new Date(a.last_trade).toLocaleDateString() : '—';
+      var dd = a.max_dd != null ? '-$' + Math.abs(a.max_dd).toFixed(2) : '—';
+      return '<tr>' +
+        '<td><strong style="color:var(--accent)">' + a.model + '</strong></td>' +
+        '<td>' + a.symbol + '</td>' +
+        '<td style="text-align:right">' + (a.trades || 0) + '</td>' +
+        '<td style="color:' + winColor + ';font-weight:700">' + (a.win_pct != null ? a.win_pct.toFixed(1) + '%' : '—') + '</td>' +
+        '<td style="color:' + plColor + ';font-weight:700;font-variant-numeric:tabular-nums">' + plStr + '</td>' +
+        '<td style="color:' + pfColor + ';font-weight:600">' + (a.profit_factor != null ? a.profit_factor.toFixed(2) : '—') + '</td>' +
+        '<td style="color:var(--green);font-variant-numeric:tabular-nums">$' + (a.avg_profit != null ? a.avg_profit.toFixed(2) : '—') + '</td>' +
+        '<td style="color:var(--red);font-variant-numeric:tabular-nums">$' + (a.avg_loss != null ? Math.abs(a.avg_loss).toFixed(2) : '—') + '</td>' +
+        '<td style="color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums">' + dd + '</td>' +
+        '<td style="font-size:11px;color:var(--muted)">' + lastTrade + '</td>' +
+        '</tr>';
+    });
+
+    var tbody = document.getElementById('co-tbody');
+    if (tbody) tbody.innerHTML = rows.length ? rows.join('') : '<tr><td colspan="10" style="color:var(--muted);text-align:center;padding:20px;">No closed order history.</td></tr>';
+  }
+
+  window.coSort = function(key) {
+    if (coSortKey === key) {
+      coSortAsc = !coSortAsc;
+    } else {
+      coSortKey = key;
+      coSortAsc = false;
+    }
+    if (coData) renderCoTable(coData.algo_summary || []);
+  };
+
+  async function loadClosedOrders() {
+    try {
+      var res = await fetch('results/mt5_closed_orders.json?_=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      coData = await res.json();
+      renderCoTable(coData.algo_summary || []);
+    } catch(e) {
+      var tbody = document.getElementById('co-tbody');
+      if (tbody) tbody.innerHTML = '<tr><td colspan="10" style="color:var(--red);text-align:center;padding:20px;">Failed to load closed order history. Check that results/mt5_closed_orders.json exists.</td></tr>';
+    }
+  }
+
+  loadClosedOrders();
+
+  // also refresh when the open-orders refresh fires
+  var _orig = window.loadOpenOrders;
+  if (_orig) {
+    window.loadOpenOrders = async function() {
+      await _orig();
+      loadClosedOrders();
+    };
+  }
 })();
 </script>
 
