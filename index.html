@@ -296,6 +296,7 @@ function toggleResearchNote(el) {
   <button data-tab="architecture" onclick="showTab('architecture')">Architecture</button>
   <button data-tab="mt5-backtests" onclick="showTab('mt5-backtests')" style="color:#a78bfa">MT5 Backtests</button>
   <button data-tab="open-orders" onclick="showTab('open-orders')" style="color:#f59e0b">Open Orders</button>
+  <button data-tab="algo-performance" onclick="showTab('algo-performance')" style="color:#10b981">Algo Performance</button>
   <button data-tab="subscribe" onclick="showTab('subscribe')" style="color:#10b981;border-bottom-color:transparent">Subscribe</button>
 </nav>
 
@@ -6917,6 +6918,96 @@ risk_sentiment_diff       — gold_sentiment - equity_sentiment (risk proxy)
     </div>
   </div><!-- end tab-open-orders -->
 
+  <!-- ── ALGO FORWARD-TESTING PERFORMANCE ── -->
+  <div class="section" id="tab-algo-performance">
+    <div class="section-title">Algo Forward-Testing Performance</div>
+    <div class="section-desc" id="ap-section-desc">Live forward-testing results for all 22 production algos running on ExpServer. Auto-refreshes every 60s.</div>
+
+    <!-- System health banner -->
+    <div id="ap-health-banner" style="display:none;margin-bottom:20px;padding:14px 20px;border-radius:10px;font-size:13px;font-weight:600;align-items:center;gap:10px"></div>
+
+    <!-- Summary cards -->
+    <div class="grid-4" id="ap-summary-cards">
+      <div class="card">
+        <div class="card-title">System Status</div>
+        <div class="card-value" id="ap-system-status">—</div>
+        <div class="card-sub" id="ap-system-sub">Loading...</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Active Signals</div>
+        <div class="card-value" id="ap-active-count">—</div>
+        <div class="card-sub" id="ap-active-sub">of 22 configured</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Open Positions</div>
+        <div class="card-value" id="ap-open-positions">—</div>
+        <div class="card-sub" id="ap-open-sub">across all signals</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Total Net P&L</div>
+        <div class="card-value" id="ap-total-pnl">—</div>
+        <div class="card-sub" id="ap-total-pnl-sub">closed trades</div>
+      </div>
+    </div>
+
+    <!-- Algo table -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div>
+          <div style="font-size:15px;font-weight:700;">Per-Algo Forward-Testing Metrics</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="ap-table-subtitle">Click column headers to sort</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted)" id="ap-last-updated">—</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th onclick="apSort('signal_id')">Signal</th>
+              <th onclick="apSort('symbol')">Symbol</th>
+              <th onclick="apSort('health')">Health</th>
+              <th onclick="apSort('closed_trades')">Trades</th>
+              <th onclick="apSort('wins')">Wins</th>
+              <th onclick="apSort('win_rate')">Win %</th>
+              <th onclick="apSort('total_pnl')">Net P&L</th>
+              <th onclick="apSort('sharpe')">Sharpe</th>
+              <th onclick="apSort('max_drawdown_pct')">Max DD</th>
+              <th onclick="apSort('today_pnl_pct')">Today</th>
+              <th onclick="apSort('last_inference')">Last Signal</th>
+            </tr>
+          </thead>
+          <tbody id="ap-tbody">
+            <tr><td colspan="11" style="color:var(--muted);text-align:center;padding:20px;">Loading algo data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Recent trades -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Recent Closed Trades</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">Last 20 closed positions across all algos</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Signal</th>
+              <th>Symbol</th>
+              <th>Direction</th>
+              <th>Entry</th>
+              <th>Exit</th>
+              <th>P&L</th>
+              <th>P&L %</th>
+            </tr>
+          </thead>
+          <tbody id="ap-recent-tbody">
+            <tr><td colspan="7" style="color:var(--muted);text-align:center;padding:20px;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- end tab-algo-performance -->
+
 </div><!-- end .container -->
 
 <script>
@@ -8265,6 +8356,207 @@ function initCReachoCharts() {
       loadClosedOrders();
     };
   }
+})();
+</script>
+
+<script>
+// ── Algo Forward-Testing Performance (USO-403) ──────────────────────
+(function() {
+  var apSortKey = 'total_pnl';
+  var apSortAsc = false;
+  var apData = null;
+  var apRefreshTimer = null;
+
+  function healthBadge(h) {
+    switch(h) {
+      case 'running': return '<span style="display:inline-flex;align-items:center;gap:4px;color:var(--green);font-weight:700;font-size:11px"><span style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>LIVE</span>';
+      case 'stale':   return '<span style="display:inline-flex;align-items:center;gap:4px;color:var(--yellow);font-weight:700;font-size:11px"><span style="width:7px;height:7px;background:var(--yellow);border-radius:50%;display:inline-block"></span>STALE</span>';
+      case 'halted':  return '<span style="display:inline-flex;align-items:center;gap:4px;color:var(--red);font-weight:700;font-size:11px"><span style="width:7px;height:7px;background:var(--red);border-radius:50%;display:inline-block"></span>HALTED</span>';
+      case 'no_data': return '<span style="display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-weight:700;font-size:11px"><span style="width:7px;height:7px;background:var(--muted);border-radius:50%;display:inline-block"></span>NO DATA</span>';
+      default:        return '<span style="color:var(--muted);font-size:11px">—</span>';
+    }
+  }
+
+  function systemHealthBanner(health) {
+    var banner = document.getElementById('ap-health-banner');
+    if (!banner) return;
+    if (health === 'running') {
+      banner.style.display = 'flex';
+      banner.style.background = 'rgba(16,185,129,0.08)';
+      banner.style.border = '1px solid rgba(16,185,129,0.3)';
+      banner.style.color = 'var(--green)';
+      banner.innerHTML = '<span style="font-size:16px">&#9679;</span> System Running — All services healthy';
+    } else if (health === 'stale') {
+      banner.style.display = 'flex';
+      banner.style.background = 'rgba(245,158,11,0.08)';
+      banner.style.border = '1px solid rgba(245,158,11,0.3)';
+      banner.style.color = 'var(--yellow)';
+      banner.innerHTML = '<span style="font-size:16px">&#9888;</span> System Stale — Last cycle > 2 hours ago. Check ExpServer.';
+    } else if (health === 'mt5_down') {
+      banner.style.display = 'flex';
+      banner.style.background = 'rgba(239,68,68,0.08)';
+      banner.style.border = '1px solid rgba(239,68,68,0.3)';
+      banner.style.color = 'var(--red)';
+      banner.innerHTML = '<span style="font-size:16px">&#10006;</span> MT5 Terminal Down — Trading paused until restart.';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  function renderApSummary(data) {
+    var portfolio = data.portfolio || {};
+    var health = data.system_health || 'unknown';
+
+    var statusEl = document.getElementById('ap-system-status');
+    if (statusEl) {
+      if (health === 'running') { statusEl.textContent = 'LIVE'; statusEl.className = 'card-value positive'; }
+      else if (health === 'stale') { statusEl.textContent = 'STALE'; statusEl.className = 'card-value neutral'; }
+      else { statusEl.textContent = 'DOWN'; statusEl.className = 'card-value negative'; }
+    }
+    var statusSub = document.getElementById('ap-system-sub');
+    if (statusSub) {
+      var sys = data.system || {};
+      if (sys.last_cycle_end) statusSub.textContent = 'Last cycle: ' + new Date(sys.last_cycle_end + (sys.last_cycle_end.includes('Z') ? '' : 'Z')).toLocaleString();
+      else statusSub.textContent = 'Scheduler: ' + (sys.scheduler_status || 'unknown');
+    }
+
+    var activeEl = document.getElementById('ap-active-count');
+    if (activeEl) activeEl.textContent = (portfolio.active_signals || 0) + '/' + (portfolio.total_signals || 0);
+    var activeSub = document.getElementById('ap-active-sub');
+    if (activeSub) activeSub.textContent = (portfolio.halted_signals || 0) + ' halted (circuit breaker)';
+
+    var openEl = document.getElementById('ap-open-positions');
+    if (openEl) openEl.textContent = portfolio.total_open_positions || 0;
+    var openSub = document.getElementById('ap-open-sub');
+    if (openSub) openSub.textContent = (portfolio.total_closed_trades || 0).toLocaleString() + ' total closed';
+
+    var pnlEl = document.getElementById('ap-total-pnl');
+    var pnl = portfolio.total_pnl || 0;
+    if (pnlEl) {
+      pnlEl.textContent = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(2);
+      pnlEl.className = 'card-value ' + (pnl >= 0 ? 'positive' : 'negative');
+    }
+    var pnlSub = document.getElementById('ap-total-pnl-sub');
+    if (pnlSub) pnlSub.textContent = (portfolio.total_closed_trades || 0).toLocaleString() + ' closed trades';
+
+    systemHealthBanner(health);
+  }
+
+  function renderApTable(algos) {
+    var sorted = algos.slice().sort(function(a, b) {
+      var av = a[apSortKey], bv = b[apSortKey];
+      if (av == null) av = -Infinity;
+      if (bv == null) bv = -Infinity;
+      if (typeof av === 'string') av = av.toLowerCase();
+      if (typeof bv === 'string') bv = bv.toLowerCase();
+      if (av < bv) return apSortAsc ? -1 : 1;
+      if (av > bv) return apSortAsc ? 1 : -1;
+      return 0;
+    });
+
+    var rows = sorted.map(function(a) {
+      var pnl = a.total_pnl || 0;
+      var pnlStr = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(2);
+      var pnlColor = pnl >= 0 ? 'var(--green)' : 'var(--red)';
+
+      var winPct = a.win_rate != null ? (a.win_rate * 100).toFixed(1) + '%' : '—';
+      var winColor = a.win_rate != null ? (a.win_rate >= 0.6 ? 'var(--green)' : a.win_rate >= 0.5 ? 'var(--yellow)' : 'var(--red)') : 'var(--muted)';
+
+      var sharpe = a.sharpe != null ? a.sharpe.toFixed(2) : '—';
+      var sharpeColor = a.sharpe != null ? (a.sharpe >= 1.0 ? 'var(--green)' : a.sharpe >= 0 ? 'var(--yellow)' : 'var(--red)') : 'var(--muted)';
+
+      var dd = a.max_drawdown_pct != null ? '-' + (a.max_drawdown_pct * 100).toFixed(2) + '%' : '—';
+
+      var todayPnl = a.today_pnl_pct || 0;
+      var todayStr = todayPnl !== 0 ? (todayPnl >= 0 ? '+' : '') + (todayPnl * 100).toFixed(3) + '%' : '—';
+      var todayColor = todayPnl > 0 ? 'var(--green)' : todayPnl < 0 ? 'var(--red)' : 'var(--muted)';
+
+      var lastSig = a.last_inference ? new Date(a.last_inference.replace(' ', 'T') + (a.last_inference.includes('Z') || a.last_inference.includes('+') ? '' : 'Z')).toLocaleString() : '—';
+
+      return '<tr>' +
+        '<td><strong style="color:var(--accent)">' + a.signal_id + '</strong></td>' +
+        '<td>' + a.symbol + '</td>' +
+        '<td>' + healthBadge(a.health) + '</td>' +
+        '<td style="text-align:right">' + (a.closed_trades || 0) + '</td>' +
+        '<td style="text-align:right;color:var(--green)">' + (a.wins || 0) + '</td>' +
+        '<td style="color:' + winColor + ';font-weight:600">' + winPct + '</td>' +
+        '<td style="color:' + pnlColor + ';font-weight:700;font-variant-numeric:tabular-nums">' + pnlStr + '</td>' +
+        '<td style="color:' + sharpeColor + ';font-weight:600">' + sharpe + '</td>' +
+        '<td style="color:var(--red);font-size:11px">' + dd + '</td>' +
+        '<td style="color:' + todayColor + ';font-size:11px;font-variant-numeric:tabular-nums">' + todayStr + '</td>' +
+        '<td style="font-size:11px;color:var(--muted)">' + lastSig + '</td>' +
+        '</tr>';
+    });
+
+    var tbody = document.getElementById('ap-tbody');
+    if (tbody) tbody.innerHTML = rows.length ? rows.join('') : '<tr><td colspan="11" style="color:var(--muted);text-align:center;padding:20px;">No algo data available. Ensure results/algo_forward_testing.json exists.</td></tr>';
+  }
+
+  function renderRecentTrades(trades) {
+    var tbody = document.getElementById('ap-recent-tbody');
+    if (!tbody) return;
+    if (!trades || !trades.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:20px;">No recent trades.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = trades.map(function(t) {
+      var pnl = t.pnl || 0;
+      var pnlStr = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(2);
+      var pnlColor = pnl >= 0 ? 'var(--green)' : 'var(--red)';
+      var pnlPct = t.pnl_pct != null ? (t.pnl_pct >= 0 ? '+' : '') + (t.pnl_pct * 100).toFixed(3) + '%' : '—';
+      var dirColor = t.direction === 'BUY' || t.direction === 'LONG' ? 'var(--green)' : 'var(--red)';
+      var entry = t.entry_time ? new Date(t.entry_time.replace(' ', 'T') + (t.entry_time.includes('Z') || t.entry_time.includes('+') ? '' : 'Z')).toLocaleDateString() : '—';
+      var exit = t.exit_time ? new Date(t.exit_time.replace(' ', 'T') + (t.exit_time.includes('Z') || t.exit_time.includes('+') ? '' : 'Z')).toLocaleDateString() : '—';
+      return '<tr>' +
+        '<td style="color:var(--accent);font-size:11px;font-weight:600">' + (t.signal_id || '—') + '</td>' +
+        '<td><strong>' + (t.symbol || '—') + '</strong></td>' +
+        '<td style="color:' + dirColor + ';font-weight:700;font-size:11px">' + (t.direction || '—') + '</td>' +
+        '<td style="font-size:11px;color:var(--muted)">' + entry + '</td>' +
+        '<td style="font-size:11px;color:var(--muted)">' + exit + '</td>' +
+        '<td style="color:' + pnlColor + ';font-weight:700;font-variant-numeric:tabular-nums">' + pnlStr + '</td>' +
+        '<td style="color:' + pnlColor + ';font-size:11px;font-variant-numeric:tabular-nums">' + pnlPct + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  window.apSort = function(key) {
+    if (apSortKey === key) {
+      apSortAsc = !apSortAsc;
+    } else {
+      apSortKey = key;
+      apSortAsc = false;
+    }
+    if (apData) renderApTable(apData.algos || []);
+  };
+
+  async function loadAlgoPerformance() {
+    try {
+      var res = await fetch('results/algo_forward_testing.json?_=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      apData = await res.json();
+      renderApSummary(apData);
+      renderApTable(apData.algos || []);
+      renderRecentTrades(apData.recent_trades || []);
+      var updEl = document.getElementById('ap-last-updated');
+      if (updEl && apData.generated_at) updEl.textContent = 'Updated: ' + new Date(apData.generated_at).toLocaleString();
+    } catch(e) {
+      var tbody = document.getElementById('ap-tbody');
+      if (tbody) tbody.innerHTML = '<tr><td colspan="11" style="color:var(--red);text-align:center;padding:20px;">Failed to load algo data. Ensure results/algo_forward_testing.json is present and up to date.</td></tr>';
+    }
+  }
+
+  function scheduleApRefresh() {
+    if (apRefreshTimer) clearInterval(apRefreshTimer);
+    apRefreshTimer = setInterval(function() {
+      var tab = document.getElementById('tab-algo-performance');
+      if (tab && tab.classList.contains('active')) {
+        loadAlgoPerformance();
+      }
+    }, 60000);
+  }
+
+  loadAlgoPerformance();
+  scheduleApRefresh();
 })();
 </script>
 
