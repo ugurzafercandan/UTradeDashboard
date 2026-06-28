@@ -435,8 +435,8 @@ function toggleResearchNote(el) {
 
   <!-- -- CURRENT STATE -- -->
   <div class="section" id="tab-sweep-state">
-    <div class="section-title">Current State &mdash; USO-177 Gate C + USO-174 Powerserver Sweep + USO-175/187 QC Validation + USO-254 research100 + USO-255 Wave A/B/C + Wave D Phase1 + Wave E RF + Wave G LGB</div>
-    <div class="section-desc">As of 2026-05-16. H1 QC-mode: 204 Gate C candidates across 31 symbols. Powerserver sweep: 1,083 experiments, <strong style="color:#10b981">50 qualified signals (composite-scored corrected board)</strong> across 8 symbols. QC gate: <strong style="color:#10b981">81 candidate signals identified (P6–P81)</strong> across all experiment waves — <strong style="color:#10b981">22 validated via MT5 Strategy Tester (USO-377)</strong>, remaining 59 failed backtesting. <strong style="color:#a78bfa">Wave D Phase 1 (May 1):</strong> 1,989 experiments, 7 signals deployed (P63–P69), top Sharpe 13.59 (GBPCHF). <strong style="color:#10b981">Wave E RF (May 4):</strong> 211 experiments, top Sharpe 8.98 (USDJPY h6). <strong style="color:#10b981">Wave G LGB (May 1):</strong> 84 experiments, top Sharpe 1.71 (CHFJPY lf60). <strong style="color:#10b981">Wave E-0 expansion (May 16):</strong> 24 additional candidates deployed (P70–P81) covering XAUUSD, EURUSD, USDJPY, GBPCAD, CHFJPY and more. All planned waves complete — company in live validation mode. See <button onclick="showTab('qc-results')" style="background:none;border:none;color:var(--accent);cursor:pointer;text-decoration:underline;font-size:inherit;padding:0">QC Results tab</button> for full report.</div>
+    <div class="section-title">Current State &mdash; USO-177 Gate C + USO-174 Powerserver Sweep + USO-175/187 QC Validation + USO-254 research100 + USO-255 Wave A/B/C + Wave D Phase1 + Wave E RF + Wave G LGB + USO-385 GDELT News</div>
+    <div class="section-desc">As of 2026-05-17. H1 QC-mode: 204 Gate C candidates across 31 symbols. Powerserver sweep: 1,083 experiments, <strong style="color:#10b981">50 qualified signals (composite-scored corrected board)</strong> across 8 symbols. QC gate: <strong style="color:#10b981">81 candidate signals identified (P6–P81)</strong> across all experiment waves — <strong style="color:#10b981">22 validated via MT5 Strategy Tester (USO-377)</strong>, remaining 59 failed backtesting. <strong style="color:#a78bfa">Wave D Phase 1 (May 1):</strong> 1,989 experiments, 7 signals deployed (P63–P69), top Sharpe 13.59 (GBPCHF). <strong style="color:#10b981">Wave E RF (May 4):</strong> 211 experiments, top Sharpe 8.98 (USDJPY h6). <strong style="color:#10b981">Wave G LGB (May 1):</strong> 84 experiments, top Sharpe 1.71 (CHFJPY lf60). <strong style="color:#10b981">Wave E-0 expansion (May 16):</strong> 24 additional candidates deployed (P70–P81) covering XAUUSD, EURUSD, USDJPY, GBPCAD, CHFJPY and more. <strong style="color:var(--accent)">USO-385 GDELT News (May 17):</strong> 72-config sweep complete — 78% positive Sharpe, mean +0.657, best +2.653 (USDJPY CatBoost h24), +32% vs baseline. Top candidates pending QC validation. All planned waves complete — company in live validation mode. See <button onclick="showTab('qc-results')" style="background:none;border:none;color:var(--accent);cursor:pointer;text-decoration:underline;font-size:inherit;padding:0">QC Results tab</button> for full report.</div>
 
     <div class="grid-4" style="margin-bottom:24px">
       <div class="card">
@@ -2976,7 +2976,7 @@ function toggleResearchNote(el) {
         <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#10b981;font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px">LIVE · USO-351</div>
       </div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7">
-        Wave E-0 was launched (USO-351) to keep both servers busy while the news data pipeline was being built. Two parallel experiment tracks:
+        Wave E-0 was launched (USO-351) to keep both servers busy while the news data pipeline was being built. News pipeline now complete: <strong style="color:var(--accent)">USO-385 GDELT + Calendar sweep finished 2026-05-17 (72/72 configs, 78% positive Sharpe, best +2.653)</strong>. Two parallel experiment tracks:
         <strong style="color:var(--text)">E0-A (Ensemble Stacking)</strong> — meta-learner on top of the top-20 walk-forward signal outputs; and
         <strong style="color:var(--text)">E0-B (Multi-Timeframe)</strong> — combining H1 + H4 + D1 features for top-10 instruments.
         12 signals from Wave E-0 validated as P70–P81 via MT5 Strategy Tester.
@@ -5965,7 +5965,7 @@ market_structure, last_bos_direction, candles_since_choch
 **Issue:** USO-348
 **Author:** CReachO (ac9860d3)
 **Date:** 2026-05-09
-**Status:** Planning
+**Status:** Testing — USO-385 GDELT + Calendar sweep completed 2026-05-17 (72/72 configs, 78% positive Sharpe, best +2.653). QC validation pending for top candidates.
 
 ---
 
@@ -6505,6 +6505,9 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
               <div style="background:#0a0e1a;border:1px solid #2d3748;border-radius:5px;padding:6px 10px;font-size:10px;text-align:center">
                 <div style="color:#f59e0b;font-weight:600">GitHub</div><div style="color:var(--muted)">Source control</div>
               </div>
+              <div style="background:#0a0e1a;border:1px solid #2d3748;border-radius:5px;padding:6px 10px;font-size:10px;text-align:center;grid-column:span 2">
+                <div style="color:var(--accent);font-weight:600">GDELT GKG 2.0</div><div style="color:var(--muted)">News sentiment · 15-min refresh</div>
+              </div>
             </div>
           </div>
         </div>
@@ -6642,7 +6645,7 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
     </div>
 
     <!-- External Services -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px">
       <div class="card">
         <div class="card-title">MetaTrader 5</div>
         <div style="font-size:13px;color:var(--text);margin-bottom:6px">OANDA broker feed</div>
@@ -6652,6 +6655,11 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
         <div class="card-title">QuantConnect</div>
         <div style="font-size:13px;color:var(--text);margin-bottom:6px">Walk-forward validation</div>
         <div style="font-size:12px;color:var(--muted)">Cloud QC-mode backtests · OOS 2021–2024 · Gate C validation</div>
+      </div>
+      <div class="card">
+        <div class="card-title">GDELT Project</div>
+        <div style="font-size:13px;color:var(--text);margin-bottom:6px">News sentiment data</div>
+        <div style="font-size:12px;color:var(--muted)">GKG 2.0 · 15-min refresh · 65 languages · Tone/volume features for USO-385 sweep (+2.653 best Sharpe)</div>
       </div>
       <div class="card">
         <div class="card-title">Stripe</div>
