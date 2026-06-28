@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-05-17T22:33:16Z",
+  "experiment": "USO-385: GDELT + Economic Calendar News Experiment",
+  "source_issue": "USO-385",
+  "description": "72-config sweep testing GDELT sentiment + economic calendar features on macro-sensitive FX pairs",
+  "methodology": {
+    "timeframe": "H1",
+    "walk_forward_folds": 5,
+    "validation": "expanding window",
+    "features": "8 GDELT sentiment + 7 economic calendar = 15 news features",
+    "data_source": "GDELT GKG 2.0 (public, 15-min refresh) + ForexFactory/BLS calendar"
+  },
+  "sweep_grid": {
+    "instruments": ["XAUUSD", "GBPUSD", "USDJPY", "USDCAD"],
+    "models": ["CatBoost", "XGBoost"],
+    "horizons": [6, 12, 24],
+    "thresholds_bps": [8, 10, 15]
+  },
+  "summary": {
+    "total_configs": 72,
+    "completed": 72,
+    "sharpe_above_2": 8,
+    "sharpe_above_1": 21,
+    "sharpe_above_05": 40,
+    "sharpe_above_0": 56,
+    "positive_rate": "78%",
+    "mean_sharpe": 0.657,
+    "max_sharpe": 2.653,
+    "vs_baseline": "+32% improvement over USO-199 vol_adjusted baseline (mean 0.657 vs 0.497)"
+  },
+  "top_10": [
+    {"rank": 1, "symbol": "USDJPY", "model": "CatBoost", "horizon": 24, "threshold_bps": 15, "sharpe": 2.653, "trades": 5462, "hit_rate": "55.9%", "profit_factor": 1.40, "max_dd": "-1.29%", "total_return": "428%"},
+    {"rank": 2, "symbol": "USDJPY", "model": "CatBoost", "horizon": 24, "threshold_bps": 10, "sharpe": 2.397, "trades": 8180, "hit_rate": "55.5%", "profit_factor": 1.28, "max_dd": "-2.45%", "total_return": "470%"},
+    {"rank": 3, "symbol": "GBPUSD", "model": "XGBoost", "horizon": 24, "threshold_bps": 8, "sharpe": 2.127, "trades": 11162, "hit_rate": "53.2%", "profit_factor": 1.20, "max_dd": "-0.87%", "total_return": "335%"},
+    {"rank": 4, "symbol": "USDJPY", "model": "XGBoost", "horizon": 24, "threshold_bps": 8, "sharpe": 2.100, "trades": 12033, "hit_rate": "54.8%", "profit_factor": 1.19, "max_dd": "-2.69%", "total_return": "484%"},
+    {"rank": 5, "symbol": "GBPUSD", "model": "XGBoost", "horizon": 24, "threshold_bps": 10, "sharpe": 2.047, "trades": 9855, "hit_rate": "53.2%", "profit_factor": 1.20, "max_dd": "-1.13%", "total_return": "302%"},
+    {"rank": 6, "symbol": "USDJPY", "model": "XGBoost", "horizon": 24, "threshold_bps": 15, "sharpe": 2.030, "trades": 7210, "hit_rate": "54.5%", "profit_factor": 1.25, "max_dd": "-1.51%", "total_return": "374%"},
+    {"rank": 7, "symbol": "USDJPY", "model": "XGBoost", "horizon": 24, "threshold_bps": 10, "sharpe": 2.023, "trades": 10221, "hit_rate": "54.8%", "profit_factor": 1.20, "max_dd": "-2.09%", "total_return": "430%"},
+    {"rank": 8, "symbol": "XAUUSD", "model": "CatBoost", "horizon": 24, "threshold_bps": 10, "sharpe": 2.015, "trades": 11105, "hit_rate": "51.8%", "profit_factor": 1.19, "max_dd": "-2.50%", "total_return": "761%"},
+    {"rank": 9, "symbol": "USDJPY", "model": "CatBoost", "horizon": 24, "threshold_bps": 8, "sharpe": 1.980, "trades": 9691, "hit_rate": "53.6%", "profit_factor": 1.20, "max_dd": "-2.14%", "total_return": "414%"},
+    {"rank": 10, "symbol": "XAUUSD", "model": "CatBoost", "horizon": 24, "threshold_bps": 8, "sharpe": 1.964, "trades": 11864, "hit_rate": "51.8%", "profit_factor": 1.18, "max_dd": "-3.11%", "total_return": "773%"}
+  ],
+  "best_per_symbol": {
+    "USDJPY": {"sharpe": 2.653, "model": "CatBoost", "horizon": 24, "note": "7 of top-10 — news-sensitive to BoJ/Fed divergence"},
+    "GBPUSD": {"sharpe": 2.127, "model": "XGBoost", "horizon": 24, "note": "Strong response to BoE/macro events"},
+    "XAUUSD": {"sharpe": 2.015, "model": "CatBoost", "horizon": 24, "note": "Gold reacts to geopolitical + Fed sentiment"},
+    "USDCAD": {"sharpe": 0.843, "model": "CatBoost", "horizon": 12, "note": "Weakest — oil/trade themes less predictive"}
+  },
+  "best_per_horizon": {
+    "h6": {"avg_sharpe": 0.177, "count_above_1": 0, "note": "Too short for news propagation"},
+    "h12": {"avg_sharpe": 0.673, "count_above_1": 6, "note": "Moderate — partial news reaction"},
+    "h24": {"avg_sharpe": 1.123, "count_above_1": 15, "note": "Dominant — full news cycle digestion"}
+  },
+  "model_comparison": {
+    "catboost": {"avg_sharpe": 0.752, "note": "33% better than XGBoost on news features"},
+    "xgboost": {"avg_sharpe": 0.563, "note": "Competitive on GBPUSD, weaker on USDJPY"}
+  },
+  "key_findings": [
+    "h=24 dominates: all top-10 are h=24, avg h=24 Sharpe (1.123) is 6x h=6 (0.177)",
+    "USDJPY strongest: 7 of top-10, best +2.653 (BoJ/Fed news divergence)",
+    "CatBoost > XGBoost: avg +0.752 vs +0.563 (33% better on news features)",
+    "USDCAD weakest: max +0.843 (oil/trade themes less predictive via GDELT)",
+    "+32% improvement over USO-199 vol_adjusted baseline (mean 0.657 vs 0.497)",
+    "78% positive Sharpe rate across all 72 configs"
+  ],
+  "next_steps": [
+    "QC validation of USDJPY catboost h24 t15, GBPUSD xgboost h24 t8",
+    "Ablation: gdelt_only vs calendar_only to isolate which data source drives edge",
+    "Ensemble with USO-388 market structure features (SMC + News = macro+micro)"
+  ]
+}

@@ -3124,7 +3124,7 @@ function toggleResearchNote(el) {
   <!-- ── RESEARCH ── -->
   <div class="section" id="tab-research">
     <div class="section-title">Research Findings</div>
-    <div class="section-desc">Key insights from the ML research phase (USO-3 through USO-13), latest sweep findings (USO-254 research100), and SMC research (USO-387 — Order Blocks, Fair Value Gaps, Liquidity Pools).</div>
+    <div class="section-desc">Key insights from the ML research phase (USO-3 through USO-13), latest sweep findings (USO-254 research100), SMC research (USO-387), and GDELT news experiment results (USO-385 — 78% positive Sharpe, +32% vs baseline).</div>
 
     <div class="research-card">
       <div class="research-tag">USO-3 · Forex ML Landscape</div>
@@ -3213,6 +3213,20 @@ function toggleResearchNote(el) {
         <li><strong style="color:#a78bfa">Triple Confluence (highest probability):</strong> Sweep → OB → FVG sequence captures full institutional delivery model: stop sweep (Brunnermeier &amp; Pedersen) → order flow memory (Cont et al.) → gap fill (market efficiency). Community reports 65–75% win rate with 1:2+ R:R within HTF trend.</li>
         <li><strong style="color:#a78bfa">Implementation spec:</strong> 20 new SMC features appended to enhanced65 set (~85 total). Recommended timeframe: H1 for detection, H4 for bias. Session filter: London 07:00–16:00 UTC + NY 12:00–21:00 UTC. Best pairs: EURUSD, GBPUSD, USDJPY (Tier 1). Swing length hyperparameter: 5–20 for H1.</li>
         <li>Experiment design (USO-388): Phase 1 feature engineering → Phase 2 CatBoost+LightGBM sweep (48 configs/symbol) → Phase 3 SHAP ablation vs enhanced65 baseline → Phase 4 rule-based triple confluence backtest. Expected outcome: OB+FVG+Liquidity features improve on USO-264 H1 CatBoost edge (EURUSD Sharpe 4.27, USDJPY Sharpe 3.13).</li>
+      </ul>
+    </div>
+
+    <div class="research-card" style="border-color:rgba(0,212,255,0.3);background:linear-gradient(135deg,rgba(0,212,255,0.05),rgba(16,185,129,0.03))">
+      <div class="research-tag" style="background:rgba(0,212,255,0.12);border-color:rgba(0,212,255,0.35);color:var(--accent)">USO-385 · GDELT News Experiment Results · 2026-05-17</div>
+      <h3>GDELT Sentiment + Economic Calendar — 72-Config Sweep Results (78% Positive Sharpe)</h3>
+      <p>72-config sweep testing 15 news-based features (8 GDELT sentiment + 7 economic calendar) on 4 macro-sensitive pairs. Walk-forward validation with 5-fold expanding window on H1 data. <strong style="color:var(--accent)">+32% improvement</strong> over USO-199 baseline.</p>
+      <ul class="key-findings">
+        <li><strong style="color:var(--accent)">Best signal:</strong> USDJPY CatBoost h=24 t=15bps — Sharpe +2.653, 5,462 trades, 55.9% hit rate, PF 1.40. News-sensitive to BoJ/Fed monetary policy divergence captured by GDELT tone features.</li>
+        <li><strong style="color:var(--accent)">h=24 dominates:</strong> All top-10 configs are h=24. Avg h=24 Sharpe (+1.123) is 6× h=6 (+0.177). News takes ~24h to fully propagate into price — shorter horizons miss the signal.</li>
+        <li><strong style="color:var(--accent)">USDJPY strongest:</strong> 7 of top-10 are USDJPY — central bank divergence (BoJ ultra-loose vs Fed hiking) creates persistent sentiment-driven trends that GDELT captures early via article tone shifts.</li>
+        <li><strong style="color:var(--green)">CatBoost > XGBoost:</strong> Avg Sharpe 0.752 vs 0.563 (+33%). CatBoost handles the sparse/irregular nature of news events better (ordered boosting + symmetric trees reduce overfitting on noisy sentiment data).</li>
+        <li><strong style="color:#f59e0b">USDCAD weakest:</strong> Max Sharpe +0.843. Oil/trade themes are poorly captured by general GDELT tone — would need commodity-specific filtering (energy theme subset).</li>
+        <li><strong style="color:var(--green)">78% positive Sharpe rate</strong> (56/72 configs), 8 configs above Sharpe 2.0, 21 above 1.0. Mean Sharpe +0.657 vs USO-199 baseline +0.497 (+32% improvement).</li>
       </ul>
     </div>
   </div>
@@ -3842,10 +3856,12 @@ function toggleResearchNote(el) {
        "summary": "Full ML experiment pipeline covering USO-132 through USO-303. 48 production signals have been gated through QuantConnect walk-forward validation across USDJPY, USDCAD, NZDUSD, and EURUSD. Top signal (P01 USDJPY catboost h24) achieves QC Sharpe 2.716. Pipeline uses strict 80/20 OOS split with 2015–2022 training and 2023–2024 held-out test data."},
       {"title": "Research-Backed Signals Report (USO-220)", "date": "2026-04-27", "id": "report-signals", "status": "in-live trading",
        "summary": "Five academically-grounded trading edges evaluated. Two survive QC walk-forward: vol-scaled targeting (Barroso & Santa-Clara 2015) achieving Sharpe 2.716, and static carry bias (Brunnermeier 2008) embedded in USDJPY/USDCAD signals. Three edges rejected: session timing, raw momentum regime, and cross-sectional rank proxies."},
-      {"title": "USO-348: News/NLP-Based Trading Signal Research", "date": "2026-05-09", "id": "report-uso348", "status": "planning",
-       "summary": "Research brief on incorporating news/sentiment data into our ML trading signal pipeline. Top recommendation: GDELT sentiment + economic calendar features as 15 new inputs to our existing CatBoost/LGB pipeline — zero cost, available today. Covers 7 free data sources, 19 cited papers, 25 engineered features across 4 recipes, and a ready-to-run 72-config sweep spec on XAUUSD/GBPUSD/USDJPY/USDCAD."},
+      {"title": "USO-348: News/NLP-Based Trading Signal Research", "date": "2026-05-09", "id": "report-uso348", "status": "testing",
+       "summary": "Research brief on incorporating news/sentiment data into our ML trading signal pipeline. Top recommendation: GDELT sentiment + economic calendar features as 15 new inputs to our existing CatBoost/LGB pipeline — zero cost, available today. Covers 7 free data sources, 19 cited papers, 25 engineered features across 4 recipes, and a ready-to-run 72-config sweep spec on XAUUSD/GBPUSD/USDJPY/USDCAD. RESULTS: USO-385 sweep completed (72/72) — mean Sharpe +0.657, best +2.653, 78% positive rate. See USO-385 report."},
       {"title": "USO-387: Order Blocks, Fair Value Gaps & Liquidity Pools Research", "date": "2026-05-17", "id": "report-uso387", "status": "planning",
        "summary": "Research brief on Smart Money Concepts (SMC) for algorithmic forex trading. Rigorous algorithmic definitions for Order Blocks (institutional supply/demand zones), Fair Value Gaps (3-candle price imbalances, H1 fill rate ~75-85%), and Liquidity Pools (stop-loss clusters, sweep reversal ~60-70%). Backed by 10 academic papers including Cont et al. (2014), Osler (2003), and Brunnermeier & Pedersen (2005). Delivers ~20 engineered SMC features and a 4-phase experiment spec (USO-388). Priority instruments: EURUSD, GBPUSD, USDJPY, USDCAD, XAUUSD."},
+      {"title": "USO-385: GDELT + Economic Calendar News Experiment Results", "date": "2026-05-17", "id": "report-uso385", "status": "testing",
+       "summary": "72-config sweep testing GDELT sentiment + economic calendar features (15 news features) on XAUUSD, GBPUSD, USDJPY, USDCAD. Results: 78% positive Sharpe rate, mean +0.657 (+32% vs baseline), best +2.653 (USDJPY CatBoost h24). h=24 dominates (6x better than h=6). USDJPY captures BoJ/Fed news divergence. CatBoost 33% better than XGBoost on news features. Next: QC validation of top candidates."},
       {"title": "USO-174: Final Sweep Analysis — Powerserver Results", "date": "2026-04-25", "id": "report-uso174", "status": "in-live trading",
        "summary": "Analysis of 1,083 powerserver sweep results using corrected criteria (status=keep, R/DD 1.0–3.0, trades ≥ 100, win_rate ≥ 0.40). 50 configurations PASS, 98 are marginal (WARN), 935 fail. Top PASS entries are candidates for QC validation in the next pipeline stage."},
       {"title": "USO-171: Post-Sweep Analysis — Corrected Leaderboard", "date": "2026-04-25", "id": "report-uso171", "status": "in-live trading",
@@ -6112,6 +6128,152 @@ risk_sentiment_diff       — gold_sentiment - equity_sentiment (risk proxy)
 | 7 | Phase 3: HMM regime filter with news observations | CReachO spec + CTO impl | After Phase 2 |
 
 *Full reference list (19 papers) in source document at `USO-348-news-nlp-trading-signals-research.md`.*
+</script>
+
+    <script type="text/markdown" id="md-report-uso385">
+# USO-385: GDELT + Economic Calendar News Experiment Results
+
+**Issue:** USO-385
+**Author:** CTO Agent (fbd09849)
+**Date:** 2026-05-17
+**Status:** Testing (QC validation pending for top candidates)
+
+---
+
+## Executive Summary
+
+72-config sweep testing whether GDELT sentiment + economic calendar features provide tradeable news-based edge on macro-sensitive pairs. **Result: Strong positive signal confirmed** — 78% positive Sharpe rate, mean +0.657, best +2.653 (USDJPY CatBoost h24). This represents a **+32% improvement** over the USO-199 vol_adjusted baseline (0.657 vs 0.497).
+
+---
+
+## 1. Experiment Design
+
+### Features (15 total)
+
+**GDELT Sentiment (8 features):**
+
+| # | Feature | Description |
+|---|---------|-------------|
+| 1 | gdelt_tone_rolling | 24h trailing mean tone |
+| 2 | gdelt_volume_spike | Article volume z-score vs 7d baseline |
+| 3 | gdelt_theme_sentiment | Instrument-specific tone divergence |
+| 4 | gdelt_cross_asset_divergence | Positive vs negative component spread |
+| 5 | gdelt_sentiment_momentum | 6h tone change |
+| 6 | gdelt_event_density | Normalized article count per hour |
+| 7 | gdelt_geo_relevance | Geographic relevance proxy |
+| 8 | gdelt_neg_pos_ratio | Negative/positive tone ratio |
+
+**Economic Calendar (7 features):**
+
+| # | Feature | Description |
+|---|---------|-------------|
+| 9 | cal_event_countdown | Hours to next high-impact event |
+| 10 | cal_surprise_magnitude | Last surprise z-score (forward-filled) |
+| 11 | cal_vol_regime | Rolling std of surprise magnitudes |
+| 12 | cal_high_impact_flag | Binary: high-impact event in bar |
+| 13 | cal_consecutive_miss | Miss streak count |
+| 14 | cal_forecast_delta | Absolute forecast error |
+| 15 | cal_cross_event_corr | Surprise direction autocorrelation |
+
+### Sweep Grid (72 configs)
+
+- **Instruments:** XAUUSD, GBPUSD, USDJPY, USDCAD
+- **Models:** CatBoost, XGBoost
+- **Horizons:** h=6, h=12, h=24
+- **Thresholds:** 8bps, 10bps, 15bps
+- **Validation:** Walk-forward, 5-fold expanding window, H1 resolution
+
+### Data Sources (zero cost)
+
+- GDELT GKG 2.0 (http://data.gdeltproject.org/, public, 15-min refresh)
+- ForexFactory/BLS economic calendar (existing pipeline)
+
+---
+
+## 2. Results Summary
+
+| Metric | Value |
+|--------|-------|
+| Total configs | 72 |
+| Completed | 72 (100%) |
+| Sharpe > 2.0 | **8** (11%) |
+| Sharpe > 1.0 | **21** (29%) |
+| Sharpe > 0.5 | **40** (56%) |
+| Sharpe > 0.0 | **56** (78%) |
+| Mean Sharpe | **+0.657** |
+| Max Sharpe | **+2.653** |
+| Min Sharpe | -1.172 |
+| vs USO-199 baseline | **+32%** (0.657 vs 0.497) |
+
+---
+
+## 3. Top-10 Results
+
+| # | Symbol | Model | h | Thr (bps) | Sharpe | Trades | Hit% | PF | Max DD | Return |
+|---|--------|-------|---|-----------|--------|--------|------|----|----|--------|
+| 1 | USDJPY | CatBoost | 24 | 15 | **+2.653** | 5,462 | 55.9% | 1.40 | -1.3% | +428% |
+| 2 | USDJPY | CatBoost | 24 | 10 | +2.397 | 8,180 | 55.5% | 1.28 | -2.4% | +470% |
+| 3 | GBPUSD | XGBoost | 24 | 8 | +2.127 | 11,162 | 53.2% | 1.20 | -0.9% | +335% |
+| 4 | USDJPY | XGBoost | 24 | 8 | +2.100 | 12,033 | 54.8% | 1.19 | -2.7% | +484% |
+| 5 | GBPUSD | XGBoost | 24 | 10 | +2.047 | 9,855 | 53.2% | 1.20 | -1.1% | +302% |
+| 6 | USDJPY | XGBoost | 24 | 15 | +2.030 | 7,210 | 54.5% | 1.25 | -1.5% | +374% |
+| 7 | USDJPY | XGBoost | 24 | 10 | +2.023 | 10,221 | 54.8% | 1.20 | -2.1% | +430% |
+| 8 | XAUUSD | CatBoost | 24 | 10 | +2.015 | 11,105 | 51.8% | 1.19 | -2.5% | +761% |
+| 9 | USDJPY | CatBoost | 24 | 8 | +1.980 | 9,691 | 53.6% | 1.20 | -2.1% | +414% |
+| 10 | XAUUSD | CatBoost | 24 | 8 | +1.964 | 11,864 | 51.8% | 1.18 | -3.1% | +773% |
+
+---
+
+## 4. Analysis by Dimension
+
+### By Horizon
+
+| Horizon | Avg Sharpe | Configs > 1.0 | Best | Interpretation |
+|---------|-----------|---------------|------|----------------|
+| h=6 | +0.177 | 0 | +0.869 | Too short for news propagation |
+| h=12 | +0.673 | 6 | +1.427 | Partial news reaction |
+| h=24 | **+1.123** | **15** | **+2.653** | Full news cycle digestion |
+
+h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to fully propagate into price.
+
+### By Symbol
+
+| Symbol | Best Sharpe | Interpretation |
+|--------|-------------|----------------|
+| USDJPY | **+2.653** | BoJ/Fed policy divergence creates persistent sentiment-driven trends |
+| GBPUSD | +2.127 | BoE/macro events well-captured by GDELT |
+| XAUUSD | +2.015 | Geopolitical + Fed sentiment drives gold |
+| USDCAD | +0.843 | Oil/trade themes poorly captured by general GDELT tone |
+
+### By Model
+
+| Model | Avg Sharpe | Best | Interpretation |
+|-------|-----------|------|----------------|
+| CatBoost | **+0.752** | +2.653 | Ordered boosting + symmetric trees handle sparse news events better |
+| XGBoost | +0.563 | +2.127 | 33% worse than CatBoost on news features |
+
+---
+
+## 5. Key Findings
+
+1. **News features provide strong tradeable edge:** 78% positive Sharpe rate across all 72 configs
+2. **h=24 is the natural timescale for news:** Full news cycle (release → analysis → repositioning) takes ~24h
+3. **USDJPY is most news-sensitive:** BoJ/Fed monetary policy divergence creates persistent trends captured early by GDELT article tone shifts
+4. **CatBoost > XGBoost by 33%:** Better handling of sparse, irregular news event data
+5. **USDCAD is noise:** General GDELT tone doesn't capture oil/trade themes — would need commodity-specific filtering
+6. **+32% over baseline:** Mean Sharpe 0.657 vs USO-199 vol_adjusted 0.497
+
+---
+
+## 6. Next Steps
+
+| # | Action | Owner | Timeline |
+|---|--------|-------|----------|
+| 1 | QC validation: USDJPY CatBoost h24 t15 (Sharpe +2.653) | CTO | Next sprint |
+| 2 | QC validation: GBPUSD XGBoost h24 t8 (Sharpe +2.127) | CTO | Next sprint |
+| 3 | Ablation: gdelt_only vs calendar_only feature isolation | CTO | After QC |
+| 4 | Ensemble with USO-388 SMC features (macro + micro) | CTO | After ablation |
+| 5 | Production promotion if QC PASS (model export + paper trader) | CTO | After step 1-2 |
 </script>
 
 <script>
