@@ -7083,7 +7083,7 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
   <!-- ── OPEN ORDERS ── -->
   <div class="section" id="tab-open-orders">
     <div class="section-title">Live Forward Test — ExpServer MT5 (Alpari Demo)</div>
-    <div class="section-desc">USO366_ForwardTest running on ExpServer (10.10.10.100) · Alpari-MT5-Demo · 14 production signals · Hourly at :05 · Last assessed: 2026-10-30 (USO-419)</div>
+    <div class="section-desc">USO366_ForwardTest running on ExpServer (10.10.10.100) · Alpari-MT5-Demo · 20 active signals · Hourly at :05 · Last assessed: 2026-10-30 (USO-421/425) · Equity: $74,145 (-25.85%) · Fixes deployed: market hours filter (USO-422), cross-signal dedup (USO-423)</div>
 
     <!-- Status banner -->
     <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:14px 18px;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px">
@@ -7105,23 +7105,23 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
     <div class="grid-4" style="margin-bottom:20px">
       <div class="card">
         <div class="card-title">Account Balance</div>
-        <div class="card-value" style="color:#ef4444">$80,127</div>
-        <div class="card-sub">from $100,000 start · -19.9% · as of 2026-08-20</div>
+        <div class="card-value" style="color:#ef4444">$74,145</div>
+        <div class="card-sub">from $100,000 start · -25.85% · as of 2026-10-30 (USO-425)</div>
       </div>
       <div class="card">
         <div class="card-title">Realized P&amp;L</div>
-        <div class="card-value" style="color:#ef4444">-$14,288</div>
-        <div class="card-sub">3,580 exits · 79% of loss from EURGBP bug</div>
+        <div class="card-value" style="color:#ef4444">-$25,855</div>
+        <div class="card-sub">5,953 exits · exit_price column corrupted 51% (USO-425)</div>
       </div>
       <div class="card">
-        <div class="card-title">Profitable Symbols</div>
-        <div class="card-value positive">4 / 11</div>
-        <div class="card-sub">NZDUSD +$2,140 · GBPUSD +$785 · EURUSD +$772 · AUDUSD +$769</div>
+        <div class="card-title">Signals: Keep</div>
+        <div class="card-value positive">3</div>
+        <div class="card-sub">P32 GBPCAD · P38 EURCHF · P33 EURCHF</div>
       </div>
       <div class="card">
-        <div class="card-title">Position Bug</div>
-        <div class="card-value" style="color:#f59e0b">EURGBP</div>
-        <div class="card-sub">1,121 trades in 41 days · -$14,734 · stacking bug P30/P34/P36</div>
+        <div class="card-title">Signals: Pause/Remove</div>
+        <div class="card-value" style="color:#ef4444">11 / 1</div>
+        <div class="card-sub">11 PAUSE · 1 REMOVE (P45 NZDUSD) · 3 REVIEW · 3 DATA ARTIFACT</div>
       </div>
     </div>
 
@@ -7181,6 +7181,82 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
         </a>
       </div>
     </div>
+
+    <!-- USO-421/USO-425: Oct 2026 Signal Scorecard Audit -->
+    <div class="chart-card" style="margin-bottom:20px;margin-top:20px">
+      <div class="chart-header" style="margin-bottom:12px">
+        <div>
+          <div class="chart-title">Signal Scorecard — Oct 30, 2026 Audit (USO-425)</div>
+          <div class="chart-subtitle">20 signals · 5,953 trades · May–Oct 2026 · equity_open deltas authoritative (exit_price column corrupted 51%)</div>
+        </div>
+      </div>
+
+      <!-- Portfolio equity banner -->
+      <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px">
+        <div style="font-size:20px;padding-top:2px">⚠️</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#ef4444;margin-bottom:4px">Portfolio Down -25.85% · $100,000 → $74,145 (May–Oct 2026)</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">
+            Win rate: 35.7% across all signals. Top equity drains: P44 USDJPY (-$7,639), P36 EURGBP (-$7,162), P15 XAUUSD (-$5,732), P31 AUDNZD (-$4,331).
+            <strong style="color:#f59e0b">Data quality issue:</strong> exit_price column corrupted for 51% of trades (XAUUSD price ~4,500 written into forex rows). Equity figures from equity_open deltas are authoritative.
+            <strong style="color:#f59e0b">Execution bug:</strong> duplicate positions observed (3× EURUSD, 3× GBPUSD, 3× NZDUSD) — cross-signal dedup fix deployed (USO-423).
+          </div>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Signal</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Symbol</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Trades</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Win%</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Cum PnL%</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Max DD%</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Avg Hold</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Equity Contrib</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Board Decision</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#10b981">P32</td><td style="padding:6px 10px">GBPCAD</td><td style="text-align:right;padding:6px 10px">56</td><td style="text-align:right;padding:6px 10px;color:#10b981">96.4%</td><td style="text-align:right;padding:6px 10px;color:#10b981">+28%</td><td style="text-align:right;padding:6px 10px">-0.2%</td><td style="text-align:right;padding:6px 10px">361m</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$2,472</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.15);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#10b981">P38</td><td style="padding:6px 10px">EURCHF</td><td style="text-align:right;padding:6px 10px">26</td><td style="text-align:right;padding:6px 10px;color:#10b981">96.2%</td><td style="text-align:right;padding:6px 10px;color:#10b981">+73%</td><td style="text-align:right;padding:6px 10px">0%</td><td style="text-align:right;padding:6px 10px">2,128m</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$710</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.15);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#10b981">P33</td><td style="padding:6px 10px">EURCHF</td><td style="text-align:right;padding:6px 10px">97</td><td style="text-align:right;padding:6px 10px;color:#10b981">56.7%</td><td style="text-align:right;padding:6px 10px;color:#10b981">+10%</td><td style="text-align:right;padding:6px 10px">-2.7%</td><td style="text-align:right;padding:6px 10px">3,286m</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$965</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.1);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP / MONITOR</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#f59e0b">P46</td><td style="padding:6px 10px">USDCAD</td><td style="text-align:right;padding:6px 10px">56</td><td style="text-align:right;padding:6px 10px;color:#10b981">100%</td><td style="text-align:right;padding:6px 10px;color:#10b981">+314%</td><td style="text-align:right;padding:6px 10px">0%</td><td style="text-align:right;padding:6px 10px">535m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$2,087</td><td style="padding:6px 10px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP ⚠️</span> <span style="color:var(--muted);font-size:10px">data artifact</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#f59e0b">P16</td><td style="padding:6px 10px">USDCAD</td><td style="text-align:right;padding:6px 10px">32</td><td style="text-align:right;padding:6px 10px;color:#10b981">100%</td><td style="text-align:right;padding:6px 10px;color:#10b981">+197%</td><td style="text-align:right;padding:6px 10px">0%</td><td style="text-align:right;padding:6px 10px">536m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$227</td><td style="padding:6px 10px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP ⚠️</span> <span style="color:var(--muted);font-size:10px">data artifact</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#f59e0b">P14</td><td style="padding:6px 10px">GBPCAD</td><td style="text-align:right;padding:6px 10px">120</td><td style="text-align:right;padding:6px 10px;color:#10b981">96.7%</td><td style="text-align:right;padding:6px 10px;color:#10b981">+67%</td><td style="text-align:right;padding:6px 10px">-0.3%</td><td style="text-align:right;padding:6px 10px">491m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$1,012</td><td style="padding:6px 10px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP ⚠️</span> <span style="color:var(--muted);font-size:10px">data artifact</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:#a78bfa">P47</td><td style="padding:6px 10px">AUDUSD</td><td style="text-align:right;padding:6px 10px">152</td><td style="text-align:right;padding:6px 10px;color:#ef4444">38.2%</td><td style="text-align:right;padding:6px 10px;color:#10b981">+99%</td><td style="text-align:right;padding:6px 10px">-7.1%</td><td style="text-align:right;padding:6px 10px">2,645m</td><td style="text-align:right;padding:6px 10px;color:#10b981">+$2,650</td><td style="padding:6px 10px"><span style="background:rgba(167,139,250,0.15);color:#a78bfa;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">REVIEW</span> high variance</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:#a78bfa">P44</td><td style="padding:6px 10px">USDJPY</td><td style="text-align:right;padding:6px 10px">216</td><td style="text-align:right;padding:6px 10px;color:#ef4444">44.0%</td><td style="text-align:right;padding:6px 10px;color:#10b981">+5%</td><td style="text-align:right;padding:6px 10px">-2.3%</td><td style="text-align:right;padding:6px 10px">648m</td><td style="text-align:right;padding:6px 10px;color:#ef4444;font-weight:700">-$7,639</td><td style="padding:6px 10px"><span style="background:rgba(167,139,250,0.15);color:#a78bfa;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">REVIEW</span> top equity drain</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:#a78bfa">P22</td><td style="padding:6px 10px">XAUUSD</td><td style="text-align:right;padding:6px 10px">88</td><td style="text-align:right;padding:6px 10px;color:#ef4444">48.9%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-4%</td><td style="text-align:right;padding:6px 10px">-6.8%</td><td style="text-align:right;padding:6px 10px">66m</td><td style="text-align:right;padding:6px 10px;color:#10b981">+$680</td><td style="padding:6px 10px"><span style="background:rgba(167,139,250,0.15);color:#a78bfa;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">REVIEW</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P48</td><td style="padding:6px 10px">GBPUSD</td><td style="text-align:right;padding:6px 10px">383</td><td style="text-align:right;padding:6px 10px;color:#ef4444">35.2%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-2%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-46.6%</td><td style="text-align:right;padding:6px 10px">1,103m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$1,931</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P1</td><td style="padding:6px 10px">EURUSD</td><td style="text-align:right;padding:6px 10px">364</td><td style="text-align:right;padding:6px 10px;color:#ef4444">37.4%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-148%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-371%</td><td style="text-align:right;padding:6px 10px">1,339m</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">-$59</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span> always SELL mode</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P43</td><td style="padding:6px 10px">EURUSD</td><td style="text-align:right;padding:6px 10px">138</td><td style="text-align:right;padding:6px 10px;color:#ef4444">36.2%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-33%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-37.4%</td><td style="text-align:right;padding:6px 10px">1,634m</td><td style="text-align:right;padding:6px 10px;color:#10b981">+$30</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P23</td><td style="padding:6px 10px">XAUUSD</td><td style="text-align:right;padding:6px 10px">203</td><td style="text-align:right;padding:6px 10px;color:#ef4444">47.8%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-46%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-50.4%</td><td style="text-align:right;padding:6px 10px">62m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$689</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P21</td><td style="padding:6px 10px">XAUUSD</td><td style="text-align:right;padding:6px 10px">206</td><td style="text-align:right;padding:6px 10px;color:#ef4444">48.1%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-48%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-54.9%</td><td style="text-align:right;padding:6px 10px">62m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$602</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P15</td><td style="padding:6px 10px">XAUUSD</td><td style="text-align:right;padding:6px 10px">260</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">50.0%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-66%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-70.7%</td><td style="text-align:right;padding:6px 10px">63m</td><td style="text-align:right;padding:6px 10px;color:#ef4444;font-weight:700">-$5,732</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P34</td><td style="padding:6px 10px">EURGBP</td><td style="text-align:right;padding:6px 10px">37</td><td style="text-align:right;padding:6px 10px;color:#10b981">59.5%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-33%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-68.3%</td><td style="text-align:right;padding:6px 10px">5,085m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$299</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P30</td><td style="padding:6px 10px">EURGBP</td><td style="text-align:right;padding:6px 10px">39</td><td style="text-align:right;padding:6px 10px;color:#10b981">61.5%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-39%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-74.8%</td><td style="text-align:right;padding:6px 10px">5,146m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$579</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P36</td><td style="padding:6px 10px">EURGBP</td><td style="text-align:right;padding:6px 10px">40</td><td style="text-align:right;padding:6px 10px;color:#10b981">60.0%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-39%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-74.8%</td><td style="text-align:right;padding:6px 10px">5,040m</td><td style="text-align:right;padding:6px 10px;color:#ef4444;font-weight:700">-$7,162</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:rgba(239,68,68,0.03)"><td style="padding:6px 10px;color:#ef4444">P31</td><td style="padding:6px 10px">AUDNZD</td><td style="text-align:right;padding:6px 10px">150</td><td style="text-align:right;padding:6px 10px;color:#ef4444">42.7%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-105%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-107%</td><td style="text-align:right;padding:6px 10px">1,411m</td><td style="text-align:right;padding:6px 10px;color:#ef4444;font-weight:700">-$4,331</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PAUSE</span> pred_proba 0.13</td></tr>
+            <tr style="background:rgba(239,68,68,0.06)"><td style="padding:6px 10px;color:#ef4444;font-weight:700">P45</td><td style="padding:6px 10px">NZDUSD</td><td style="text-align:right;padding:6px 10px">230</td><td style="text-align:right;padding:6px 10px;color:#ef4444">29.1%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-23%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-39%</td><td style="text-align:right;padding:6px 10px">2,632m</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$1,024</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.2);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">REMOVE</span> worst win rate</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Immediate actions -->
+      <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:14px 18px;margin-top:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">Immediate Actions (from USO-425)</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.8">
+          <strong style="color:var(--text)">1. Fix exit_price write bug</strong> — cross-symbol contamination corrupts 51% of trade records. Likely a shared global variable in the MT5 bridge overwriting exit_price with XAUUSD close price.<br>
+          <strong style="color:var(--text)">2. Halt P31 (AUDNZD)</strong> — model pred_proba 0.131 (near-random), yet -$4,331 equity drain.<br>
+          <strong style="color:var(--text)">3. Investigate P44 (USDJPY)</strong> — top equity drain (-$7,639), mediocre win rate (44%), corruption hiding losses.<br>
+          <strong style="color:var(--text)">4. Keep P32 / P38 / P33</strong> — only signals with both positive equity contribution and clean-trade positive PnL.<br>
+          <strong style="color:#f59e0b">Note:</strong> ⚠️ rows (P46, P16, P14) show 100% win rate via corrupted clean-trade subset — their positive PnL% is an artifact; equity contribution is the reliable metric.
+        </div>
+      </div>
+    </div>
+
   </div><!-- end tab-open-orders -->
 
   <!-- ── ALGO FORWARD-TESTING PERFORMANCE ── -->
