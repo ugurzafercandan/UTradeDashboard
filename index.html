@@ -7186,8 +7186,8 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
     <div class="chart-card" style="margin-bottom:20px;margin-top:20px">
       <div class="chart-header" style="margin-bottom:12px">
         <div>
-          <div class="chart-title">Signal Scorecard — Oct 30, 2026 Audit (USO-425)</div>
-          <div class="chart-subtitle">20 signals · 5,953 trades · May–Oct 2026 · equity_open deltas authoritative (exit_price column corrupted 51%)</div>
+          <div class="chart-title">Signal Scorecard — Oct 30, 2026 Audit (USO-425) <span style="font-size:11px;color:var(--muted);font-weight:400">· Superseded by corrected data in Algo Performance tab ↗</span></div>
+          <div class="chart-subtitle">20 signals · 5,953 trades · May–Oct 2026 · equity_open deltas authoritative (exit_price column corrupted 51%) · P&amp;L corrected via USO-424</div>
         </div>
       </div>
 
@@ -7288,6 +7288,69 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
         <div class="card-title">Total Net P&L</div>
         <div class="card-value" id="ap-total-pnl">—</div>
         <div class="card-sub" id="ap-total-pnl-sub">closed trades</div>
+      </div>
+    </div>
+
+    <!-- Per-Signal Scorecard with live equity curves (USO-426) -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div>
+          <div style="font-size:15px;font-weight:700;">Per-Signal Scorecard &amp; Board Recommendation</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="sc-subtitle">Loading from live_paper_trades.json…</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted)" id="sc-generated-at">—</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5">
+        <strong style="color:var(--green)">KEEP</strong> = Sharpe ≥ 1.0 and P&amp;L &gt; 0 &nbsp;·&nbsp;
+        <strong style="color:var(--yellow)">PAUSE</strong> = Sharpe 0–1 or marginal edge &nbsp;·&nbsp;
+        <strong style="color:var(--red)">REMOVE</strong> = Sharpe &lt; 0 or negative P&amp;L &nbsp;·&nbsp;
+        Data since <span id="sc-data-start">—</span> · Corrected P&amp;L post USO-424 fix
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px" id="sc-table">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border)">
+              <th style="text-align:left;padding:7px 10px;color:var(--muted);font-weight:600">Signal</th>
+              <th style="text-align:left;padding:7px 10px;color:var(--muted);font-weight:600">Symbol</th>
+              <th style="text-align:right;padding:7px 10px;color:var(--muted);font-weight:600">Trades</th>
+              <th style="text-align:right;padding:7px 10px;color:var(--muted);font-weight:600">Win %</th>
+              <th style="text-align:right;padding:7px 10px;color:var(--muted);font-weight:600">Cum P&amp;L %</th>
+              <th style="text-align:right;padding:7px 10px;color:var(--muted);font-weight:600">Sharpe</th>
+              <th style="text-align:center;padding:7px 10px;color:var(--muted);font-weight:600">Equity Curve</th>
+              <th style="text-align:center;padding:7px 10px;color:var(--muted);font-weight:600">Board</th>
+            </tr>
+          </thead>
+          <tbody id="sc-tbody">
+            <tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px;">Loading scorecard…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Open Positions with duplicate indicator (USO-423/426) -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div style="font-size:15px;font-weight:700;">Current Open Positions</div>
+        <div id="sc-dup-badge" style="display:none;font-size:11px;background:rgba(245,158,11,0.12);color:var(--yellow);border:1px solid rgba(245,158,11,0.35);padding:3px 10px;border-radius:6px;font-weight:700">⚠ Duplicate positions detected (USO-423 dedup fix pending)</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px" id="sc-pos-sub">Loading…</div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Signal</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Symbol</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Dir</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Entry Time</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Entry Price</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Equity Open</th>
+              <th style="text-align:center;padding:6px 10px;color:var(--muted);font-weight:600">Note</th>
+            </tr>
+          </thead>
+          <tbody id="sc-pos-tbody">
+            <tr><td colspan="7" style="color:var(--muted);text-align:center;padding:16px;">Loading…</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -8898,6 +8961,140 @@ function initCReachoCharts() {
 
   loadAlgoPerformance();
   scheduleApRefresh();
+})();
+</script>
+
+<script>
+// ── Per-Signal Scorecard (USO-426) ──────────────────────────────────────
+(function() {
+  function boardRec(sharpe, pnl) {
+    if (sharpe >= 1.0 && pnl > 0) return 'KEEP';
+    if (sharpe < 0 || pnl < -0.5) return 'REMOVE';
+    return 'PAUSE';
+  }
+
+  function boardBadge(rec) {
+    if (rec === 'KEEP')   return '<span style="display:inline-block;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:700;background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.35)">KEEP</span>';
+    if (rec === 'PAUSE')  return '<span style="display:inline-block;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:700;background:rgba(245,158,11,0.12);color:#f59e0b;border:1px solid rgba(245,158,11,0.35)">PAUSE</span>';
+    return '<span style="display:inline-block;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:700;background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.35)">REMOVE</span>';
+  }
+
+  function sparkline(curve, pnl) {
+    if (!curve || !curve.length) return '<span style="color:var(--muted);font-size:11px">—</span>';
+    var w = 100, h = 30, pad = 2;
+    var mn = Math.min.apply(null, curve), mx = Math.max.apply(null, curve);
+    var range = mx - mn || 1;
+    var scaleX = (w - pad * 2) / (curve.length - 1);
+    var scaleY = (h - pad * 2) / range;
+    var pts = curve.map(function(v, i) {
+      return (pad + i * scaleX).toFixed(1) + ',' + (h - pad - (v - mn) * scaleY).toFixed(1);
+    }).join(' ');
+    var color = pnl >= 0 ? '#10b981' : '#ef4444';
+    return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" style="display:block">' +
+      '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="1.5" stroke-linejoin="round"/>' +
+      '</svg>';
+  }
+
+  function renderScorecard(data) {
+    var signals = data.signals || [];
+    var tbody = document.getElementById('sc-tbody');
+    if (!tbody) return;
+    if (!signals.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px;">No signal data.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = signals.map(function(s) {
+      var wr = s.win_rate != null ? (s.win_rate * 100).toFixed(1) + '%' : '—';
+      var wrColor = s.win_rate >= 0.5 ? 'var(--green)' : s.win_rate >= 0.40 ? 'var(--yellow)' : 'var(--red)';
+      var pnl = s.cumulative_pnl_pct != null ? s.cumulative_pnl_pct : 0;
+      var pnlStr = (pnl >= 0 ? '+' : '') + pnl.toFixed(2) + '%';
+      var pnlColor = pnl >= 0 ? 'var(--green)' : 'var(--red)';
+      var sharpe = s.sharpe != null ? s.sharpe : 0;
+      var sharpeStr = (sharpe >= 0 ? '+' : '') + sharpe.toFixed(2);
+      var sharpeColor = sharpe >= 1.0 ? 'var(--green)' : sharpe >= 0 ? 'var(--yellow)' : 'var(--red)';
+      var rec = boardRec(sharpe, pnl);
+      return '<tr style="border-bottom:1px solid var(--border)">' +
+        '<td style="padding:7px 10px;font-weight:700;color:var(--accent)">' + s.signal_id + '</td>' +
+        '<td style="padding:7px 10px">' + s.symbol + '</td>' +
+        '<td style="padding:7px 10px;text-align:right">' + s.total_trades + '</td>' +
+        '<td style="padding:7px 10px;text-align:right;color:' + wrColor + ';font-weight:600">' + wr + '</td>' +
+        '<td style="padding:7px 10px;text-align:right;color:' + pnlColor + ';font-weight:700;font-variant-numeric:tabular-nums">' + pnlStr + '</td>' +
+        '<td style="padding:7px 10px;text-align:right;color:' + sharpeColor + ';font-weight:600">' + sharpeStr + '</td>' +
+        '<td style="padding:7px 10px;text-align:center">' + sparkline(s.equity_curve, pnl) + '</td>' +
+        '<td style="padding:7px 10px;text-align:center">' + boardBadge(rec) + '</td>' +
+        '</tr>';
+    }).join('');
+
+    var sub = document.getElementById('sc-subtitle');
+    if (sub) sub.textContent = signals.length + ' signals · ' + data.total_signals + ' total configured';
+    var ds = document.getElementById('sc-data-start');
+    if (ds) ds.textContent = data.data_start || '—';
+    var ga = document.getElementById('sc-generated-at');
+    if (ga) ga.textContent = 'Generated: ' + (data.generated_at || '—');
+  }
+
+  function renderOpenPositions(data) {
+    var positions = data.open_positions || [];
+    var tbody = document.getElementById('sc-pos-tbody');
+    var sub = document.getElementById('sc-pos-sub');
+    var dupBadge = document.getElementById('sc-dup-badge');
+    if (!tbody) return;
+
+    // detect duplicates: same symbol appears more than once
+    var symbolCount = {};
+    positions.forEach(function(p) { symbolCount[p.symbol] = (symbolCount[p.symbol] || 0) + 1; });
+    var hasDups = Object.values(symbolCount).some(function(c) { return c > 1; });
+    if (dupBadge) dupBadge.style.display = hasDups ? 'block' : 'none';
+
+    if (!positions.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:16px;">No open positions.</td></tr>';
+      if (sub) sub.textContent = 'No open positions.';
+      return;
+    }
+
+    if (sub) sub.textContent = positions.length + ' open position' + (positions.length !== 1 ? 's' : '') + (hasDups ? ' — duplicates present (USO-423 fix pending)' : '');
+
+    tbody.innerHTML = positions.map(function(p) {
+      var isDup = symbolCount[p.symbol] > 1;
+      var dirColor = p.direction === 'BUY' ? 'var(--green)' : 'var(--red)';
+      var entryTime = p.entry_time ? new Date(p.entry_time).toLocaleString() : '—';
+      var eq = p.equity_open != null ? '$' + p.equity_open.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
+      var note = isDup ? '<span style="color:var(--yellow);font-size:10px;font-weight:700">DUP</span>' : '';
+      return '<tr style="border-bottom:1px solid var(--border)' + (isDup ? ';background:rgba(245,158,11,0.04)' : '') + '">' +
+        '<td style="padding:6px 10px;color:var(--accent);font-weight:700">' + p.signal_id + '</td>' +
+        '<td style="padding:6px 10px;font-weight:600">' + p.symbol + '</td>' +
+        '<td style="padding:6px 10px;color:' + dirColor + ';font-weight:700;font-size:11px">' + p.direction + '</td>' +
+        '<td style="padding:6px 10px;font-size:11px;color:var(--muted)">' + entryTime + '</td>' +
+        '<td style="padding:6px 10px;text-align:right;font-size:11px">' + p.entry_price + '</td>' +
+        '<td style="padding:6px 10px;text-align:right;font-weight:600">' + eq + '</td>' +
+        '<td style="padding:6px 10px;text-align:center">' + note + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  async function loadScorecard() {
+    try {
+      var res = await fetch('results/live_paper_trades.json?_=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var data = await res.json();
+      renderScorecard(data);
+      renderOpenPositions(data);
+    } catch(e) {
+      var tbody = document.getElementById('sc-tbody');
+      if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="color:var(--red);text-align:center;padding:20px;">Failed to load live_paper_trades.json: ' + e.message + '</td></tr>';
+    }
+  }
+
+  // load when algo-performance tab is active or becomes active
+  loadScorecard();
+
+  var origShowTab = window.showTab;
+  if (origShowTab) {
+    window.showTab = function(tab) {
+      origShowTab(tab);
+      if (tab === 'algo-performance') loadScorecard();
+    };
+  }
 })();
 </script>
 
