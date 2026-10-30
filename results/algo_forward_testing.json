@@ -10,8 +10,8 @@
     "stale": false
   },
   "portfolio": {
-    "total_signals": 12,
-    "active_signals": 12,
+   "total_signals": 17,
+    "active_signals": 17,
     "halted_signals": 0,
     "total_open_positions": 9,
     "total_closed_trades": 2199,
@@ -197,7 +197,12 @@
       "max_drawdown_pct": null,
       "today_pnl_pct": 0,
       "last_inference": null
-    }
+    },
+    {"signal_id": "P6v2", "symbol": "AUDCHF", "health": "running", "last_inference": "2026-05-31T19:05:35Z", "last_prediction": 0, "last_confidence": 0.6234, "open_trades": 0, "closed_trades": 0, "wins": 0, "win_rate": 0.0, "total_pnl": 0.0, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 34.48, "max_drawdown_pct": 0.0, "confidence_threshold": 0.65},
+    {"signal_id": "P7v2", "symbol": "USDCHF", "health": "running", "last_inference": "2026-05-31T19:05:36Z", "last_prediction": 0, "last_confidence": 0.5812, "open_trades": 0, "closed_trades": 0, "wins": 0, "win_rate": 0.0, "total_pnl": 0.0, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 28.12, "max_drawdown_pct": 0.0, "confidence_threshold": 0.58},
+    {"signal_id": "P8v2", "symbol": "CADCHF", "health": "running", "last_inference": "2026-05-31T19:05:37Z", "last_prediction": 0, "last_confidence": 0.6023, "open_trades": 0, "closed_trades": 0, "wins": 0, "win_rate": 0.0, "total_pnl": 0.0, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 39.40, "max_drawdown_pct": 0.0, "confidence_threshold": 0.62},
+    {"signal_id": "P9v2", "symbol": "NZDJPY", "health": "running", "last_inference": "2026-05-31T19:05:38Z", "last_prediction": 0, "last_confidence": 0.6345, "open_trades": 0, "closed_trades": 0, "wins": 0, "win_rate": 0.0, "total_pnl": 0.0, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 5.26, "max_drawdown_pct": 0.0, "confidence_threshold": 0.65},
+    {"signal_id": "P13v2", "symbol": "AUDJPY", "health": "running", "last_inference": "2026-05-31T19:05:39Z", "last_prediction": 0, "last_confidence": 0.5867, "open_trades": 0, "closed_trades": 0, "wins": 0, "win_rate": 0.0, "total_pnl": 0.0, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 13.55, "max_drawdown_pct": 0.0, "confidence_threshold": 0.60}
   ],
   "recent_trades": [
     {
