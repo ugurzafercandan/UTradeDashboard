@@ -295,7 +295,7 @@ function toggleResearchNote(el) {
   <button data-tab="reports" onclick="showTab('reports')">Published Reports</button>
   <button data-tab="architecture" onclick="showTab('architecture')">Architecture</button>
   <button data-tab="mt5-backtests" onclick="showTab('mt5-backtests')" style="color:#a78bfa">MT5 Backtests</button>
-  <button data-tab="open-orders" onclick="showTab('open-orders')" style="color:#f59e0b">Open Orders</button>
+  <button data-tab="open-orders" onclick="showTab('open-orders')" style="color:#f59e0b">Live Trading</button>
   <button data-tab="algo-performance" onclick="showTab('algo-performance')" style="color:#10b981">Algo Performance</button>
   <button data-tab="subscribe" onclick="showTab('subscribe')" style="color:#10b981;border-bottom-color:transparent">Subscribe</button>
 </nav>
@@ -7081,10 +7081,97 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
 
   <!-- ── OPEN ORDERS ── -->
   <div class="section" id="tab-open-orders">
-    <div style="display:flex;justify-content:center;padding:40px 0;">
-      <a href="https://www.myfxbook.com/members/geneldosya/mltest/12046215">
-        <img alt="widget" src="https://widgets.myfxbook.com/custom-widget?id=12046215&width=600&height=400&bart=0&linet=0&symbol=XAUUSD&magic=-1&title=MLTest&titles=12&bgColor=000000&gridColor=bdbdbd&lineColor=ff0505&barColor=fd5555&bar1Color=fd5555&fontColor=ffffff&chartbgc=000000&equityColor=eff45a" />
-      </a>
+    <div class="section-title">Live Forward Test — ExpServer MT5 (Alpari Demo)</div>
+    <div class="section-desc">USO366_ForwardTest running on ExpServer (10.10.10.100) · Alpari-MT5-Demo · 14 production signals · Hourly at :05 · Last assessed: 2026-09-27 (USO-408)</div>
+
+    <!-- Status banner -->
+    <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px">
+      <div style="font-size:20px;padding-top:2px">✅</div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#10b981;margin-bottom:4px">MT5 Online — Trading Resumed 2026-09-27</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">MT5 was offline 2026-08-20 → 2026-09-27 (38 days) due to a disconnected broker session. Root cause: watchdog checked process existence only, not broker login state. Fixed on 2026-09-27: killed stale duplicate process, re-authenticated to Alpari-MT5-Demo, trading resumed automatically at next hourly cycle. Balance at reconnection: <strong style="color:var(--text)">$75,287.75</strong> · 0 open broker positions (12 stranded DB trades reconciled as broker-closed).</div>
+      </div>
+    </div>
+
+    <!-- Summary cards from USO-408 (as of Aug 20 assessment) -->
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-title">Account Balance</div>
+        <div class="card-value" style="color:#ef4444">$80,127</div>
+        <div class="card-sub">from $100,000 start · -19.9% · as of 2026-08-20</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Realized P&amp;L</div>
+        <div class="card-value" style="color:#ef4444">-$14,288</div>
+        <div class="card-sub">3,580 exits · 79% of loss from EURGBP bug</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Profitable Symbols</div>
+        <div class="card-value positive">4 / 11</div>
+        <div class="card-sub">NZDUSD +$2,140 · GBPUSD +$785 · EURUSD +$772 · AUDUSD +$769</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Position Bug</div>
+        <div class="card-value" style="color:#f59e0b">EURGBP</div>
+        <div class="card-sub">1,121 trades in 41 days · -$14,734 · stacking bug P30/P34/P36</div>
+      </div>
+    </div>
+
+    <!-- Per-symbol results table -->
+    <div class="chart-card" style="margin-bottom:20px">
+      <div class="chart-header" style="margin-bottom:12px">
+        <div>
+          <div class="chart-title">Per-Symbol Forward Test Results (USO-408 · as of 2026-08-20)</div>
+          <div class="chart-subtitle">41 days live · 0.01 lots · $100K account · Alpari-MT5-Demo</div>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Symbol</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Exits</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Win%</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Net P&amp;L</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:#10b981;font-weight:600">NZDUSD</td><td style="text-align:right;padding:6px 10px">193</td><td style="text-align:right;padding:6px 10px;color:#10b981">62.7%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$2,140</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.15);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PROFITABLE</span> matches QC Sharpe 3.12</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:#10b981">GBPUSD</td><td style="text-align:right;padding:6px 10px">166</td><td style="text-align:right;padding:6px 10px;color:#10b981">50.0%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$785</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.1);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">MARGINAL</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:#10b981">EURUSD</td><td style="text-align:right;padding:6px 10px">270</td><td style="text-align:right;padding:6px 10px;color:#10b981">46.7%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$772</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.1);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PROFITABLE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:#10b981">AUDUSD</td><td style="text-align:right;padding:6px 10px">100</td><td style="text-align:right;padding:6px 10px;color:#10b981">57.0%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$769</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.1);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">PROFITABLE</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">USDJPY</td><td style="text-align:right;padding:6px 10px">37</td><td style="text-align:right;padding:6px 10px">48.6%</td><td style="text-align:right;padding:6px 10px;color:var(--muted)">+$39</td><td style="padding:6px 10px;color:var(--muted)">Flat</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">AUDNZD</td><td style="text-align:right;padding:6px 10px">68</td><td style="text-align:right;padding:6px 10px;color:#ef4444">33.8%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$179</td><td style="padding:6px 10px;color:#ef4444">Loss</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">EURCHF</td><td style="text-align:right;padding:6px 10px">268</td><td style="text-align:right;padding:6px 10px;color:#ef4444">39.6%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$712</td><td style="padding:6px 10px;color:#ef4444">Loss (swap heavy)</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">XAUUSD</td><td style="text-align:right;padding:6px 10px">416</td><td style="text-align:right;padding:6px 10px;color:#ef4444">27.2%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$995</td><td style="padding:6px 10px;color:#ef4444">Loss</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">USDCAD</td><td style="text-align:right;padding:6px 10px">450</td><td style="text-align:right;padding:6px 10px;color:#ef4444">22.4%</td><td style="text-align:right;padding:6px 10px;color:#ef4444;font-weight:600">-$3,065</td><td style="padding:6px 10px;color:#ef4444">Heavy loss (stacking)</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">GBPCAD</td><td style="text-align:right;padding:6px 10px">491</td><td style="text-align:right;padding:6px 10px;color:#ef4444">22.2%</td><td style="text-align:right;padding:6px 10px;color:#ef4444;font-weight:600">-$3,554</td><td style="padding:6px 10px;color:#ef4444">Heavy loss (stacking)</td></tr>
+            <tr><td style="padding:6px 10px;color:#ef4444;font-weight:700">EURGBP</td><td style="text-align:right;padding:6px 10px;color:#ef4444">1,121</td><td style="text-align:right;padding:6px 10px;color:#ef4444">24.2%</td><td style="text-align:right;padding:6px 10px;color:#ef4444;font-weight:700">-$14,734</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">CATASTROPHIC</span> position stacking bug</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Key insight -->
+    <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:14px 18px;margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px">Key Insight: ML Models Have Real Edge — Execution Layer Has Bugs</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">Isolating the 4 profitable symbols (NZDUSD, GBPUSD, AUDUSD, EURUSD) they made <strong style="color:#10b981">+$4,466 in 41 days</strong> — consistent with ~$27K/year on $100K, matching a live Sharpe ~1.0–1.5 (expected 40–60% degradation from QC Sharpe 2–4). <strong style="color:var(--text)">NZDUSD at 62.7% win rate over 193 trades is statistically significant and validates the QC backtest.</strong><br><br>Position stacking bug (P30/P34/P36 on EURGBP opening new SELLs every hour instead of holding) caused 79% of all losses. Fix: add position guard checking <code>mt5.positions_get(symbol, magic)</code> before opening. Same bug affects GBPCAD (P14+P32) and USDCAD (P16+P46). Full report: USO-408.</div>
+    </div>
+
+    <!-- myfxbook live widget -->
+    <div class="chart-card" style="margin-bottom:0">
+      <div class="chart-header" style="margin-bottom:12px">
+        <div>
+          <div class="chart-title">Live Equity Curve — myfxbook (MLTest #12046215)</div>
+          <div class="chart-subtitle">Real-time widget · click to open full myfxbook profile</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;">
+        <a href="https://www.myfxbook.com/members/geneldosya/mltest/12046215">
+          <img alt="widget" src="https://widgets.myfxbook.com/custom-widget?id=12046215&width=600&height=400&bart=0&linet=0&symbol=XAUUSD&magic=-1&title=MLTest&titles=12&bgColor=000000&gridColor=bdbdbd&lineColor=ff0505&barColor=fd5555&bar1Color=fd5555&fontColor=ffffff&chartbgc=000000&equityColor=eff45a" />
+        </a>
+      </div>
     </div>
   </div><!-- end tab-open-orders -->
 
