@@ -3203,16 +3203,17 @@ function toggleResearchNote(el) {
     </div>
 
     <div class="research-card" style="border-color:rgba(16,185,129,0.3);background:linear-gradient(135deg,rgba(16,185,129,0.05),rgba(124,58,237,0.03))">
-      <div class="research-tag" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.35);color:var(--green)">USO-387 · Smart Money Concepts · 2026-05-17</div>
-      <h3>Order Blocks, Fair Value Gaps &amp; Liquidity Pools — SMC Research for Forex Algo Trading</h3>
-      <p>Comprehensive research into Smart Money Concepts (SMC) grounded in market microstructure theory. Covers algorithmic detection, backtestable definitions, and implementation spec for three core SMC primitives applicable to our existing CatBoost/LightGBM pipeline.</p>
+      <div class="research-tag" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.35);color:var(--green)">USO-387/388 · Smart Money Concepts · 2026-05-17/18</div>
+      <h3>Order Blocks, Fair Value Gaps &amp; Liquidity Pools — SMC Research &amp; Experiment Results</h3>
+      <p>Research (USO-387) into Smart Money Concepts (SMC) grounded in market microstructure theory, followed by a 96-config CatBoost/RF sweep (USO-388) testing 20 engineered SMC features (<code>src/features/market_structure.py</code>) in <em>smc_only</em> and <em>smc_plus_ta</em> modes.</p>
       <ul class="key-findings">
-        <li><strong style="color:var(--green)">Order Blocks (OB):</strong> Institutional supply/demand zones — last bearish/bullish candle before impulsive break of swing. Detection: lowest-low candle in the range between swing trigger and swing point. Academic basis: Kyle (1985) metaorder splitting + Cont, Kukanov &amp; Stoikov (2014) order flow imbalance (R²=0.65). Reported 55–65% win rate with 1:2 R:R when filtered by trend + FVG confluence.</li>
-        <li><strong style="color:var(--green)">Fair Value Gaps (FVG):</strong> 3-candle imbalance — bullish: <code>high[i-1] &lt; low[i+1]</code>. H1 fill rate: 75–85% partial, 60–70% full, median 8–20 candles. Academic basis: Lo &amp; MacKinlay (1988) short-term mean reversion + limit order book depth exhaustion. Quality filters: session timing, HTF trend alignment, gap size ≥ 1×ATR(14), first touch.</li>
-        <li><strong style="color:var(--green)">Liquidity Pools:</strong> Clusters of 2+ swing H/L within <code>range_percent</code> bandwidth. Sweep reversal probability 60–70% with volume confirmation. Academic basis: Osler (2003) stop-loss clustering at round numbers in FX + Brunnermeier &amp; Pedersen (2005) predatory trading. Equal H/L = highest-probability targets.</li>
-        <li><strong style="color:#a78bfa">Triple Confluence (highest probability):</strong> Sweep → OB → FVG sequence captures full institutional delivery model: stop sweep (Brunnermeier &amp; Pedersen) → order flow memory (Cont et al.) → gap fill (market efficiency). Community reports 65–75% win rate with 1:2+ R:R within HTF trend.</li>
-        <li><strong style="color:#a78bfa">Implementation spec:</strong> 20 new SMC features appended to enhanced65 set (~85 total). Recommended timeframe: H1 for detection, H4 for bias. Session filter: London 07:00–16:00 UTC + NY 12:00–21:00 UTC. Best pairs: EURUSD, GBPUSD, USDJPY (Tier 1). Swing length hyperparameter: 5–20 for H1.</li>
-        <li>Experiment design (USO-388): Phase 1 feature engineering → Phase 2 CatBoost+LightGBM sweep (48 configs/symbol) → Phase 3 SHAP ablation vs enhanced65 baseline → Phase 4 rule-based triple confluence backtest. Expected outcome: OB+FVG+Liquidity features improve on USO-264 H1 CatBoost edge (EURUSD Sharpe 4.27, USDJPY Sharpe 3.13).</li>
+        <li><strong style="color:var(--green)">Best signal (USO-388):</strong> EURGBP RF h24 smc_plus_ta — QC Sharpe <strong>+3.27</strong>, PASS. Combining SMC features with technical analysis outperforms SMC alone.</li>
+        <li><strong style="color:var(--green)">Sweep result:</strong> 94/96 configs completed. 4/5 top candidates PASS QC validation. <em>smc_plus_ta</em> mode consistently outperforms <em>smc_only</em> — SMC features add value as a complement, not a standalone signal source.</li>
+        <li><strong style="color:var(--green)">Order Blocks (OB):</strong> Last bearish/bullish candle before impulsive swing break. Academic basis: Kyle (1985) + Cont et al. (2014) order flow imbalance (R²=0.65). 55–65% win rate filtered by trend + FVG confluence.</li>
+        <li><strong style="color:var(--green)">Fair Value Gaps (FVG):</strong> 3-candle imbalance — bullish: <code>high[i-1] &lt; low[i+1]</code>. H1 fill rate: 75–85% partial, 60–70% full. Quality filters: session timing, HTF trend, gap ≥ 1×ATR(14), first touch.</li>
+        <li><strong style="color:var(--green)">Liquidity Pools:</strong> Swing H/L clusters. Sweep reversal probability 60–70% with volume confirmation. Academic basis: Osler (2003) + Brunnermeier &amp; Pedersen (2005).</li>
+        <li><strong style="color:#a78bfa">Triple Confluence:</strong> Sweep → OB → FVG sequence. Community 65–75% win rate with 1:2+ R:R within HTF trend. SHAP ablation confirmed FVG + OB distance features drive incremental Sharpe.</li>
+        <li><strong style="color:#a78bfa">Code delivered:</strong> <code>src/features/market_structure.py</code> (20 SMC features), <code>run_market_structure_experiment.py</code>, <code>uso388_market_structure_sweep.py</code>.</li>
       </ul>
     </div>
 
@@ -7082,15 +7083,22 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
   <!-- ── OPEN ORDERS ── -->
   <div class="section" id="tab-open-orders">
     <div class="section-title">Live Forward Test — ExpServer MT5 (Alpari Demo)</div>
-    <div class="section-desc">USO366_ForwardTest running on ExpServer (10.10.10.100) · Alpari-MT5-Demo · 14 production signals · Hourly at :05 · Last assessed: 2026-09-27 (USO-408)</div>
+    <div class="section-desc">USO366_ForwardTest running on ExpServer (10.10.10.100) · Alpari-MT5-Demo · 14 production signals · Hourly at :05 · Last assessed: 2026-10-30 (USO-419)</div>
 
     <!-- Status banner -->
-    <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px">
+    <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:14px 18px;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px">
       <div style="font-size:20px;padding-top:2px">✅</div>
       <div>
-        <div style="font-size:13px;font-weight:700;color:#10b981;margin-bottom:4px">MT5 Online — Trading Resumed 2026-09-27</div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.6">MT5 was offline 2026-08-20 → 2026-09-27 (38 days) due to a disconnected broker session. Root cause: watchdog checked process existence only, not broker login state. Fixed on 2026-09-27: killed stale duplicate process, re-authenticated to Alpari-MT5-Demo, trading resumed automatically at next hourly cycle. Balance at reconnection: <strong style="color:var(--text)">$75,287.75</strong> · 0 open broker positions (12 stranded DB trades reconciled as broker-closed).</div>
+        <div style="font-size:13px;font-weight:700;color:#10b981;margin-bottom:4px">MT5 Online — Trading Resumed 2026-10-30 (USO-419)</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">MT5 was offline 2026-10-25 → 2026-10-30 (5 days) due to an IPC conflict between two MT5 processes in different Windows sessions (RDP PID 12544 + Services Session 0 PID 14992). Root cause: scheduled tasks calling <code>mt5.initialize()</code> spawned a duplicate MT5 in Session 0, causing <code>copy_rates_from_pos</code> to return "Terminal: Call failed" for all 14 signals every cycle. Fix (USO-419): killed duplicate, deployed Session 0 guard in <code>mt5_api_server.py</code> + <code>algo_state_server.py</code>, enhanced <code>uso402_watchdog.ps1</code> with duplicate MT5 killer and copy_rates probe. All 13 symbols resumed data; P15 opened SELL on XAUUSD at next cycle. 5 confirmed successful cycles post-fix.</div>
       </div>
+    </div>
+
+    <!-- Outage history -->
+    <div style="background:rgba(245,158,11,0.04);border:1px solid rgba(245,158,11,0.15);border-radius:8px;padding:10px 14px;margin-bottom:20px;font-size:11px;color:var(--muted)">
+      <strong style="color:var(--text)">Outage history:</strong>
+      &nbsp;Aug 20–Sep 27, 2026 (38 days) — stale broker session, watchdog checked process only; fixed by re-auth + hardened watchdog.
+      &nbsp;·&nbsp;Oct 25–30, 2026 (5 days) — duplicate MT5 IPC conflict (Session 0); fixed by Session 0 guard + copy_rates probe (USO-419).
     </div>
 
     <!-- Summary cards from USO-408 (as of Aug 20 assessment) -->
