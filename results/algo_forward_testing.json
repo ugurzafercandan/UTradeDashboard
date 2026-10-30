@@ -1,59 +1,341 @@
 {
-  "generated_at": "2026-05-31T20:00:00Z",
-  "source": "algo_state_server",
+  "generated_at": "2026-10-30T20:25:15Z",
+  "source": "paper_trading.db",
+  "data_start": "2026-07-01",
   "system_health": "running",
   "system": {
-    "scheduler_status": "Ready",
-    "scheduler_registered": true,
-    "scheduler_last_run": "2026-05-31T19:05:00",
-    "scheduler_next_run": "2026-05-31T20:05:00",
     "mt5_running": true,
-    "last_cycle_start": "2026-05-31T19:05:01",
-    "last_cycle_end": "2026-05-31T19:05:48",
+    "processes": 1,
+    "last_db_entry": "2026-10-30T20:05:10Z",
     "stale": false
   },
   "portfolio": {
-    "total_signals": 22,
-    "active_signals": 21,
-    "halted_signals": 1,
-    "total_open_positions": 8,
-    "total_closed_trades": 1247,
-    "total_pnl": 2841.67
+    "total_signals": 12,
+    "total_open_positions": 9,
+    "total_closed_trades": 2199
   },
   "algos": [
-    {"signal_id": "P1", "symbol": "EURUSD", "health": "running", "last_inference": "2026-05-31T19:05:12Z", "last_prediction": 2, "last_confidence": 0.7234, "open_trades": 1, "closed_trades": 89, "wins": 61, "win_rate": 0.6854, "total_pnl": 187.40, "today_pnl_pct": 0.0012, "circuit_breaker_active": false, "sharpe": 2.14, "max_drawdown_pct": 0.0082, "confidence_threshold": 0.62},
-    {"signal_id": "P5", "symbol": "GBPAUD", "health": "running", "last_inference": "2026-05-31T19:05:14Z", "last_prediction": 0, "last_confidence": 0.6891, "open_trades": 0, "closed_trades": 112, "wins": 76, "win_rate": 0.6786, "total_pnl": 198.60, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 1.89, "max_drawdown_pct": 0.0063, "confidence_threshold": 0.62},
-    {"signal_id": "P14", "symbol": "GBPCAD", "health": "running", "last_inference": "2026-05-31T19:05:15Z", "last_prediction": 2, "last_confidence": 0.7102, "open_trades": 1, "closed_trades": 67, "wins": 44, "win_rate": 0.6567, "total_pnl": 134.20, "today_pnl_pct": 0.0008, "circuit_breaker_active": false, "sharpe": 1.72, "max_drawdown_pct": 0.0091, "confidence_threshold": 0.55},
-    {"signal_id": "P15", "symbol": "XAUUSD", "health": "running", "last_inference": "2026-05-31T19:05:16Z", "last_prediction": 1, "last_confidence": 0.5432, "open_trades": 0, "closed_trades": 45, "wins": 28, "win_rate": 0.6222, "total_pnl": 428.50, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 1.56, "max_drawdown_pct": 0.0124, "confidence_threshold": 0.55},
-    {"signal_id": "P16", "symbol": "USDCAD", "health": "running", "last_inference": "2026-05-31T19:05:17Z", "last_prediction": 0, "last_confidence": 0.6234, "open_trades": 1, "closed_trades": 58, "wins": 35, "win_rate": 0.6034, "total_pnl": 67.80, "today_pnl_pct": -0.0003, "circuit_breaker_active": false, "sharpe": 0.94, "max_drawdown_pct": 0.0078, "confidence_threshold": 0.58},
-    {"signal_id": "P21", "symbol": "XAUUSD", "health": "running", "last_inference": "2026-05-31T19:05:18Z", "last_prediction": 2, "last_confidence": 0.7891, "open_trades": 1, "closed_trades": 38, "wins": 24, "win_rate": 0.6316, "total_pnl": 312.40, "today_pnl_pct": 0.0045, "circuit_breaker_active": false, "sharpe": 1.82, "max_drawdown_pct": 0.0156, "confidence_threshold": 0.62},
-    {"signal_id": "P22", "symbol": "XAUUSD", "health": "running", "last_inference": "2026-05-31T19:05:19Z", "last_prediction": 1, "last_confidence": 0.5123, "open_trades": 0, "closed_trades": 42, "wins": 28, "win_rate": 0.6667, "total_pnl": 287.60, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 2.01, "max_drawdown_pct": 0.0098, "confidence_threshold": 0.62},
-    {"signal_id": "P23", "symbol": "XAUUSD", "health": "running", "last_inference": "2026-05-31T19:05:20Z", "last_prediction": 0, "last_confidence": 0.6712, "open_trades": 0, "closed_trades": 35, "wins": 22, "win_rate": 0.6286, "total_pnl": 198.30, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 1.44, "max_drawdown_pct": 0.0112, "confidence_threshold": 0.62},
-    {"signal_id": "P30", "symbol": "EURGBP", "health": "running", "last_inference": "2026-05-31T19:05:21Z", "last_prediction": 2, "last_confidence": 0.6543, "open_trades": 0, "closed_trades": 78, "wins": 48, "win_rate": 0.6154, "total_pnl": 89.20, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 1.21, "max_drawdown_pct": 0.0067, "confidence_threshold": 0.62},
-    {"signal_id": "P31", "symbol": "AUDNZD", "health": "running", "last_inference": "2026-05-31T19:05:22Z", "last_prediction": 1, "last_confidence": 0.4890, "open_trades": 0, "closed_trades": 65, "wins": 39, "win_rate": 0.6, "total_pnl": 54.30, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 0.88, "max_drawdown_pct": 0.0045, "confidence_threshold": 0.62},
-    {"signal_id": "P32", "symbol": "GBPCAD", "health": "running", "last_inference": "2026-05-31T19:05:23Z", "last_prediction": 0, "last_confidence": 0.7012, "open_trades": 1, "closed_trades": 71, "wins": 44, "win_rate": 0.6197, "total_pnl": 102.80, "today_pnl_pct": 0.0006, "circuit_breaker_active": false, "sharpe": 1.34, "max_drawdown_pct": 0.0072, "confidence_threshold": 0.62},
-    {"signal_id": "P33", "symbol": "EURCHF", "health": "running", "last_inference": "2026-05-31T19:05:24Z", "last_prediction": 2, "last_confidence": 0.6234, "open_trades": 0, "closed_trades": 82, "wins": 52, "win_rate": 0.6341, "total_pnl": 76.40, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 1.12, "max_drawdown_pct": 0.0056, "confidence_threshold": 0.62},
-    {"signal_id": "P34", "symbol": "EURGBP", "health": "running", "last_inference": "2026-05-31T19:05:25Z", "last_prediction": 1, "last_confidence": 0.5234, "open_trades": 0, "closed_trades": 56, "wins": 33, "win_rate": 0.5893, "total_pnl": 42.10, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 0.78, "max_drawdown_pct": 0.0048, "confidence_threshold": 0.62},
-    {"signal_id": "P36", "symbol": "EURGBP", "health": "halted", "last_inference": "2026-05-31T19:05:26Z", "last_prediction": 0, "last_confidence": 0.6891, "open_trades": 0, "closed_trades": 48, "wins": 27, "win_rate": 0.5625, "total_pnl": -12.40, "today_pnl_pct": -0.0312, "circuit_breaker_active": true, "sharpe": -0.34, "max_drawdown_pct": 0.0312, "confidence_threshold": 0.62},
-    {"signal_id": "P38", "symbol": "EURCHF", "health": "running", "last_inference": "2026-05-31T19:05:27Z", "last_prediction": 2, "last_confidence": 0.6345, "open_trades": 1, "closed_trades": 74, "wins": 45, "win_rate": 0.6081, "total_pnl": 58.90, "today_pnl_pct": 0.0004, "circuit_breaker_active": false, "sharpe": 0.92, "max_drawdown_pct": 0.0061, "confidence_threshold": 0.62},
-    {"signal_id": "P43", "symbol": "EURUSD", "health": "running", "last_inference": "2026-05-31T19:05:28Z", "last_prediction": 2, "last_confidence": 0.7456, "open_trades": 1, "closed_trades": 52, "wins": 34, "win_rate": 0.6538, "total_pnl": 124.30, "today_pnl_pct": 0.0015, "circuit_breaker_active": false, "sharpe": 1.67, "max_drawdown_pct": 0.0074, "confidence_threshold": 0.62},
-    {"signal_id": "P44", "symbol": "USDJPY", "health": "running", "last_inference": "2026-05-31T19:05:29Z", "last_prediction": 0, "last_confidence": 0.6789, "open_trades": 0, "closed_trades": 61, "wins": 38, "win_rate": 0.623, "total_pnl": 96.70, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 1.28, "max_drawdown_pct": 0.0083, "confidence_threshold": 0.62},
-    {"signal_id": "P45", "symbol": "NZDUSD", "health": "running", "last_inference": "2026-05-31T19:05:30Z", "last_prediction": 2, "last_confidence": 0.8123, "open_trades": 1, "closed_trades": 95, "wins": 68, "win_rate": 0.7158, "total_pnl": 243.20, "today_pnl_pct": 0.0022, "circuit_breaker_active": false, "sharpe": 2.45, "max_drawdown_pct": 0.0041, "confidence_threshold": 0.62},
-    {"signal_id": "P46", "symbol": "USDCAD", "health": "running", "last_inference": "2026-05-31T19:05:31Z", "last_prediction": 1, "last_confidence": 0.5012, "open_trades": 0, "closed_trades": 44, "wins": 27, "win_rate": 0.6136, "total_pnl": 38.90, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 0.82, "max_drawdown_pct": 0.0052, "confidence_threshold": 0.62},
-    {"signal_id": "P47", "symbol": "AUDUSD", "health": "running", "last_inference": "2026-05-31T19:05:32Z", "last_prediction": 0, "last_confidence": 0.6234, "open_trades": 0, "closed_trades": 47, "wins": 28, "win_rate": 0.5957, "total_pnl": 34.60, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 0.71, "max_drawdown_pct": 0.0068, "confidence_threshold": 0.62},
-    {"signal_id": "P48", "symbol": "GBPUSD", "health": "running", "last_inference": "2026-05-31T19:05:33Z", "last_prediction": 2, "last_confidence": 0.6567, "open_trades": 0, "closed_trades": 53, "wins": 31, "win_rate": 0.5849, "total_pnl": 28.40, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 0.64, "max_drawdown_pct": 0.0074, "confidence_threshold": 0.62},
-    {"signal_id": "P4", "symbol": "GBPNZD", "health": "running", "last_inference": "2026-05-31T19:05:34Z", "last_prediction": 1, "last_confidence": 0.5678, "open_trades": 0, "closed_trades": 34, "wins": 21, "win_rate": 0.6176, "total_pnl": 48.97, "today_pnl_pct": 0.0, "circuit_breaker_active": false, "sharpe": 1.05, "max_drawdown_pct": 0.0055, "confidence_threshold": 0.62}
+    {
+      "signal_id": "P33",
+      "symbol": "EURCHF",
+      "health": "running",
+      "open_trades": 0,
+      "closed_trades": 84,
+      "wins": 46,
+      "win_rate": 0.5476,
+      "sharpe": 5.0633
+    },
+    {
+      "signal_id": "P44",
+      "symbol": "USDJPY",
+      "health": "running",
+      "open_trades": 1,
+      "closed_trades": 215,
+      "wins": 95,
+      "win_rate": 0.4419,
+      "sharpe": 3.8461
+    },
+    {
+      "signal_id": "P21",
+      "symbol": "XAUUSD",
+      "health": "running",
+      "open_trades": 0,
+      "closed_trades": 168,
+      "wins": 92,
+      "win_rate": 0.5476,
+      "sharpe": 2.2892
+    },
+    {
+      "signal_id": "P15",
+      "symbol": "XAUUSD",
+      "health": "running",
+      "open_trades": 0,
+      "closed_trades": 225,
+      "wins": 126,
+      "win_rate": 0.56,
+      "sharpe": 2.0284
+    },
+    {
+      "signal_id": "P23",
+      "symbol": "XAUUSD",
+      "health": "running",
+      "open_trades": 0,
+      "closed_trades": 168,
+      "wins": 92,
+      "win_rate": 0.5476,
+      "sharpe": 1.3137
+    },
+    {
+      "signal_id": "P1",
+      "symbol": "EURUSD",
+      "health": "running",
+      "open_trades": 3,
+      "closed_trades": 298,
+      "wins": 117,
+      "win_rate": 0.3926,
+      "sharpe": 1.1994
+    },
+    {
+      "signal_id": "P22",
+      "symbol": "XAUUSD",
+      "health": "running",
+      "open_trades": 0,
+      "closed_trades": 79,
+      "wins": 41,
+      "win_rate": 0.519,
+      "sharpe": 1.0979
+    },
+    {
+      "signal_id": "P45",
+      "symbol": "NZDUSD",
+      "health": "running",
+      "open_trades": 2,
+      "closed_trades": 204,
+      "wins": 67,
+      "win_rate": 0.3284,
+      "sharpe": 0.8055
+    },
+    {
+      "signal_id": "P31",
+      "symbol": "AUDNZD",
+      "health": "running",
+      "open_trades": 0,
+      "closed_trades": 134,
+      "wins": 60,
+      "win_rate": 0.4478,
+      "sharpe": 0.744
+    },
+    {
+      "signal_id": "P43",
+      "symbol": "EURUSD",
+      "health": "running",
+      "open_trades": 0,
+      "closed_trades": 129,
+      "wins": 47,
+      "win_rate": 0.3643,
+      "sharpe": 0.2232
+    },
+    {
+      "signal_id": "P48",
+      "symbol": "GBPUSD",
+      "health": "running",
+      "open_trades": 3,
+      "closed_trades": 352,
+      "wins": 127,
+      "win_rate": 0.3608,
+      "sharpe": -0.2912
+    },
+    {
+      "signal_id": "P47",
+      "symbol": "AUDUSD",
+      "health": "running",
+      "open_trades": 0,
+      "closed_trades": 143,
+      "wins": 51,
+      "win_rate": 0.3566,
+      "sharpe": -1.3739
+    }
   ],
   "recent_trades": [
-    {"signal_id": "P45", "symbol": "NZDUSD", "direction": "BUY", "entry_time": "2026-05-31T14:05:08Z", "exit_time": "2026-05-31T18:05:12Z", "pnl": 6.80, "pnl_pct": 0.00068},
-    {"signal_id": "P1", "symbol": "EURUSD", "direction": "BUY", "entry_time": "2026-05-31T12:05:04Z", "exit_time": "2026-05-31T17:05:09Z", "pnl": 12.40, "pnl_pct": 0.00124},
-    {"signal_id": "P21", "symbol": "XAUUSD", "direction": "BUY", "entry_time": "2026-05-31T06:05:02Z", "exit_time": "2026-05-31T16:05:08Z", "pnl": 45.20, "pnl_pct": 0.00452},
-    {"signal_id": "P43", "symbol": "EURUSD", "direction": "BUY", "entry_time": "2026-05-31T10:05:06Z", "exit_time": "2026-05-31T15:05:11Z", "pnl": 15.30, "pnl_pct": 0.00153},
-    {"signal_id": "P14", "symbol": "GBPCAD", "direction": "SELL", "entry_time": "2026-05-31T08:05:03Z", "exit_time": "2026-05-31T14:05:07Z", "pnl": 8.90, "pnl_pct": 0.00089},
-    {"signal_id": "P36", "symbol": "EURGBP", "direction": "SELL", "entry_time": "2026-05-31T06:05:01Z", "exit_time": "2026-05-31T12:05:05Z", "pnl": -31.20, "pnl_pct": -0.00312},
-    {"signal_id": "P5", "symbol": "GBPAUD", "direction": "BUY", "entry_time": "2026-05-30T22:05:08Z", "exit_time": "2026-05-31T10:05:04Z", "pnl": 14.60, "pnl_pct": 0.00146},
-    {"signal_id": "P22", "symbol": "XAUUSD", "direction": "BUY", "entry_time": "2026-05-30T18:05:05Z", "exit_time": "2026-05-31T08:05:02Z", "pnl": 38.70, "pnl_pct": 0.00387},
-    {"signal_id": "P44", "symbol": "USDJPY", "direction": "SELL", "entry_time": "2026-05-30T16:05:04Z", "exit_time": "2026-05-31T06:05:01Z", "pnl": 11.20, "pnl_pct": 0.00112},
-    {"signal_id": "P32", "symbol": "GBPCAD", "direction": "BUY", "entry_time": "2026-05-30T14:05:03Z", "exit_time": "2026-05-31T04:05:08Z", "pnl": 7.40, "pnl_pct": 0.00074}
+    {
+      "signal_id": "P15",
+      "symbol": "XAUUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-30T19:35:44.863154+00:00",
+      "exit_time": "2026-10-30T20:05:10.510031+00:00",
+      "entry_price": 3876.81,
+      "exit_price": 3882.79,
+      "pnl_pct": -5.98
+    },
+    {
+      "signal_id": "P15",
+      "symbol": "XAUUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-30T19:32:25.097703+00:00",
+      "exit_time": "2026-10-30T20:05:10.500412+00:00",
+      "entry_price": 3876.07,
+      "exit_price": 3882.79,
+      "pnl_pct": -6.72
+    },
+    {
+      "signal_id": "P44",
+      "symbol": "USDJPY",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T17:05:08.490156+00:00",
+      "exit_time": "2026-10-30T19:32:24.164002+00:00",
+      "entry_price": 156.945,
+      "exit_price": 157.512,
+      "pnl_pct": -0.567
+    },
+    {
+      "signal_id": "P48",
+      "symbol": "GBPUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T15:05:08.000690+00:00",
+      "exit_time": "2026-10-30T19:32:23.258906+00:00",
+      "entry_price": 1.33815,
+      "exit_price": 1.33947,
+      "pnl_pct": -0.132
+    },
+    {
+      "signal_id": "P48",
+      "symbol": "GBPUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T14:05:07.995006+00:00",
+      "exit_time": "2026-10-30T19:32:23.248222+00:00",
+      "entry_price": 1.33722,
+      "exit_price": 1.33947,
+      "pnl_pct": -0.225
+    },
+    {
+      "signal_id": "P48",
+      "symbol": "GBPUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T08:05:08.793708+00:00",
+      "exit_time": "2026-10-30T19:32:23.239317+00:00",
+      "entry_price": 1.33769,
+      "exit_price": 1.33947,
+      "pnl_pct": -0.178
+    },
+    {
+      "signal_id": "P47",
+      "symbol": "AUDUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T19:05:07.276392+00:00",
+      "exit_time": "2026-10-30T19:32:22.592185+00:00",
+      "entry_price": 0.70365,
+      "exit_price": 0.70294,
+      "pnl_pct": 0.071
+    },
+    {
+      "signal_id": "P47",
+      "symbol": "AUDUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T15:05:07.338653+00:00",
+      "exit_time": "2026-10-30T19:32:22.580736+00:00",
+      "entry_price": 0.70306,
+      "exit_price": 0.70294,
+      "pnl_pct": 0.012
+    },
+    {
+      "signal_id": "P47",
+      "symbol": "AUDUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T13:05:07.252367+00:00",
+      "exit_time": "2026-10-30T19:32:22.568582+00:00",
+      "entry_price": 0.70264,
+      "exit_price": 0.70294,
+      "pnl_pct": -0.03
+    },
+    {
+      "signal_id": "P43",
+      "symbol": "EURUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T20:05:06.709528+00:00",
+      "exit_time": "2026-10-30T19:32:21.922443+00:00",
+      "entry_price": 1.11933,
+      "exit_price": 1.11662,
+      "pnl_pct": 0.271
+    },
+    {
+      "signal_id": "P43",
+      "symbol": "EURUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-22T16:05:07.391378+00:00",
+      "exit_time": "2026-10-30T19:32:21.911055+00:00",
+      "entry_price": 1.12128,
+      "exit_price": 1.11662,
+      "pnl_pct": 0.466
+    },
+    {
+      "signal_id": "P33",
+      "symbol": "EURCHF",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T20:05:06.166311+00:00",
+      "exit_time": "2026-10-30T19:32:21.380826+00:00",
+      "entry_price": 0.92364,
+      "exit_price": 0.92007,
+      "pnl_pct": 0.357
+    },
+    {
+      "signal_id": "P1",
+      "symbol": "EURUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T10:05:05.742922+00:00",
+      "exit_time": "2026-10-30T19:32:20.877683+00:00",
+      "entry_price": 1.12016,
+      "exit_price": 1.11662,
+      "pnl_pct": 0.354
+    },
+    {
+      "signal_id": "P1",
+      "symbol": "EURUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T09:05:16.664968+00:00",
+      "exit_time": "2026-10-30T19:32:20.864560+00:00",
+      "entry_price": 1.11927,
+      "exit_price": 1.11662,
+      "pnl_pct": 0.265
+    },
+    {
+      "signal_id": "P1",
+      "symbol": "EURUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-22T20:05:06.456076+00:00",
+      "exit_time": "2026-10-30T19:32:20.852636+00:00",
+      "entry_price": 1.12141,
+      "exit_price": 1.11662,
+      "pnl_pct": 0.479
+    },
+    {
+      "signal_id": "P45",
+      "symbol": "NZDUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T04:05:03.505463+00:00",
+      "exit_time": "2026-10-30T19:32:17.074573+00:00",
+      "entry_price": 0.56957,
+      "exit_price": 0.56315,
+      "pnl_pct": 0.642
+    },
+    {
+      "signal_id": "P45",
+      "symbol": "NZDUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T03:05:03.490137+00:00",
+      "exit_time": "2026-10-30T19:32:17.061758+00:00",
+      "entry_price": 0.56946,
+      "exit_price": 0.56315,
+      "pnl_pct": 0.631
+    },
+    {
+      "signal_id": "P45",
+      "symbol": "NZDUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-22T03:05:03.195599+00:00",
+      "exit_time": "2026-10-30T19:32:17.051668+00:00",
+      "entry_price": 0.5694,
+      "exit_price": 0.56315,
+      "pnl_pct": 0.625
+    },
+    {
+      "signal_id": "P23",
+      "symbol": "XAUUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T19:05:09.131559+00:00",
+      "exit_time": "2026-10-23T20:05:09.105010+00:00",
+      "entry_price": 3997.16,
+      "exit_price": 3998.1,
+      "pnl_pct": -0.94
+    },
+    {
+      "signal_id": "P21",
+      "symbol": "XAUUSD",
+      "direction": "SELL",
+      "entry_time": "2026-10-23T19:05:08.772666+00:00",
+      "exit_time": "2026-10-23T20:05:08.807887+00:00",
+      "entry_price": 3997.16,
+      "exit_price": 3998.08,
+      "pnl_pct": -0.92
+    }
   ]
 }
