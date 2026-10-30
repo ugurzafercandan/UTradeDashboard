@@ -1,18 +1,21 @@
 {
-  "generated_at": "2026-10-30T20:25:15Z",
+  "generated_at": "2026-10-30T20:26:10Z",
   "source": "paper_trading.db",
   "data_start": "2026-07-01",
   "system_health": "running",
   "system": {
     "mt5_running": true,
     "processes": 1,
-    "last_db_entry": "2026-10-30T20:05:10Z",
+    "last_cycle_end": "2026-10-30T13:05:10",
     "stale": false
   },
   "portfolio": {
     "total_signals": 12,
+    "active_signals": 12,
+    "halted_signals": 0,
     "total_open_positions": 9,
-    "total_closed_trades": 2199
+    "total_closed_trades": 2199,
+    "total_pnl": 0
   },
   "algos": [
     {
@@ -23,7 +26,12 @@
       "closed_trades": 84,
       "wins": 46,
       "win_rate": 0.5476,
-      "sharpe": 5.0633
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 0.04322,
+      "sharpe": 5.0633,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P44",
@@ -33,7 +41,12 @@
       "closed_trades": 215,
       "wins": 95,
       "win_rate": 0.4419,
-      "sharpe": 3.8461
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 0.08033,
+      "sharpe": 3.8461,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P21",
@@ -43,7 +56,12 @@
       "closed_trades": 168,
       "wins": 92,
       "win_rate": 0.5476,
-      "sharpe": 2.2892
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 1.4009,
+      "sharpe": 2.2892,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P15",
@@ -53,7 +71,12 @@
       "closed_trades": 225,
       "wins": 126,
       "win_rate": 0.56,
-      "sharpe": 2.0284
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 1.6615,
+      "sharpe": 2.0284,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P23",
@@ -63,7 +86,12 @@
       "closed_trades": 168,
       "wins": 92,
       "win_rate": 0.5476,
-      "sharpe": 1.3137
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 0.7501,
+      "sharpe": 1.3137,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P1",
@@ -73,7 +101,12 @@
       "closed_trades": 298,
       "wins": 117,
       "win_rate": 0.3926,
-      "sharpe": 1.1994
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 0.04282,
+      "sharpe": 1.1994,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P22",
@@ -83,7 +116,12 @@
       "closed_trades": 79,
       "wins": 41,
       "win_rate": 0.519,
-      "sharpe": 1.0979
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 0.2821,
+      "sharpe": 1.0979,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P45",
@@ -93,7 +131,12 @@
       "closed_trades": 204,
       "wins": 67,
       "win_rate": 0.3284,
-      "sharpe": 0.8055
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 0.02183,
+      "sharpe": 0.8055,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P31",
@@ -103,7 +146,12 @@
       "closed_trades": 134,
       "wins": 60,
       "win_rate": 0.4478,
-      "sharpe": 0.744
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 0.01418,
+      "sharpe": 0.744,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P43",
@@ -113,7 +161,12 @@
       "closed_trades": 129,
       "wins": 47,
       "win_rate": 0.3643,
-      "sharpe": 0.2232
+      "total_pnl": 0,
+      "cumulative_pnl_pct": 0.00364,
+      "sharpe": 0.2232,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P48",
@@ -123,7 +176,12 @@
       "closed_trades": 352,
       "wins": 127,
       "win_rate": 0.3608,
-      "sharpe": -0.2912
+      "total_pnl": 0,
+      "cumulative_pnl_pct": -0.01278,
+      "sharpe": -0.2912,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     },
     {
       "signal_id": "P47",
@@ -133,7 +191,12 @@
       "closed_trades": 143,
       "wins": 51,
       "win_rate": 0.3566,
-      "sharpe": -1.3739
+      "total_pnl": 0,
+      "cumulative_pnl_pct": -0.0162,
+      "sharpe": -1.3739,
+      "max_drawdown_pct": null,
+      "today_pnl_pct": 0,
+      "last_inference": null
     }
   ],
   "recent_trades": [
@@ -145,7 +208,8 @@
       "exit_time": "2026-10-30T20:05:10.510031+00:00",
       "entry_price": 3876.81,
       "exit_price": 3882.79,
-      "pnl_pct": -5.98
+      "pnl": 0,
+      "pnl_pct": -0.0598
     },
     {
       "signal_id": "P15",
@@ -155,7 +219,8 @@
       "exit_time": "2026-10-30T20:05:10.500412+00:00",
       "entry_price": 3876.07,
       "exit_price": 3882.79,
-      "pnl_pct": -6.72
+      "pnl": 0,
+      "pnl_pct": -0.0672
     },
     {
       "signal_id": "P44",
@@ -165,7 +230,8 @@
       "exit_time": "2026-10-30T19:32:24.164002+00:00",
       "entry_price": 156.945,
       "exit_price": 157.512,
-      "pnl_pct": -0.567
+      "pnl": 0,
+      "pnl_pct": -0.00567
     },
     {
       "signal_id": "P48",
@@ -175,7 +241,8 @@
       "exit_time": "2026-10-30T19:32:23.258906+00:00",
       "entry_price": 1.33815,
       "exit_price": 1.33947,
-      "pnl_pct": -0.132
+      "pnl": 0,
+      "pnl_pct": -0.00132
     },
     {
       "signal_id": "P48",
@@ -185,7 +252,8 @@
       "exit_time": "2026-10-30T19:32:23.248222+00:00",
       "entry_price": 1.33722,
       "exit_price": 1.33947,
-      "pnl_pct": -0.225
+      "pnl": 0,
+      "pnl_pct": -0.00225
     },
     {
       "signal_id": "P48",
@@ -195,7 +263,8 @@
       "exit_time": "2026-10-30T19:32:23.239317+00:00",
       "entry_price": 1.33769,
       "exit_price": 1.33947,
-      "pnl_pct": -0.178
+      "pnl": 0,
+      "pnl_pct": -0.00178
     },
     {
       "signal_id": "P47",
@@ -205,7 +274,8 @@
       "exit_time": "2026-10-30T19:32:22.592185+00:00",
       "entry_price": 0.70365,
       "exit_price": 0.70294,
-      "pnl_pct": 0.071
+      "pnl": 0,
+      "pnl_pct": 0.00071
     },
     {
       "signal_id": "P47",
@@ -215,7 +285,8 @@
       "exit_time": "2026-10-30T19:32:22.580736+00:00",
       "entry_price": 0.70306,
       "exit_price": 0.70294,
-      "pnl_pct": 0.012
+      "pnl": 0,
+      "pnl_pct": 0.00012
     },
     {
       "signal_id": "P47",
@@ -225,7 +296,8 @@
       "exit_time": "2026-10-30T19:32:22.568582+00:00",
       "entry_price": 0.70264,
       "exit_price": 0.70294,
-      "pnl_pct": -0.03
+      "pnl": 0,
+      "pnl_pct": -0.0003
     },
     {
       "signal_id": "P43",
@@ -235,7 +307,8 @@
       "exit_time": "2026-10-30T19:32:21.922443+00:00",
       "entry_price": 1.11933,
       "exit_price": 1.11662,
-      "pnl_pct": 0.271
+      "pnl": 0,
+      "pnl_pct": 0.00271
     },
     {
       "signal_id": "P43",
@@ -245,7 +318,8 @@
       "exit_time": "2026-10-30T19:32:21.911055+00:00",
       "entry_price": 1.12128,
       "exit_price": 1.11662,
-      "pnl_pct": 0.466
+      "pnl": 0,
+      "pnl_pct": 0.00466
     },
     {
       "signal_id": "P33",
@@ -255,7 +329,8 @@
       "exit_time": "2026-10-30T19:32:21.380826+00:00",
       "entry_price": 0.92364,
       "exit_price": 0.92007,
-      "pnl_pct": 0.357
+      "pnl": 0,
+      "pnl_pct": 0.00357
     },
     {
       "signal_id": "P1",
@@ -265,7 +340,8 @@
       "exit_time": "2026-10-30T19:32:20.877683+00:00",
       "entry_price": 1.12016,
       "exit_price": 1.11662,
-      "pnl_pct": 0.354
+      "pnl": 0,
+      "pnl_pct": 0.00354
     },
     {
       "signal_id": "P1",
@@ -275,7 +351,8 @@
       "exit_time": "2026-10-30T19:32:20.864560+00:00",
       "entry_price": 1.11927,
       "exit_price": 1.11662,
-      "pnl_pct": 0.265
+      "pnl": 0,
+      "pnl_pct": 0.00265
     },
     {
       "signal_id": "P1",
@@ -285,7 +362,8 @@
       "exit_time": "2026-10-30T19:32:20.852636+00:00",
       "entry_price": 1.12141,
       "exit_price": 1.11662,
-      "pnl_pct": 0.479
+      "pnl": 0,
+      "pnl_pct": 0.00479
     },
     {
       "signal_id": "P45",
@@ -295,7 +373,8 @@
       "exit_time": "2026-10-30T19:32:17.074573+00:00",
       "entry_price": 0.56957,
       "exit_price": 0.56315,
-      "pnl_pct": 0.642
+      "pnl": 0,
+      "pnl_pct": 0.00642
     },
     {
       "signal_id": "P45",
@@ -305,7 +384,8 @@
       "exit_time": "2026-10-30T19:32:17.061758+00:00",
       "entry_price": 0.56946,
       "exit_price": 0.56315,
-      "pnl_pct": 0.631
+      "pnl": 0,
+      "pnl_pct": 0.00631
     },
     {
       "signal_id": "P45",
@@ -315,7 +395,8 @@
       "exit_time": "2026-10-30T19:32:17.051668+00:00",
       "entry_price": 0.5694,
       "exit_price": 0.56315,
-      "pnl_pct": 0.625
+      "pnl": 0,
+      "pnl_pct": 0.00625
     },
     {
       "signal_id": "P23",
@@ -325,7 +406,8 @@
       "exit_time": "2026-10-23T20:05:09.105010+00:00",
       "entry_price": 3997.16,
       "exit_price": 3998.1,
-      "pnl_pct": -0.94
+      "pnl": 0,
+      "pnl_pct": -0.0094
     },
     {
       "signal_id": "P21",
@@ -335,7 +417,8 @@
       "exit_time": "2026-10-23T20:05:08.807887+00:00",
       "entry_price": 3997.16,
       "exit_price": 3998.08,
-      "pnl_pct": -0.92
+      "pnl": 0,
+      "pnl_pct": -0.0092
     }
   ]
 }
