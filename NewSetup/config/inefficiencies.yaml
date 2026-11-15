@@ -1,0 +1,959 @@
+# NewSetup - 40 supply chain inefficiencies
+# Generated from SCI Supply Chain Inefficiency Trading Playbook v1.0 (UGT-5 attachment)
+- id: 1
+  name: Helium
+  concentration: US 40%, Qatar 25%
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - LIN.US
+    - APD.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 1
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: US BLM plant shutdown, Qatar disruption
+    threshold: GDELT score >0.7
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+  - id: 1
+    category: ENERGY_MINING
+    trigger_type: PRICE
+    condition: Helium spot price spike
+    threshold: '>20% in 30 days'
+    data_source: Quandl
+    scan_freq: Daily
+- id: 2
+  name: Antimony
+  concentration: China 48%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    etf:
+    - REMX.US
+    equity: []
+  trade_type: Forex + ETF
+  triggers:
+  - id: 2
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: China export restriction announcement
+    threshold: GDELT theme match
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+  - id: 2
+    category: ENERGY_MINING
+    trigger_type: PRICE
+    condition: USDCNH move >1.5% in session
+    threshold: FX rate
+    data_source: MT5
+    scan_freq: Real-time
+- id: 3
+  name: Gallium/Germanium
+  concentration: China 80%/60%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    etf:
+    - REMX.US
+    - SOXX.US
+    equity:
+    - INTC.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 3
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: China Ga/Ge export ban/quota
+    threshold: GDELT theme match
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+  - id: 3
+    category: ENERGY_MINING
+    trigger_type: PRICE
+    condition: SOXX drop >3% intraday
+    threshold: ETF price
+    data_source: MT5
+    scan_freq: Real-time
+  - id: 3
+    category: ENERGY_MINING
+    trigger_type: DATA
+    condition: Ga/Ge inventory drawdown
+    threshold: <3 months supply
+    data_source: USGS
+    scan_freq: Monthly
+- id: 4
+  name: Graphite
+  concentration: China 65%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    - AUDUSD
+    etf: []
+    equity: []
+  trade_type: Forex
+  triggers:
+  - id: 4
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: China graphite export controls
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 4
+    category: ENERGY_MINING
+    trigger_type: SENTIMENT
+    condition: Negative EV battery supply sentiment
+    threshold: FinBERT <-0.5
+    data_source: News
+    scan_freq: Hourly
+- id: 5
+  name: Manganese
+  concentration: S.Africa 28%, Gabon 23%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDZAR
+    etf: []
+    equity:
+    - BHP.US
+  trade_type: Forex + Equity
+  triggers:
+  - id: 5
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: S.Africa/Gabon mining disruption
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 5
+    category: ENERGY_MINING
+    trigger_type: PRICE
+    condition: USDZAR spike >2% in 24h
+    threshold: FX rate
+    data_source: MT5
+    scan_freq: Real-time
+- id: 6
+  name: Fluorspar
+  concentration: China 64%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    etf: []
+    equity:
+    - VALE.US
+  trade_type: Forex + Equity
+  triggers:
+  - id: 6
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: China fluoride chemical restriction
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+- id: 7
+  name: Phosphate Rock
+  concentration: Morocco 70% (reserves)
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf:
+    - MOS.US
+    equity:
+    - MOS.US
+    - NTR.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 7
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: Morocco political event, OCP disruption
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 7
+    category: ENERGY_MINING
+    trigger_type: PRICE
+    condition: DAP fertilizer price >$600/t
+    threshold: ''
+    data_source: Quandl
+    scan_freq: Daily
+- id: 8
+  name: Rare Earth Refining
+  concentration: China 90%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    - AUDUSD
+    etf:
+    - REMX.US
+    equity:
+    - MP.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 8
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: China RE export ban/processing halt
+    threshold: GDELT score >0.8
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+  - id: 8
+    category: ENERGY_MINING
+    trigger_type: DATA
+    condition: USGS RE import dependency change
+    threshold: '>80% import reliance'
+    data_source: USGS
+    scan_freq: Monthly
+  - id: 8
+    category: ENERGY_MINING
+    trigger_type: PRICE
+    condition: REMX gap up/down >5%
+    threshold: ETF price
+    data_source: MT5
+    scan_freq: Real-time
+- id: 9
+  name: Cobalt
+  concentration: DRC 74%
+  instruments:
+    direct_cfd:
+    - COPPER
+    forex:
+    - USDCNH
+    etf: []
+    equity: []
+  trade_type: Forex + Commodity
+  triggers:
+  - id: 9
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: DRC mining accident, export halt
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 9
+    category: ENERGY_MINING
+    trigger_type: PRICE
+    condition: Cobalt LME price spike >15% in 30d
+    threshold: ''
+    data_source: LME
+    scan_freq: Daily
+- id: 10
+  name: Uranium Enrichment
+  concentration: Russia 35-40%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCAD
+    etf:
+    - URA.US
+    equity:
+    - CCJ.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 10
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: Russia enrichment disruption, Kazakh revolt
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 10
+    category: ENERGY_MINING
+    trigger_type: PRICE
+    condition: URA ETF breakout above 52-week high
+    threshold: ETF price
+    data_source: MT5
+    scan_freq: Daily
+  - id: 10
+    category: ENERGY_MINING
+    trigger_type: DATA
+    condition: US uranium inventory <1 year reserve
+    threshold: ''
+    data_source: FRED / EIA
+    scan_freq: Monthly
+- id: 11
+  name: Titanium Sponge
+  concentration: China 55%, Japan 19%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    - USDJPY
+    etf: []
+    equity: []
+  trade_type: Forex
+  triggers:
+  - id: 11
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: Russia/China titanium supply cut
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+- id: 12
+  name: Magnesium
+  concentration: China 87%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    etf: []
+    equity:
+    - VALE.US
+  trade_type: Forex + Equity
+  triggers:
+  - id: 12
+    category: ENERGY_MINING
+    trigger_type: EVENT
+    condition: China magnesium production cut / env. shutdown
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+- id: 13
+  name: Potash
+  concentration: Canada 31%, Russia 20%, Belarus 18%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCAD
+    etf: []
+    equity:
+    - NTR.US
+    - MOS.US
+  trade_type: Forex + Equity
+  triggers:
+  - id: 13
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Russia/Belarus sanction escalation
+    threshold: GDELT score >0.7
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 13
+    category: FOOD_SHIPPING
+    trigger_type: PRICE
+    condition: Potash spot >$400/t
+    threshold: ''
+    data_source: Quandl
+    scan_freq: Daily
+- id: 14
+  name: Seed Genetics
+  concentration: Top 4 = 60%+
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - DE.US
+    - CTVA.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 14
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Major crop failure / IP dispute
+    threshold: GDELT theme match
+    data_source: GDELT + RSS
+    scan_freq: Hourly
+- id: 15
+  name: Pollination
+  concentration: California 80% (US almonds)
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - DAR.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 15
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: California bee colony collapse report
+    threshold: ''
+    data_source: RSS + USDA
+    scan_freq: Weekly
+- id: 16
+  name: Refrigerant Gases
+  concentration: China 60%
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    etf: []
+    equity:
+    - HON.US
+    - CARR.US
+  trade_type: Forex + Equity
+  triggers:
+  - id: 16
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: China HFC quota announcement
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+- id: 17
+  name: Container Imbalance
+  concentration: Asia-West 70% vol
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - ZIM.US
+    - MATX.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 17
+    category: FOOD_SHIPPING
+    trigger_type: PRICE
+    condition: SCFI freight index >3000
+    threshold: ''
+    data_source: Quandl / RSS
+    scan_freq: Daily
+  - id: 17
+    category: FOOD_SHIPPING
+    trigger_type: DATA
+    condition: Port congestion >15 ships waiting
+    threshold: ''
+    data_source: MarineTraffic
+    scan_freq: Hourly
+- id: 18
+  name: Panama Canal
+  concentration: 5% global trade
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - ZIM.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 18
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Water level critical / transit restrictions
+    threshold: ''
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+  - id: 18
+    category: FOOD_SHIPPING
+    trigger_type: DATA
+    condition: Daily transits <24 (vs normal 36)
+    threshold: ''
+    data_source: ACP reports
+    scan_freq: Daily
+- id: 19
+  name: Red Sea / Suez
+  concentration: 12-15% global trade
+  instruments:
+    direct_cfd:
+    - XTIUSD
+    forex:
+    - USDNOK
+    - USDCAD
+    etf: []
+    equity:
+    - STNG.US
+    - FRO.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 19
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Houthi attack, strait closure threat
+    threshold: GDELT score >0.8
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 19
+    category: FOOD_SHIPPING
+    trigger_type: PRICE
+    condition: Crude oil spike >5% intraday
+    threshold: ''
+    data_source: MT5
+    scan_freq: Real-time
+  - id: 19
+    category: FOOD_SHIPPING
+    trigger_type: DATA
+    condition: Suez transit count drop >30%
+    threshold: ''
+    data_source: MarineTraffic
+    scan_freq: Daily
+- id: 20
+  name: Vanilla
+  concentration: Madagascar 80%
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity: []
+  trade_type: No trade (illiquid)
+  triggers:
+  - id: 20
+    category: FOOD_SHIPPING
+    trigger_type: —
+    condition: No tradeable instrument
+    threshold: —
+    data_source: —
+    scan_freq: —
+- id: 21
+  name: Palm Oil
+  concentration: Indonesia 58%, Malaysia 25%
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity: []
+  trade_type: 'Proxy: `SOYBEAN` ✓'
+  triggers:
+  - id: 21
+    category: FOOD_SHIPPING
+    trigger_type: PRICE
+    condition: Palm oil futures spike >10% in 30d
+    threshold: ''
+    data_source: Quandl
+    scan_freq: Daily
+  - id: 21
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Indonesia export ban
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+- id: 22
+  name: Fishmeal
+  concentration: Peru 25%, Chile 15%
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - MOWI.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 22
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Peru El Niño anchovy ban
+    threshold: ''
+    data_source: GDELT + RSS
+    scan_freq: Weekly
+- id: 23
+  name: Cocoa
+  concentration: Ivory Coast 38%, Ghana 17%
+  instruments:
+    direct_cfd:
+    - COCOA
+    forex: []
+    etf: []
+    equity: []
+  trade_type: Commodity CFD
+  triggers:
+  - id: 23
+    category: FOOD_SHIPPING
+    trigger_type: PRICE
+    condition: Cocoa CFD >15% above 200-DMA
+    threshold: ''
+    data_source: MT5
+    scan_freq: Daily
+  - id: 23
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Ivory Coast supply shock / weather
+    threshold: ''
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+- id: 24
+  name: Natural Rubber
+  concentration: Thailand 33%, Indonesia 26%
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity: []
+  trade_type: 'Proxy: `USDJPY` ✓'
+  triggers:
+  - id: 24
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Thailand flood / Indonesia disruption
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+- id: 25
+  name: Bauxite/Alumina
+  concentration: Australia 28%, Guinea 22%
+  instruments:
+    direct_cfd:
+    - ALUMINIUM
+    forex:
+    - AUDUSD
+    etf: []
+    equity:
+    - AA.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 25
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Guinea coup / Australia mine closure
+    threshold: GDELT score >0.7
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 25
+    category: FOOD_SHIPPING
+    trigger_type: PRICE
+    condition: Aluminium LME spike >8% in 30d
+    threshold: ''
+    data_source: MT5
+    scan_freq: Daily
+- id: 26
+  name: Wheat Chokepoints
+  concentration: Black Sea 30% exports
+  instruments:
+    direct_cfd:
+    - WHEAT
+    forex:
+    - USDTRY
+    etf: []
+    equity:
+    - ADM.US
+    - BG.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 26
+    category: FOOD_SHIPPING
+    trigger_type: EVENT
+    condition: Black Sea corridor collapse
+    threshold: GDELT score >0.8
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 26
+    category: FOOD_SHIPPING
+    trigger_type: PRICE
+    condition: Wheat CFD breakout above 52-wk high
+    threshold: ''
+    data_source: MT5
+    scan_freq: Daily
+- id: 27
+  name: Undersea Cables
+  concentration: 3 companies = 90%+
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - TE.US
+    - NOK.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 27
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Cable cut (SEA-ME-WE, etc.)
+    threshold: GDELT theme match
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+- id: 28
+  name: ASML Monopoly
+  concentration: ASML 100% (EUV)
+  instruments:
+    direct_cfd: []
+    forex:
+    - EURUSD
+    etf:
+    - SOXX.US
+    equity:
+    - ASML.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 28
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Dutch export restriction, ASML guidance
+    threshold: ''
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+  - id: 28
+    category: TECH_INFRA
+    trigger_type: PRICE
+    condition: ASML.US gap down >5%
+    threshold: ''
+    data_source: MT5
+    scan_freq: Real-time
+- id: 29
+  name: TSMC Concentration
+  concentration: TSMC 90% (adv. chips)
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf:
+    - SOXX.US
+    equity:
+    - TSM.US
+  trade_type: Equity + ETF
+  triggers:
+  - id: 29
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Taiwan Strait military activity
+    threshold: GDELT score >0.8
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 29
+    category: TECH_INFRA
+    trigger_type: PRICE
+    condition: TSM.US drop >7% in session
+    threshold: ''
+    data_source: MT5
+    scan_freq: Real-time
+- id: 30
+  name: Neon Gas
+  concentration: Ukraine was 50%+
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf:
+    - SOXX.US
+    equity: []
+  trade_type: ETF CFD
+  triggers:
+  - id: 30
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Ukraine conflict escalation near Odesa
+    threshold: GDELT theme match
+    data_source: GDELT
+    scan_freq: 15 min
+- id: 31
+  name: Ultra-Pure Water
+  concentration: US/Japan dominance
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDJPY
+    etf: []
+    equity:
+    - DHR.US
+  trade_type: Forex + Equity
+  triggers:
+  - id: 31
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Japan semiconductor fab disruption
+    threshold: ''
+    data_source: GDELT + RSS
+    scan_freq: Hourly
+- id: 32
+  name: SWIFT System
+  concentration: Global monopoly
+  instruments:
+    direct_cfd: []
+    forex:
+    - EURUSD
+    etf: []
+    equity: []
+  trade_type: Forex (event only)
+  triggers:
+  - id: 32
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Country disconnected from SWIFT
+    threshold: GDELT score >0.9
+    data_source: GDELT
+    scan_freq: 15 min
+- id: 33
+  name: GPS/GNSS
+  concentration: US GPS + EU Galileo
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - LMT.US
+    - RTX.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 33
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: GPS spoofing/jamming mass event
+    threshold: ''
+    data_source: GDELT + RSS
+    scan_freq: 15 min
+- id: 34
+  name: Power Transformers
+  concentration: 3 companies = 75%
+  instruments:
+    direct_cfd: []
+    forex:
+    - EURUSD
+    etf: []
+    equity:
+    - ETN.US
+    - CLF.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 34
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Grid failure, transformer shortage report
+    threshold: ''
+    data_source: GDELT + RSS
+    scan_freq: Hourly
+  - id: 34
+    category: TECH_INFRA
+    trigger_type: DATA
+    condition: US transformer backlog >3 years
+    threshold: ''
+    data_source: DOE/RSS
+    scan_freq: Monthly
+- id: 35
+  name: HVDC Converters
+  concentration: 4 companies = 85%
+  instruments:
+    direct_cfd: []
+    forex:
+    - EURSEK
+    etf: []
+    equity:
+    - ABB.US
+  trade_type: Forex + Equity
+  triggers:
+  - id: 35
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Major HVDC project delay/cancellation
+    threshold: ''
+    data_source: RSS
+    scan_freq: Weekly
+- id: 36
+  name: Skilled Labor
+  concentration: US/EU/Japan constrained
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity: []
+  trade_type: Macro indicator only
+  triggers:
+  - id: 36
+    category: TECH_INFRA
+    trigger_type: DATA
+    condition: Manufacturing PMI employment <48
+    threshold: ''
+    data_source: FRED
+    scan_freq: Monthly
+- id: 37
+  name: Cloud Concentration
+  concentration: AWS 31%, Azure 25%, GCP 11%
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf:
+    - QQQ.US
+    equity:
+    - AMZN.US
+    - MSFT.US
+    - GOOGL.US
+  trade_type: Equity + ETF
+  triggers:
+  - id: 37
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: AWS/Azure major outage >4 hours
+    threshold: ''
+    data_source: RSS + GDELT
+    scan_freq: 15 min
+- id: 38
+  name: Copper
+  concentration: Chile 24%, DRC 12%, Peru 10%
+  instruments:
+    direct_cfd:
+    - COPPER
+    forex:
+    - AUDUSD
+    etf:
+    - COPX.US
+    equity:
+    - FCX.US
+    - SCCO.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 38
+    category: TECH_INFRA
+    trigger_type: PRICE
+    condition: Copper CFD breakout above $5.00/lb
+    threshold: ''
+    data_source: MT5
+    scan_freq: Real-time
+  - id: 38
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Chile/Peru/DRC mine disruption
+    threshold: GDELT score >0.7
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 38
+    category: TECH_INFRA
+    trigger_type: DATA
+    condition: LME copper inventory <150,000t
+    threshold: ''
+    data_source: Quandl
+    scan_freq: Daily
+- id: 39
+  name: Sand
+  concentration: Localized markets
+  instruments:
+    direct_cfd: []
+    forex: []
+    etf: []
+    equity:
+    - VMC.US
+    - MLM.US
+  trade_type: Equity CFD
+  triggers:
+  - id: 39
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: Regional sand mining ban
+    threshold: ''
+    data_source: GDELT + RSS
+    scan_freq: Weekly
+- id: 40
+  name: Polysilicon
+  concentration: China 80%+
+  instruments:
+    direct_cfd: []
+    forex:
+    - USDCNH
+    etf:
+    - TAN.US
+    equity:
+    - ENPH.US
+  trade_type: Multi-instrument
+  triggers:
+  - id: 40
+    category: TECH_INFRA
+    trigger_type: EVENT
+    condition: China polysilicon factory accident / power cut
+    threshold: ''
+    data_source: GDELT
+    scan_freq: 15 min
+  - id: 40
+    category: TECH_INFRA
+    trigger_type: PRICE
+    condition: TAN ETF move >5% intraday
+    threshold: ''
+    data_source: MT5
+    scan_freq: Real-time

@@ -1,0 +1,70 @@
+# NewSetup - global strategy parameters
+# Source: Supply Chain Inefficiency Trading Playbook v1.0 (moderate model defaults)
+
+general:
+  name: "NewSetup"
+  broker: "Pepperstone (Razor, MT5)"
+  mode: "paper"            # paper | backtest | live
+  timezone: "UTC"
+
+risk:
+  risk_per_trade_pct: 0.5      # fixed fractional (Formula 1, default)
+  max_open_positions: 7        # conservative band 3-7
+  max_daily_loss_pct: 2.0      # halt new entries for the day
+  max_sector_exposure_pct: 20  # of equity per correlation sector
+  max_portfolio_heat_pct: 3.0  # total open risk
+  max_margin_used_pct: 25
+  drawdown_breakers:           # Appendix D circuit breakers
+    pause_pct: 5.0             # pause new entries 24h
+    halt_week_pct: 8.0         # halt for the week
+    full_halt_pct: 12.0        # full stop + manual review
+  correlation:
+    max_avg: 0.5
+    hard_pair_limit: 0.7       # never hold two instruments correlated above this
+
+sizing:
+  method: "fixed_fractional"   # fixed_fractional | atr_volatility | half_kelly | correlation_adjusted
+  atr_mult_sl: 2.0             # stop = entry -/+ atr(14) * mult
+  reward_risk: 2.0             # take profit = R multiple
+  min_lot: 0.01
+  lot_step: 0.01
+
+layer1:
+  scan_interval_minutes: 15
+  event_score_threshold: 0.7   # GDELT goldstein/theme score
+  price_spike_pct_24h: 2.0     # generic FX spike trigger
+  price_spike_pct_30d: 15.0    # generic commodity 30d spike
+
+layer2:
+  min_score: 0.6               # confirmation score required (0-1)
+  rsi_period: 14
+  rsi_oversold: 30
+  rsi_overbought: 70
+  sma_fast: 50
+  sma_slow: 200
+  min_history_bars: 210
+  sentiment_threshold: -0.5    # FinBERT score needed to support SHORT-side thesis
+
+layer3:
+  max_positions_per_inefficiency: 1
+
+backtest:
+  acceptance:                  # Phase 5.3 hard criteria (moderate model)
+    min_trades: 30
+    max_drawdown_pct: 12.0
+    min_sharpe: 1.0
+    min_win_rate_pct: 48.0
+    min_profit_factor: 1.3
+  walk_forward:
+    train_bars: 500
+    test_bars: 125
+    wfer_min: 0.5              # out-of-sample sharpe / in-sample sharpe
+
+paper_trading:
+  starting_balance: 10000.0
+  spread_pct: 0.02             # simulated spread cost, % of price
+
+paths:
+  signals_file: "active_signals.json"
+  logs_dir: "logs"
+  results_dir: "backtest/results"

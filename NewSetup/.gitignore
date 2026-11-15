@@ -1,0 +1,7 @@
+logs/*.log
+active_signals.json
+backtest/results/*.json
+__pycache__/
+*.pyc
+.pytest_cache/
+db/*.db

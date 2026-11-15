@@ -1,0 +1,67 @@
+# NewSetup - Pepperstone instrument map (tradeable on platform)
+# Generated from playbook section 3.1
+equity:
+- AA.US
+- ABB.US
+- ADM.US
+- AMZN.US
+- APD.US
+- ASML.US
+- BG.US
+- BHP.US
+- CARR.US
+- CCJ.US
+- CLF.US
+- CTVA.US
+- DAR.US
+- DE.US
+- DHR.US
+- ENPH.US
+- ETN.US
+- FCX.US
+- FRO.US
+- GOOGL.US
+- HON.US
+- INTC.US
+- LIN.US
+- LMT.US
+- MATX.US
+- MLM.US
+- MOS.US
+- MOWI.US
+- MP.US
+- MSFT.US
+- NOK.US
+- NTR.US
+- RTX.US
+- SCCO.US
+- STNG.US
+- TE.US
+- TSM.US
+- VALE.US
+- VMC.US
+- ZIM.US
+forex:
+- AUDUSD
+- EURSEK
+- EURUSD
+- USDCAD
+- USDCNH
+- USDJPY
+- USDNOK
+- USDTRY
+- USDZAR
+etf:
+- COPX.US
+- MOS.US
+- QQQ.US
+- REMX.US
+- SOXX.US
+- TAN.US
+- URA.US
+direct_cfd:
+- ALUMINIUM
+- COCOA
+- COPPER
+- WHEAT
+- XTIUSD

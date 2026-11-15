@@ -1,0 +1,175 @@
+"""Layer 1: Inefficiency Scanner (playbook 4.1).
+
+Scans all 40 inefficiencies' trigger conditions against pluggable data
+providers and emits raw signals. Providers are injected so the same
+scanner serves live (GDELT/MT5), paper and backtest (fixtures/replay)
+environments.
+"""
+
+from __future__ import annotations
+
+from datetime import timedelta
+from typing import Protocol
+
+from newsetup.config import load_inefficiencies, load_settings
+from newsetup.models import (Event, Inefficiency, PriceBar, RawSignal,
+                             utcnow)
+
+
+class EventProvider(Protocol):
+    def get_events(self, since_hours: int = 24) -> list[Event]: ...
+
+
+class PriceProvider(Protocol):
+    def get_series(self, symbol: str, lookback_days: int = 250) -> list[PriceBar]: ...
+
+
+class SentimentProvider(Protocol):
+    def latest_for_theme(self, theme: str) -> float | None: ...
+
+
+class Layer1Scanner:
+    def __init__(
+        self,
+        event_provider: EventProvider,
+        price_provider: PriceProvider,
+        sentiment_provider: SentimentProvider | None = None,
+        inefficiencies: list[Inefficiency] | None = None,
+        settings: dict | None = None,
+    ):
+        self.events = event_provider
+        self.prices = price_provider
+        self.sentiment = sentiment_provider
+        self.inefficiencies = inefficiencies or load_inefficiencies()
+        self.settings = settings or load_settings()
+        cfg = self.settings["layer1"]
+        self.event_score_threshold = cfg["event_score_threshold"]
+        self.spike_24h = cfg["price_spike_pct_24h"]
+        self.spike_30d = cfg["price_spike_pct_30d"]
+
+    # ------------------------------------------------------------------
+    def scan_all(self) -> list[RawSignal]:
+        """Run every inefficiency's triggers. Returns raw signals."""
+        signals: list[RawSignal] = []
+        for ineff in self.inefficiencies:
+            signals.extend(self.scan_inefficiency(ineff))
+        return signals
+
+    def scan_inefficiency(self, ineff: Inefficiency) -> list[RawSignal]:
+        signals: list[RawSignal] = []
+        symbol = ineff.primary_symbol()
+        if not symbol or ineff.trade_type.startswith("No trade"):
+            return signals
+        for trigger in ineff.triggers:
+            sig = self._evaluate(trigger, ineff, symbol)
+            if sig is not None:
+                signals.append(sig)
+                break  # one signal per inefficiency per scan
+        return signals
+
+    # ------------------------------------------------------------------
+    def _evaluate(self, trigger, ineff: Inefficiency, symbol: str) -> RawSignal | None:
+        handler = {
+            "EVENT": self._eval_event,
+            "PRICE": self._eval_price,
+            "SENTIMENT": self._eval_sentiment,
+            "DATA": self._eval_data,
+        }.get(trigger.trigger_type.upper())
+        if handler is None:
+            return None
+        return handler(trigger, ineff, symbol)
+
+    def _eval_event(self, trigger, ineff, symbol) -> RawSignal | None:
+        events = self.events.get_events(since_hours=24)
+        keywords = self._keywords(ineff)
+        for ev in events:
+            if ev.score < self.event_score_threshold and abs(ev.goldstein_score) < 5:
+                continue
+            text = ev.headline.lower()
+            if any(k in text for k in keywords):
+                # negative-goldstein / disruption news -> long the proxy
+                direction = "BUY" if self._is_supply_shock(text, ev) else "SELL"
+                return RawSignal(
+                    inefficiency_id=ineff.id,
+                    inefficiency_name=ineff.name,
+                    instrument=symbol,
+                    direction=direction,
+                    trigger_type="EVENT",
+                    trigger_description=f"{ev.headline} (score={ev.score:.2f})",
+                    confidence=min(0.95, 0.5 + abs(ev.goldstein_score) / 20.0 + ev.score / 4.0),
+                )
+        return None
+
+    def _eval_price(self, trigger, ineff, symbol) -> RawSignal | None:
+        bars = self.prices.get_series(symbol, lookback_days=250)
+        if not bars or len(bars) < 2:
+            return None
+        closes = [b.close for b in bars]
+        chg_24h = self._pct(closes, 1)
+        chg_30d = self._pct(closes, min(30, len(closes) - 1))
+        for chg in (chg_24h, chg_30d):
+            if chg is None:
+                continue
+            if chg <= -self.spike_24h:
+                return self._price_signal(ineff, symbol, "BUY", chg)
+            if chg >= self.spike_24h:
+                return self._price_signal(ineff, symbol, "SELL", chg)
+        if chg_30d is not None and abs(chg_30d) >= self.spike_30d:
+            return self._price_signal(ineff, symbol, "SELL" if chg_30d > 0 else "BUY", chg_30d)
+        return None
+
+    def _price_signal(self, ineff, symbol, direction, chg) -> RawSignal:
+        return RawSignal(
+            inefficiency_id=ineff.id,
+            inefficiency_name=ineff.name,
+            instrument=symbol,
+            direction=direction,
+            trigger_type="PRICE",
+            trigger_description=f"{symbol} move {chg:+.2f}% (threshold {self.spike_24h}%)",
+            confidence=0.6,
+        )
+
+    def _eval_sentiment(self, trigger, ineff, symbol) -> RawSignal | None:
+        if self.sentiment is None:
+            return None
+        score = self.sentiment.latest_for_theme(ineff.name.lower())
+        if score is None:
+            return None
+        if score <= self.settings["layer2"]["sentiment_threshold"]:
+            return RawSignal(
+                inefficiency_id=ineff.id,
+                inefficiency_name=ineff.name,
+                instrument=symbol,
+                direction="BUY",   # negative supply sentiment -> long proxy/short consumer
+                trigger_type="SENTIMENT",
+                trigger_description=f"Sentiment {score:.2f} for {ineff.name}",
+                confidence=0.55,
+            )
+        return None
+
+    def _eval_data(self, trigger, ineff, symbol) -> RawSignal | None:
+        # Structured-data triggers (USGS, MarineTraffic, inventories) are
+        # scheduled jobs in the full system; the scanner surfaces them via
+        # the event provider as synthetic events.
+        return None
+
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _keywords(ineff: Inefficiency) -> list[str]:
+        base = [w.lower() for w in ineff.name.replace("/", " ").split()]
+        extras = ["export ban", "restriction", "sanction", "disruption", "shutdown",
+                  "mine strike", "coup", "closure", "earthquake", "flood"]
+        return base + extras
+
+    @staticmethod
+    def _is_supply_shock(text: str, ev: Event) -> bool:
+        shock_words = ("ban", "restriction", "strike", "shutdown", "coup",
+                       "closure", "attack", "war", "sanction", "disruption",
+                       "earthquake", "flood", "halt")
+        return any(w in text for w in shock_words) or ev.goldstein_score < 0
+
+    @staticmethod
+    def _pct(closes: list[float], lookback: int) -> float | None:
+        if len(closes) < lookback + 1 or closes[-lookback - 1] == 0:
+            return None
+        return (closes[-1] / closes[-lookback - 1] - 1.0) * 100.0

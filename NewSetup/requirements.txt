@@ -1,0 +1,14 @@
+# NewSetup - core (already installed on this host via C:\Python314)
+pyyaml>=6.0
+pytest>=8.0
+
+# Live data / ML stack (Phase 2 onward - install when needed)
+# MetaTrader5>=5.0.45        # MT5 bridge (Windows, terminal installed)
+# transformers>=4.40        # FinBERT sentiment
+# torch>=2.2
+# pandas>=2.2
+# requests>=2.31
+# schedule>=1.2             # scheduler loop (main.py --loop)
+# APScheduler>=3.10         # production scheduler
+# loguru>=0.7
+# feedparser>=6.0           # RSS
