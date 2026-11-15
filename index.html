@@ -293,6 +293,7 @@ function toggleResearchNote(el) {
   <button data-tab="competition" onclick="showTab('competition')">Competition</button>
   <button data-tab="creacho" onclick="showTab('creacho')">CReachO Analysis</button>
   <button data-tab="reports" onclick="showTab('reports')">Published Reports</button>
+  <button data-tab="docs" onclick="showTab('docs')">Docs &amp; Methods</button>
   <button data-tab="architecture" onclick="showTab('architecture')">Architecture</button>
   <button data-tab="mt5-backtests" onclick="showTab('mt5-backtests')" style="color:#a78bfa">MT5 Backtests</button>
   <button data-tab="open-orders" onclick="showTab('open-orders')" style="color:#f59e0b">Live Trading</button>
@@ -6402,6 +6403,78 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
     </script>
   </div>
 
+
+  <!-- ── DOCS & METHODS ── -->
+  <div class="section" id="tab-docs">
+    <div class="section-title">Docs &amp; Methods</div>
+    <div class="section-desc">Key documents and methods from the repository, rendered live from their markdown sources in the GitHub repo (no stale copies). Click any document to expand. If a file is not yet published to GitHub Pages, a direct GitHub link is shown instead.</div>
+
+    <!-- Methods summary cards (mirrors the README "Methods" section) -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">AlgoSignal Lab — ML Signal Research</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">
+          <strong style="color:#fff">Models:</strong> XGBoost, LightGBM, CatBoost, Random Forest, Logistic Regression.<br>
+          <strong style="color:#fff">Features:</strong> technical indicators, momentum ranks, Garman-Klass volatility; feature sets evolved 45 &rarr; Enhanced65 (production standard) &rarr; research100 (86 features).<br>
+          <strong style="color:#fff">Labeling:</strong> simple directional, triple-barrier, volatility-adjusted thresholds.<br>
+          <strong style="color:#fff">Timeframe:</strong> H1 bars; lookforward windows 30/60/120/240 bars.<br>
+          <strong style="color:#fff">Validation:</strong> 8-fold walk-forward (2021&ndash;2024) with QC gates; 28,000+ experiments across waves A&ndash;G.<br>
+          <strong style="color:#fff">Production:</strong> 22 signals of 81 candidates live paper trading via MT5; results flow through <code>update_frontend.py</code> into this dashboard.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">NewSetup — 3-Layer SCI Trading Environment</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">
+          <strong style="color:#fff">Signal pipeline:</strong> layer-1 scanner (40 inefficiencies, EVENT/PRICE/SENTIMENT/DATA triggers over GDELT, RSS, MT5, FinBERT) &rarr; layer-2 confirmation (RSI/SMA/sentiment score) &rarr; layer-3 portfolio sizing (0.5% risk, ATR stops, exposure caps) &rarr; signal bus &rarr; execution (paper broker, risk enforcer, MT5 bridge).<br>
+          <strong style="color:#fff">Backtesting &amp; gates:</strong> event-driven runner, analyzer with acceptance gate (&ge;30 trades, DD &le;12%, Sharpe &ge;1.0, WR &ge;48%, PF &ge;1.3), walk-forward optimizer (WFER &ge; 0.5), A/B scaffold with t-test gating.<br>
+          <strong style="color:#fff">Monitoring:</strong> signal-quality funnel tracking, automated degradation ladder (ok &rarr; reduce_size &rarr; paused &rarr; retired), daily reports, alerting.<br>
+          <strong style="color:#fff">Safety:</strong> paper mode by default; live MT5 execution gated on phase 3/4 acceptance criteria; Appendix D risk limits enforced in code.
+        </div>
+      </div>
+    </div>
+
+    <div id="docs-container"></div>
+
+    <script id="docs-data" type="application/json">
+    [
+      {"id": "doc-readme", "title": "README — Master Index of Key Documents & Methods", "path": "README.md", "tag": "Master index", "summary": "Root README: master index of all key documents, raw data files, and the Methods section for both AlgoSignal Lab and NewSetup."},
+      {"id": "doc-system-analysis", "title": "Trading System Analysis — AlgoSignal Lab", "path": "trading_system_analysis.md", "tag": "Full analysis", "summary": "Full analysis of the AlgoSignal Lab ML pipeline: models, features, labeling methods, 8-fold walk-forward validation, QC gates, the P-series production portfolio, experiment waves, and live P&L."},
+      {"id": "doc-newsetup-readme", "title": "NewSetup — SCI Testing & Trading Environment", "path": "NewSetup/README.md", "tag": "Environment", "summary": "README of the NewSetup SCI (Supply Chain Inefficiency) testing and trading environment: modules, pipeline, configuration, and running instructions."},
+      {"id": "doc-playbook", "title": "SCI Trading Playbook v1.0 — Spec", "path": "NewSetup/docs/sci_playbook_v1.md", "tag": "Specification", "summary": "The full SCI Trading Playbook v1.0 specification: scanner inefficiencies, confirmation and sizing layers, backtest gates, risk limits, degradation detection, and appendices A–D."},
+      {"id": "doc-validation", "title": "Backtest Harness Validation Report", "path": "NewSetup/backtest/results/validation_report.md", "tag": "Validation", "summary": "Validation of the NewSetup backtest harness: event-window methodology, acceptance gates, and harness correctness checks."},
+      {"id": "doc-event-backtests", "title": "Real-Data Event-Window Backtests", "path": "NewSetup/backtest/results/realdata_event_backtests.md", "tag": "Backtests", "summary": "Event-window backtests run on real historical data: per-event performance, gate outcomes, and aggregate statistics."}
+    ]
+    </script>
+
+    <script>
+    (function() {
+      var docs = JSON.parse(document.getElementById('docs-data').textContent);
+      var container = document.getElementById('docs-container');
+      var GH_BASE = 'https://github.com/ugurzafercandan/UTradeDashboard/blob/main/';
+      docs.forEach(function(d) {
+        var card = document.createElement('div');
+        card.className = 'report-card';
+        card.innerHTML = '<div class="report-header" onclick="toggleReport(this)"><h3>' + d.title +
+          '<span class="report-tag-date">' + d.tag + '</span></h3><span class="report-toggle">▼</span></div>' +
+          '<div class="report-summary">' + d.summary + '</div>' +
+          '<div class="report-body"><div class="md-content" id="rendered-' + d.id +
+          '"><div style="color:var(--muted);font-size:12px;padding:16px 0">Loading document from repo…</div></div></div>';
+        container.appendChild(card);
+        fetch(d.path).then(function(r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
+        }).then(function(md) {
+          document.getElementById('rendered-' + d.id).innerHTML = marked.parse(md);
+        }).catch(function(e) {
+          document.getElementById('rendered-' + d.id).innerHTML =
+            '<p style="color:var(--muted)">Could not load <code>' + d.path + '</code> from the live site (' + e.message + '). ' +
+            'The file may not be published to GitHub Pages yet — read it directly on GitHub: ' +
+            '<a href="' + GH_BASE + d.path + '" target="_blank" rel="noopener" style="color:var(--accent)">' + GH_BASE + d.path + '</a></p>';
+        });
+      });
+    })();
+    </script>
+  </div>
 
   <!-- ── ARCHITECTURE ── -->
   <div class="section" id="tab-architecture">
