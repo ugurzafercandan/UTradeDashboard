@@ -1,0 +1,80 @@
+INFO:newsetup.wf_evaluate:A/B on holdout 2025-01-01..2026-11-13
+INFO:newsetup.wf_evaluate:A/B decision: keep_baseline
+INFO:newsetup.wf_evaluate:tuned playbook window re-runs
+INFO:newsetup.wf_evaluate:holdout acceptance runs
+INFO:newsetup.wf_evaluate:structural diagnostics
+{
+  "ab_holdout": {
+    "baseline": "baseline",
+    "candidate": "tuned",
+    "baseline_metrics": {
+      "total_trades": 112,
+      "win_rate_pct": 23.214285714285715,
+      "profit_factor": 0.6368464195756832,
+      "expectancy_r": -0.26606811001418545,
+      "sharpe": -0.19327956586550124,
+      "sortino": -0.26021826852252433,
+      "max_drawdown_pct": 1.6439441378101536,
+      "total_return_pct": -1.4835468683759956,
+      "avg_win": 10.006272005169233,
+      "avg_loss": 4.750206499674418
+    },
+    "candidate_metrics": {
+      "total_trades": 68,
+      "win_rate_pct": 19.11764705882353,
+      "profit_factor": 0.495898889302745,
+      "expectancy_r": -0.40060076128788263,
+      "sharpe": -0.17055964733990253,
+      "sortino": -0.23564375383310243,
+      "max_drawdown_pct": 1.5436850343623314,
+      "total_return_pct": -1.4219888928459712,
+      "avg_win": 10.760397950076923,
+      "avg_loss": 5.128801138829091
+    },
+    "fold_sharpes": [
+      {
+        "fold": 0,
+        "baseline_sharpe": 0.0,
+        "candidate_sharpe": 0.0,
+        "baseline_trades": 0,
+        "candidate_trades": 0
+      },
+      {
+        "fold": 1,
+        "baseline_sharpe": 0.0,
+        "candidate_sharpe": 0.0,
+        "baseline_trades": 0,
+        "candidate_trades": 0
+      },
+      {
+        "fold": 2,
+        "baseline_sharpe": 0.0,
+        "candidate_sharpe": 0.0,
+        "baseline_trades": 0,
+        "candidate_trades": 0
+      },
+      {
+        "fold": 3,
+        "baseline_sharpe": 0.0,
+        "candidate_sharpe": 0.0,
+        "baseline_trades": 0,
+        "candidate_trades": 0
+      }
+    ],
+    "mean_diff": 0.0,
+    "t_stat": 0.0,
+    "p_value": 1.0,
+    "folds": 4,
+    "decision": "keep_baseline",
+    "notes": [
+      "candidate mean fold Sharpe not above baseline"
+    ]
+  },
+  "holdout": {
+    "window": "2025-01-01..2026-11-13",
+    "raw_signals": 2507,
+    "baseline": {
+      "metrics": {
+        "total_trades": 112,
+        "win_rate_pct": 23.214285714285715,
+        "pro

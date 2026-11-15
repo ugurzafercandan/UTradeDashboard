@@ -1,0 +1,23 @@
+2026-11-15 11:57:15,788 INFO newsetup.tune_walk_forward: tuning 1152 combos over 5 folds
+2026-11-15 11:59:15,009 INFO newsetup.tune_walk_forward: fold 2020-01-01: best={'layer2.min_score': 0.5, 'layer2.rsi_period': 7, 'layer2.sma_fast': 20, 'layer2.sma_slow': 200, 'sizing.atr_mult_sl': 3.0, 'sizing.reward_risk': 1.5, 'risk.max_portfolio_heat_pct': 3.0, 'risk.max_sector_exposure_pct': 20.0} train_sharpe=-0.09 test_sharpe=-0.41 test_trades=25
+2026-11-15 12:02:44,136 INFO newsetup.tune_walk_forward: fold 2021-01-01: best={'layer2.min_score': 0.5, 'layer2.rsi_period': 14, 'layer2.sma_fast': 50, 'layer2.sma_slow': 100, 'sizing.atr_mult_sl': 2.0, 'sizing.reward_risk': 3.0, 'risk.max_portfolio_heat_pct': 3.0, 'risk.max_sector_exposure_pct': 20.0} train_sharpe=-0.00 test_sharpe=-0.11 test_trades=35
+2026-11-15 12:07:31,879 INFO newsetup.tune_walk_forward: fold 2022-01-01: best={'layer2.min_score': 0.5, 'layer2.rsi_period': 14, 'layer2.sma_fast': 50, 'layer2.sma_slow': 100, 'sizing.atr_mult_sl': 2.0, 'sizing.reward_risk': 3.0, 'risk.max_portfolio_heat_pct': 3.0, 'risk.max_sector_exposure_pct': 20.0} train_sharpe=-0.05 test_sharpe=-0.18 test_trades=51
+2026-11-15 12:14:32,442 INFO newsetup.tune_walk_forward: fold 2023-01-01: best={'layer2.min_score': 0.5, 'layer2.rsi_period': 7, 'layer2.sma_fast': 50, 'layer2.sma_slow': 100, 'sizing.atr_mult_sl': 3.0, 'sizing.reward_risk': 3.0, 'risk.max_portfolio_heat_pct': 3.0, 'risk.max_sector_exposure_pct': 20.0} train_sharpe=0.04 test_sharpe=-0.14 test_trades=39
+2026-11-15 12:22:05,291 INFO newsetup.tune_walk_forward: fold 2024-01-01: best={'layer2.min_score': 0.5, 'layer2.rsi_period': 7, 'layer2.sma_fast': 50, 'layer2.sma_slow': 100, 'sizing.atr_mult_sl': 3.0, 'sizing.reward_risk': 3.0, 'risk.max_portfolio_heat_pct': 3.0, 'risk.max_sector_exposure_pct': 20.0} train_sharpe=0.08 test_sharpe=0.06 test_trades=34
+{
+  "grid_size": 1152,
+  "mean_train_sharpe": -0.004070738181282997,
+  "mean_test_sharpe": -0.15500686074317943,
+  "wfer": 38.078317455023615,
+  "wfer_gate_passed": false,
+  "final_candidate": {
+    "layer2.min_score": 0.5,
+    "layer2.rsi_period": 7,
+    "layer2.sma_fast": 50,
+    "layer2.sma_slow": 100,
+    "sizing.atr_mult_sl": 3.0,
+    "sizing.reward_risk": 3.0,
+    "risk.max_portfolio_heat_pct": 3.0,
+    "risk.max_sector_exposure_pct": 20.0
+  }
+}
