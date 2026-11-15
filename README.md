@@ -25,8 +25,9 @@ Supply Chain Inefficiency (SCI) trading environment.
 | [trading_system_analysis.md](trading_system_analysis.md) | Full analysis of the AlgoSignal Lab platform: 5 ML models (XGBoost, LightGBM, CatBoost, RF, logistic), feature-set evolution (45 -> Enhanced65 -> research100), labeling methods, 8-fold walk-forward validation (2021-2024), quality gates, production signal portfolio P6-P81 in confidence tiers A/B/C, experiment waves A-G, live forward-testing results and P&L, position-stacking bug fix (USO-408), instrument coverage, infrastructure. |
 | [NewSetup/README.md](NewSetup/README.md) | SCI testing & trading environment: directory layout, 3-layer signal pipeline, usage commands, testing & acceptance gates, signal quality + degradation monitoring, phase status (0-5), safety rules. |
 | [NewSetup/docs/sci_playbook_v1.md](NewSetup/docs/sci_playbook_v1.md) | **Supply Chain Inefficiency Trading Playbook v1.0** — the source spec implemented by NewSetup: thesis, capital plan ($5K -> $15K -> $50K), phase 0-5 plan, instrument map for all 40 inefficiencies, 3-layer signal system, risk rules. Appendices: A (40 trade cards), B (forex strategies), C (event responses), D (risk management). Encoded into `NewSetup/config/*.yaml` by `scripts/generate_playbook_config.py`. |
+| [NewSetup/docs/methods.md](NewSetup/docs/methods.md) | Per-module **methods reference** for NewSetup: data feeds (GDELT / RSS / FinBERT / price providers), 3-layer signal pipeline + signal bus, execution + risk enforcer, backtest & validation gates, monitoring (quality / degradation / alerter / daily report), persistence, CLI usage. |
 | [NewSetup/backtest/results/validation_report.md](NewSetup/backtest/results/validation_report.md) | Honest synthetic-data validation of the NewSetup backtest harness (what passed, what the numbers do and do not prove). |
-| [NewSetup/backtest/results/realdata_event_backtests.md](NewSetup/backtest/results/realdata_event_backtests.md) | Real-data event-window backtests (playbook 5.2): COVID-19 2020, Suez 2021, Russia sanctions 2022, Red Sea 2023-24, China power 2021, with per-event acceptance-gate results. Per-run JSON data sits alongside it. |
+| [NewSetup/backtest/results/realdata_event_backtests.md](NewSetup/backtest/results/realdata_event_backtests.md) | Real-data event-window backtests (playbook 5.2): COVID-19 2020, Suez 2021, Russia sanctions 2022, Red Sea 2023-24, China power 2021, with per-event acceptance-gate results. **CTO's UGT-6 work in progress - not yet in the committed tree**; the link activates once UGT-6 lands. Per-run JSON data is runtime output (gitignored). |
 
 ## Result artifacts (`results/`)
 
@@ -61,7 +62,8 @@ Documented in depth in [trading_system_analysis.md](trading_system_analysis.md):
 ### NewSetup (SCI trading environment)
 
 Documented in depth in [NewSetup/README.md](NewSetup/README.md), spec in
-[NewSetup/docs/sci_playbook_v1.md](NewSetup/docs/sci_playbook_v1.md):
+[NewSetup/docs/sci_playbook_v1.md](NewSetup/docs/sci_playbook_v1.md),
+per-module methods in [NewSetup/docs/methods.md](NewSetup/docs/methods.md):
 
 - **Signal pipeline**: layer-1 scanner (40 inefficiencies, EVENT/PRICE/SENTIMENT/DATA
   triggers over GDELT, RSS, MT5, FinBERT) -> layer-2 confirmation (RSI/SMA/sentiment
@@ -86,6 +88,9 @@ Documented in depth in [NewSetup/README.md](NewSetup/README.md), spec in
 
     # NewSetup: test suite (pytest; pyyaml + pytest required)
     C:/Python314/python.exe -m pytest NewSetup -q
+
+    # NewSetup: regenerate config/*.yaml from the playbook source (Appendices A-C)
+    C:/Python314/python.exe NewSetup/scripts/generate_playbook_config.py
 
     # Dashboard refresh: export live paper trades to results/live_paper_trades.json
     python update_frontend.py

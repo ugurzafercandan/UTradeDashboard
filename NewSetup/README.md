@@ -23,6 +23,8 @@ paper-trading environment before any live deployment.
     ├── main.py            orchestrator: scan -> confirm -> size -> emit -> execute
     └── active_signals.json  Python -> MQL5 signal file (playbook 4.4 format)
 
+Per-module method documentation: [docs/methods.md](docs/methods.md).
+
 ## Signal pipeline (playbook section 4)
 
 1. **Layer 1 — Scanner** (`signals/layer1_scanner.py`): evaluates all 40
@@ -50,6 +52,9 @@ paper-trading environment before any live deployment.
 
     # run the test suite
     C:/Python314/python.exe -m pytest NewSetup -q
+
+    # regenerate config/*.yaml from the playbook source (Appendices A-C)
+    C:/Python314/python.exe NewSetup/scripts/generate_playbook_config.py
 
 ## Testing & acceptance (playbook sections 5, 9)
 

@@ -1,0 +1,18 @@
+# Python bytecode / test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtualenvs
+.venv/
+venv/
+
+# Local secrets
+.env
+
+# NewSetup runtime state (generated, never source-controlled)
+*.sqlite3
+NewSetup/data/caches/
+NewSetup/logs/
+NewSetup/active_signals.json
+NewSetup/backtest/results/*.json
