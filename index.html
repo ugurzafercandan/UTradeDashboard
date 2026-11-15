@@ -6439,11 +6439,7 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
     <script id="docs-data" type="application/json">
     [
       {"id": "doc-readme", "title": "README — Master Index of Key Documents & Methods", "path": "README.md", "tag": "Master index", "summary": "Root README: master index of all key documents, raw data files, and the Methods section for both AlgoSignal Lab and NewSetup."},
-      {"id": "doc-system-analysis", "title": "Trading System Analysis — AlgoSignal Lab", "path": "trading_system_analysis.md", "tag": "Full analysis", "summary": "Full analysis of the AlgoSignal Lab ML pipeline: models, features, labeling methods, 8-fold walk-forward validation, QC gates, the P-series production portfolio, experiment waves, and live P&L."},
-      {"id": "doc-newsetup-readme", "title": "NewSetup — SCI Testing & Trading Environment", "path": "NewSetup/README.md", "tag": "Environment", "summary": "README of the NewSetup SCI (Supply Chain Inefficiency) testing and trading environment: modules, pipeline, configuration, and running instructions."},
-      {"id": "doc-playbook", "title": "SCI Trading Playbook v1.0 — Spec", "path": "NewSetup/docs/sci_playbook_v1.md", "tag": "Specification", "summary": "The full SCI Trading Playbook v1.0 specification: scanner inefficiencies, confirmation and sizing layers, backtest gates, risk limits, degradation detection, and appendices A–D."},
-      {"id": "doc-validation", "title": "Backtest Harness Validation Report", "path": "NewSetup/backtest/results/validation_report.md", "tag": "Validation", "summary": "Validation of the NewSetup backtest harness: event-window methodology, acceptance gates, and harness correctness checks."},
-      {"id": "doc-event-backtests", "title": "Real-Data Event-Window Backtests", "path": "NewSetup/backtest/results/realdata_event_backtests.md", "tag": "Backtests", "summary": "Event-window backtests run on real historical data: per-event performance, gate outcomes, and aggregate statistics."}
+      {"id": "doc-system-analysis", "title": "Trading System Analysis — AlgoSignal Lab", "path": "trading_system_analysis.md", "tag": "Full analysis", "summary": "Full analysis of the AlgoSignal Lab ML pipeline: models, features, labeling methods, 8-fold walk-forward validation, QC gates, the P-series production portfolio, experiment waves, and live P&L."}
     ]
     </script>
 
@@ -6451,6 +6447,53 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
     (function() {
       var docs = JSON.parse(document.getElementById('docs-data').textContent);
       var container = document.getElementById('docs-container');
+      var GH_BASE = 'https://github.com/ugurzafercandan/UTradeDashboard/blob/main/';
+      docs.forEach(function(d) {
+        var card = document.createElement('div');
+        card.className = 'report-card';
+        card.innerHTML = '<div class="report-header" onclick="toggleReport(this)"><h3>' + d.title +
+          '<span class="report-tag-date">' + d.tag + '</span></h3><span class="report-toggle">▼</span></div>' +
+          '<div class="report-summary">' + d.summary + '</div>' +
+          '<div class="report-body"><div class="md-content" id="rendered-' + d.id +
+          '"><div style="color:var(--muted);font-size:12px;padding:16px 0">Loading document from repo…</div></div></div>';
+        container.appendChild(card);
+        fetch(d.path).then(function(r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
+        }).then(function(md) {
+          document.getElementById('rendered-' + d.id).innerHTML = marked.parse(md);
+        }).catch(function(e) {
+          document.getElementById('rendered-' + d.id).innerHTML =
+            '<p style="color:var(--muted)">Could not load <code>' + d.path + '</code> from the live site (' + e.message + '). ' +
+            'The file may not be published to GitHub Pages yet — read it directly on GitHub: ' +
+            '<a href="' + GH_BASE + d.path + '" target="_blank" rel="noopener" style="color:var(--accent)">' + GH_BASE + d.path + '</a></p>';
+        });
+      });
+    })();
+    </script>
+  </div>
+
+  <!-- ── NEWSETUP ── -->
+  <div class="section" id="tab-newsetup">
+    <div class="section-title">NewSetup — SCI Testing &amp; Trading Environment</div>
+    <div class="section-desc">All NewSetup-related documents from the repository, rendered live from their markdown sources (no stale copies). Click any document to expand. If a file is not yet published to GitHub Pages, a direct GitHub link is shown instead.</div>
+
+    <div id="newsetup-container"></div>
+
+    <script id="newsetup-docs-data" type="application/json">
+    [
+      {"id": "ns-readme", "title": "NewSetup — README", "path": "NewSetup/README.md", "tag": "Environment", "summary": "README of the NewSetup SCI (Supply Chain Inefficiency) testing and trading environment: modules, pipeline, configuration, and running instructions."},
+      {"id": "ns-playbook", "title": "SCI Trading Playbook v1.0 — Spec", "path": "NewSetup/docs/sci_playbook_v1.md", "tag": "Specification", "summary": "The full SCI Trading Playbook v1.0 specification: scanner inefficiencies, confirmation and sizing layers, backtest gates, risk limits, degradation detection, and appendices A–D."},
+      {"id": "ns-methods", "title": "Methods Reference — Per-Module Methods", "path": "NewSetup/docs/methods.md", "tag": "Methods", "summary": "Per-module methods reference for the NewSetup environment: scanner, confirmation, sizing, backtest, optimizer, monitoring, and safety methods with parameter defaults."},
+      {"id": "ns-validation", "title": "Backtest Harness Validation Report", "path": "NewSetup/backtest/results/validation_report.md", "tag": "Validation", "summary": "Validation of the NewSetup backtest harness: event-window methodology, acceptance gates, and harness correctness checks."},
+      {"id": "ns-event-backtests", "title": "Real-Data Event-Window Backtests", "path": "NewSetup/backtest/results/realdata_event_backtests.md", "tag": "Backtests", "summary": "Event-window backtests run on real historical data: per-event performance, gate outcomes, and aggregate statistics."}
+    ]
+    </script>
+
+    <script>
+    (function() {
+      var docs = JSON.parse(document.getElementById('newsetup-docs-data').textContent);
+      var container = document.getElementById('newsetup-container');
       var GH_BASE = 'https://github.com/ugurzafercandan/UTradeDashboard/blob/main/';
       docs.forEach(function(d) {
         var card = document.createElement('div');
