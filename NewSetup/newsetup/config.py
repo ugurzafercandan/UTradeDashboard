@@ -31,6 +31,51 @@ def load_instruments() -> dict:
 
 
 @lru_cache(maxsize=1)
+def load_trade_cards() -> dict[int, dict]:
+    """Appendix A: the 40 trade cards, keyed by inefficiency id.
+
+    Join key is the same ``id`` as inefficiencies.yaml; the
+    inefficiencies.yaml schema itself is untouched.
+    """
+    raw = _read_yaml("trade_cards.yaml")
+    return {int(card["id"]): card for card in raw}
+
+
+@lru_cache(maxsize=1)
+def load_fx_strategies() -> list[dict]:
+    """Appendix B: the 6 forex strategy definitions (FX-1..FX-6)."""
+    return _read_yaml("fx_strategies.yaml")
+
+
+@lru_cache(maxsize=1)
+def load_event_responses() -> list[dict]:
+    """Appendix C: the 7 event response playbooks (C.1..C.7)."""
+    return _read_yaml("event_responses.yaml")
+
+
+@lru_cache(maxsize=1)
+def load_gdelt_keywords() -> dict[int, list[str]]:
+    """Per-inefficiency GDELT keyword theming (config/gdelt_keywords.yaml)."""
+    raw = _read_yaml("gdelt_keywords.yaml")
+    return {int(k): list(v) for k, v in raw.items()}
+
+
+def load_broker_map() -> dict:
+    """Verified playbook-symbol -> broker-symbol map (config/broker_map.yaml).
+
+    Returns a flat {playbook_symbol: broker_symbol} dict. Sections in the
+    yaml (fx_metals_commodities, equity) are merged; the section a symbol
+    lives in is irrelevant to consumers.
+    """
+    raw = _read_yaml("broker_map.yaml") or {}
+    flat: dict[str, str] = {}
+    for section in raw.values():
+        if isinstance(section, dict):
+            flat.update(section)
+    return flat
+
+
+@lru_cache(maxsize=1)
 def load_inefficiencies() -> list[Inefficiency]:
     """All 40 inefficiency definitions with triggers, as domain objects."""
     raw = _read_yaml("inefficiencies.yaml")

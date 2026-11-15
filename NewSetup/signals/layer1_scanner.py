@@ -11,7 +11,8 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import Protocol
 
-from newsetup.config import load_inefficiencies, load_settings
+from newsetup.config import (load_gdelt_keywords, load_inefficiencies,
+                             load_settings)
 from newsetup.models import (Event, Inefficiency, PriceBar, RawSignal,
                              utcnow)
 
@@ -42,6 +43,7 @@ class Layer1Scanner:
         self.sentiment = sentiment_provider
         self.inefficiencies = inefficiencies or load_inefficiencies()
         self.settings = settings or load_settings()
+        self.gdelt_keywords = load_gdelt_keywords()   # per-inefficiency theming
         cfg = self.settings["layer1"]
         self.event_score_threshold = cfg["event_score_threshold"]
         self.spike_24h = cfg["price_spike_pct_24h"]
@@ -154,12 +156,24 @@ class Layer1Scanner:
         return None
 
     # ------------------------------------------------------------------
-    @staticmethod
-    def _keywords(ineff: Inefficiency) -> list[str]:
+    def _keywords(self, ineff: Inefficiency) -> list[str]:
+        """GDELT match keywords for one inefficiency.
+
+        Uses the per-inefficiency keyword theming derived from the playbook
+        trade cards (config/gdelt_keywords.yaml) when available, falling back
+        to the generic name + shock-word list.
+        """
+        themed = self.gdelt_keywords.get(ineff.id)
+        if themed:
+            # shared disruption shock-words still apply on top of the theme
+            extras = ["export ban", "restriction", "sanction", "disruption",
+                      "shutdown", "mine strike", "coup", "closure",
+                      "earthquake", "flood"]
+            return list(themed) + extras
         base = [w.lower() for w in ineff.name.replace("/", " ").split()]
-        extras = ["export ban", "restriction", "sanction", "disruption", "shutdown",
-                  "mine strike", "coup", "closure", "earthquake", "flood"]
-        return base + extras
+        return base + ["export ban", "restriction", "sanction", "disruption",
+                       "shutdown", "mine strike", "coup", "closure",
+                       "earthquake", "flood"]
 
     @staticmethod
     def _is_supply_shock(text: str, ev: Event) -> bool:

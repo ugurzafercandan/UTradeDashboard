@@ -41,6 +41,9 @@ equity:
 - VALE.US
 - VMC.US
 - ZIM.US
+- BA.US
+- F.US
+- GM.US
 forex:
 - AUDUSD
 - EURSEK
@@ -51,6 +54,9 @@ forex:
 - USDNOK
 - USDTRY
 - USDZAR
+- AUDJPY
+- CHFJPY
+- USDINR
 etf:
 - COPX.US
 - MOS.US
@@ -65,3 +71,5 @@ direct_cfd:
 - COPPER
 - WHEAT
 - XTIUSD
+- SOYBEAN
+- XAUUSD
