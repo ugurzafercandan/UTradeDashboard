@@ -27,20 +27,42 @@ FIXTURE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 class GDELTMonitor:
     """Layer-1 EVENT data source."""
 
+    # GDELT DOC 2.0 asks for at most one request every 5 seconds; the
+    # scanner evaluates up to 40 inefficiencies per cycle, so live query
+    # results are cached briefly and shared across those evaluations.
+    LIVE_CACHE_TTL = 300  # seconds
+
     def __init__(self, offline: bool = False, timeout: int = 15):
         self.offline = offline
         self.timeout = timeout
         self._cache: list[Event] | None = None
         self._cache_at = None
+        self._live_cache: list[Event] | None = None
+        self._live_cache_at = None
 
     def get_events(self, since_hours: int = 24, keywords: list[str] | None = None) -> list[Event]:
         if self.offline:
             return self._fixture_events()
+        now = utcnow()
+        if (self._live_cache is not None and self._live_cache_at is not None
+                and now - self._live_cache_at
+                < timedelta(seconds=self.LIVE_CACHE_TTL)):
+            return self._live_cache
         try:
-            return self._query_gdelt(keywords or [], since_hours)
+            events = self._query_gdelt(keywords or [], since_hours)
         except Exception as exc:                     # noqa: BLE001 - degrade gracefully
-            log.warning("GDELT query failed (%s); falling back to fixtures", exc)
-            return self._fixture_events()
+            # GDELT DOC 2.0 rate-limits to one request per 5 seconds and
+            # answers with a plain-text notice; retry once after a pause.
+            log.warning("GDELT query failed (%s); retrying once in 6s", exc)
+            import time
+            time.sleep(6)
+            try:
+                events = self._query_gdelt(keywords or [], since_hours)
+            except Exception as exc2:                # noqa: BLE001
+                log.warning("GDELT retry failed (%s); falling back to fixtures", exc2)
+                return self._fixture_events()
+        self._live_cache, self._live_cache_at = events, now
+        return events
 
     # ------------------------------------------------------------------
     def _query_gdelt(self, keywords: list[str], since_hours: int) -> list[Event]:

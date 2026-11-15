@@ -7,6 +7,15 @@ general:
   mode: "paper"            # paper | backtest | live
   timezone: "UTC"
 
+mt5:
+  terminal_path: "C:/Program Files/MT5-Pepperstone/terminal64.exe"  # dedicated Pepperstone terminal (portable)
+  portable: true           # terminal runs in /portable mode: data lives in the install dir
+  login: 61636260          # Pepperstone Razor demo account
+  server: "Pepperstone-Demo"
+  password_env: "PEPPERSTONE_MT5_PASSWORD"  # password never stored in the repo
+  init_timeout_s: 90       # portable terminal cold start can take >60s
+
+
 risk:
   risk_per_trade_pct: 0.5      # fixed fractional (Formula 1, default)
   max_open_positions: 7        # conservative band 3-7

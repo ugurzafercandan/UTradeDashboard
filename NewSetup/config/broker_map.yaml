@@ -1,23 +1,24 @@
 # NewSetup - broker symbol map (playbook symbol -> live broker symbol)
 #
-# Verified against the local MT5 terminal (Alpari-MT5-Demo, account 52920535)
-# on 2026-11-15 via scripts/verify_feeds.py. The playbook instrument names
-# follow Pepperstone's naming; where the connected broker lists the instrument
-# under a different name (or does not offer it), the mapping below records the
-# verified broker symbol.
+# Verified against the dedicated Pepperstone terminal
+# (C:\Program Files\MT5-Pepperstone\terminal64.exe, portable mode,
+# account 61636260 @ Pepperstone-Demo) on 2026-11-15 via scripts/verify_feeds.py.
+# Pepperstone lists commodities under mixed-case contract names and
+# US stocks/ETFs under the same .US tickers as the playbook symbols.
 #
 # Symbols with NO broker mapping (not offered on this terminal):
-#   ALUMINIUM, ABB.US, BHP.US, DAR.US, FRO.US, LIN.US, MATX.US, MOWI.US,
-#   MP.US, NTR.US, STNG.US, VALE.US, ZIM.US, and all .US ETFs
-#   (COPX.US, QQQ.US, REMX.US, SOXX.US, TAN.US, URA.US).
+#   ABB.US, BHP.US, CCJ.US, CLF.US, DAR.US, FRO.US, LIN.US, MATX.US,
+#   MOWI.US, MP.US, NTR.US, REMX.US, SCCO.US, STNG.US, TAN.US, TE.US,
+#   VALE.US, ZIM.US
 
 fx_metals_commodities:
   XAUUSD: XAUUSD
   XAGUSD: XAGUSD
-  XTIUSD: WTI            # WTI crude (broker names the contract "WTI")
-  COPPER: COPPER         # broker cash CFD history starts ~2024-04
-  COCOA: COCOA           # broker cash CFD history starts ~2023-12
-  WHEAT: WHEAT           # broker cash CFD history starts ~2024-04
+  XTIUSD: SpotCrude      # Pepperstone names the WTI cash contract "SpotCrude"
+  COPPER: Copper         # cash CFD, mixed-case broker name
+  COCOA: Cocoa           # cash CFD, mixed-case broker name
+  WHEAT: Wheat           # cash CFD, mixed-case broker name
+  ALUMINIUM: Aluminium   # cash CFD, mixed-case broker name
   USDCNH: USDCNH
   AUDUSD: AUDUSD
   USDZAR: USDZAR
@@ -28,34 +29,38 @@ fx_metals_commodities:
   EURSEK: EURSEK
   USDNOK: USDNOK
 
-# Playbook equity CFDs -> broker "United States Stocks CFD" names.
-# Matching is whitespace/uppercase-normalized, so spacing variants are OK.
+# Playbook equity CFDs -> Pepperstone US share CFDs.
+# Pepperstone lists US stocks/ETFs under the same ticker as the playbook
+# symbol (AAPL.US, COPX.US, ...), so the mapping is identity for these.
 equity:
-  AA.US: ALCOA CORP CFD
-  ADM.US: ARCHER-DANIELS CFD
-  AMZN.US: AMAZON CFD
-  APD.US: AIR PRODS & CHEM CFD
-  ASML.US: ASML HOLDING CFD
-  BG.US: BUNGE LIMITED CFD
-  CARR.US: CARRIER GLOB CFD
-  CCJ.US: CAMECO CORP CFD
-  CLF.US: CLIFFS NAT CFD
-  CTVA.US: CORTEVA CFD
-  DE.US: DEERE & CO CFD
-  DHR.US: DANAHER CFD
-  ENPH.US: ENPHASE ENERGY INC CFD
-  ETN.US: EATON PLC CFD
-  FCX.US: FREEPORT-MCMORAN CFD
-  GOOGL.US: ALPHABET INC-C CFD
-  HON.US: HONEYWELL INTL CFD
-  INTC.US: INTEL CFD
-  LMT.US: LOCKHEED MARTIN CFD
-  MLM.US: MARTIN MAR MTLS CFD
-  MOS.US: MOSAIC CO/THE CFD
-  MSFT.US: MICROSOFT CFD
-  NOK.US: NOKIA OYJ CFD
-  RTX.US: RAYTHEON CO CFD          # broker lists the legacy Raytheon name
-  SCCO.US: SOUTHERN COPPER CFD
-  TE.US: TE CONNECTIVITY CFD
-  TSM.US: TSM CFD
-  VMC.US: VULCAN MATERIALS CFD
+  AA.US: AA.US
+  ADM.US: ADM.US
+  AMZN.US: AMZN.US
+  APD.US: APD.US
+  ASML.US: ASML.US
+  BG.US: BG.US
+  CARR.US: CARR.US
+  CTVA.US: CTVA.US
+  DE.US: DE.US
+  DHR.US: DHR.US
+  ENPH.US: ENPH.US
+  ETN.US: ETN.US
+  FCX.US: FCX.US
+  GOOGL.US: GOOGL.US
+  HON.US: HON.US
+  INTC.US: INTC.US
+  LMT.US: LMT.US
+  MLM.US: MLM.US
+  MOS.US: MOS.US
+  MSFT.US: MSFT.US
+  NOK.US: NOK.US
+  RTX.US: RTX.US
+  TSM.US: TSM.US
+  VMC.US: VMC.US
+
+# Playbook ETF proxies -> Pepperstone ETF CFDs (identity names).
+etf:
+  COPX.US: COPX.US
+  QQQ.US: QQQ.US
+  SOXX.US: SOXX.US
+  URA.US: URA.US

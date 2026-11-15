@@ -88,10 +88,28 @@ Per-module method documentation: [docs/methods.md](docs/methods.md).
 
 - Phase 0 infrastructure: DONE (this scaffold, tests green)
 - Phase 1 instrument mapping: DONE (config/*.yaml generated from playbook 3.1)
-- Phase 2 signal engine: CORE DONE (3 layers + bus; GDELT/FinBERT/MT5 live feeds pending)
-- Phase 3 backtesting: HARNESS DONE (real historical data pending)
+- Phase 2 signal engine: DONE (3 layers + bus; GDELT live + MT5 live feeds wired)
+- Phase 3 backtesting: DONE on real data (D1 bar cache from MT5 terminal;
+  playbook 5.2 event windows replayed, see backtest/results/)
 - Phase 4 paper trading: READY (paper broker + risk enforcer; 4-week rollout pending)
 - Phase 5 live deployment: NOT STARTED (gated on phases 3-4 acceptance)
+
+## Live data feeds (playbook 2.2/2.3)
+
+- **MT5 terminal**: MetaTrader5 5.0.5735 verified against the local
+  terminal (Alpari-MT5-Demo). `execution/mt5_bridge.py` reports
+  `available=True`, account info and symbol availability checks work;
+  config/broker_map.yaml records the verified playbook->broker symbol
+  map (46 of 69 playbook symbols listed; ETFs/ALUMINIUM not offered).
+- **Bar cache**: `data/bar_cache.py` downloads D1 history into
+  `data/caches/<SYMBOL>_D1.csv` (`scripts/download_history.py`); FX
+  majors/metals/energy have ~10y of D1, US stock CFDs from 2021-02,
+  soft-commodity CFDs from 2023-12/2024-04.
+- **GDELT DOC 2.0**: live mode verified (real article events parsed);
+  results cached for 5 minutes (API allows one request per 5s) with a
+  single rate-limit retry, then graceful fixture fallback.
+- **Verification driver**: `scripts/verify_feeds.py` checks all three
+  and prints a JSON report.
 
 ## Safety
 
