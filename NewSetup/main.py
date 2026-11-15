@@ -32,8 +32,11 @@ from data.price_provider import default_price_provider
 from execution.paper_broker import PaperBroker
 from execution.order_manager import OrderManager
 from execution.risk_enforcer import RiskEnforcer
+from db.store import NewSetupDB
 from monitoring.alerter import Alerter
 from monitoring.daily_report import daily_report
+from monitoring.degradation import DegradationDetector
+from monitoring.quality_tracker import SignalQualityTracker
 
 logging.basicConfig(
     level=logging.INFO,
@@ -47,7 +50,8 @@ logging.basicConfig(
 log = logging.getLogger("newsetup.main")
 
 
-def build_pipeline(settings: dict | None = None, offline: bool | None = None):
+def build_pipeline(settings: dict | None = None,
+                    offline: bool | None = None) -> dict:
     settings = settings or load_settings()
     prices = default_price_provider(offline=offline)
     events = GDELTMonitor(offline=offline if offline is not None else prices.__class__.__name__ == "SyntheticPriceProvider")
@@ -61,9 +65,49 @@ def build_pipeline(settings: dict | None = None, offline: bool | None = None):
     risk = RiskEnforcer(settings=settings)
     manager = OrderManager(broker)
     alerter = Alerter()
+    # Persistence + quality tracking (playbook 9.2) + degradation ladder
+    # (9.4), attached when a db_file is configured. No db -> no tracking
+    # (paper cycle still runs, just unrecorded).
+    db_path = settings.get("paths", {}).get("db_file")
+    if db_path:
+        root = os.path.dirname(os.path.abspath(__file__))
+        db = NewSetupDB(os.path.join(root, db_path))
+    else:
+        db = None
+    tracker = SignalQualityTracker(db) if db is not None else None
+    degradation = DegradationDetector(db=db, settings=settings) if db is not None else None
     return dict(scanner=scanner, confirmation=confirmation, portfolio=portfolio,
                 bus=bus, broker=broker, risk=risk, manager=manager, prices=prices,
-                alerter=alerter, settings=settings)
+                alerter=alerter, settings=settings, db=db, tracker=tracker,
+                degradation=degradation, trades_recorded=0)
+
+
+def _apply_degradation_responses(p: dict, confirmed: list) -> list:
+    """Filter paused/retired inefficiencies out and apply size reductions.
+
+    Playbook 9.4 automated responses: 'reduce_size' scales the layer-3
+    lot by the state multiplier; 'paused'/'retired' drop the signal.
+    Returns the list of sized signals AFTER the responses are applied.
+    """
+    degradation = p.get("degradation")
+    sized = p.get("_last_sized", [])
+    if degradation is None or not sized:
+        return sized
+    sizing = p["settings"].get("sizing", {})
+    min_lot = float(sizing.get("min_lot", 0.01))
+    lot_step = float(sizing.get("lot_step", 0.01))
+    out = []
+    for s in sized:
+        iid = s.signal.raw.inefficiency_id
+        if not degradation.is_tradable(iid):
+            log.info("degradation: dropping signal for inefficiency %d "
+                     "(paused/retired)", iid)
+            continue
+        mult = degradation.lot_multiplier(iid)
+        if mult != 1.0:
+            s.lot_size = max(min_lot, round(s.lot_size * mult / lot_step) * lot_step)
+        out.append(s)
+    return out
 
 
 def run_signal_pipeline(p: dict) -> list[dict]:
@@ -78,6 +122,8 @@ def run_signal_pipeline(p: dict) -> list[dict]:
     log.info("Layer 2: %d confirmed signals", len(confirmed))
     sized = p["portfolio"].size_positions(confirmed, p["broker"].account_state,
                                           p["broker"].open_trades, p["prices"])
+    p["_last_sized"] = sized
+    sized = _apply_degradation_responses(p, confirmed)
     log.info("Layer 3: %d sized positions", len(sized))
     emitted = p["bus"].emit(sized)
     for s in sized:
@@ -89,6 +135,22 @@ def run_signal_pipeline(p: dict) -> list[dict]:
             p["broker"].on_bar(s.signal.raw.instrument, b)
     for level, msg in p["broker"].pop_alerts() if hasattr(p["broker"], "pop_alerts") else []:
         p["alerter"].alert(level, msg)
+    # Persist the funnel + closed trades (playbook 9.2), then run the
+    # rolling degradation checks with automated responses (playbook 9.4).
+    if p.get("tracker") is not None:
+        already = p.get("trades_recorded", 0)
+        closed = list(p["broker"].closed_trades)[already:]
+        p["tracker"].record_cycle(raw, confirmed, sized, closed)
+        p["trades_recorded"] = already + len(closed)
+        p["tracker"].refresh()
+    if p.get("degradation") is not None:
+        escalations = p["degradation"].check_and_respond(
+            list(p["broker"].closed_trades))
+        for a in escalations:
+            p["alerter"].alert(
+                "critical",
+                f"DEGRADATION #{a.inefficiency_id} {a.from_level} -> "
+                f"{a.to_level}: {'; '.join(a.reasons)}")
     return emitted
 
 
@@ -97,8 +159,17 @@ def main() -> int:
     ap.add_argument("--once", action="store_true", help="run one pipeline cycle")
     ap.add_argument("--loop", action="store_true", help="run scheduled loop")
     ap.add_argument("--report", action="store_true", help="print daily report")
+    ap.add_argument("--validate", action="store_true",
+                    help="run synthetic harness validation and write the"
+                         " validation report (backtest/results/validation_report.md)")
     ap.add_argument("--offline", action="store_true", help="force offline providers")
     args = ap.parse_args()
+
+    if args.validate:
+        from backtest.validation import write_validation_report
+        path = write_validation_report()
+        print(f"validation report written to {path}")
+        return 0
 
     offline = args.offline or None
     p = build_pipeline(offline=offline)

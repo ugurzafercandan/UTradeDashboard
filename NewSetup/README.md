@@ -15,8 +15,10 @@ paper-trading environment before any live deployment.
     ├── signals/           layer1_scanner, layer2_confirmation, layer3_portfolio, signal_bus
     ├── execution/         paper broker, order manager, MT5 bridge, risk enforcer
     ├── backtest/          runner, analyzer (Sharpe/DD/win-rate), walk-forward optimizer
-    ├── monitoring/        alerter (Telegram-capable), daily report
-    ├── db/                SQLite schema (signals, trades, signal_quality)
+    ├── monitoring/        alerter, daily report, signal quality (9.2),
+    │                      degradation detection (9.4)
+    ├── db/                SQLite schema + store (signals, trades,
+    │                      signal_quality, degradation_state)
     ├── tests/             pytest suite (signals, execution, risk, backtest, data)
     ├── main.py            orchestrator: scan -> confirm -> size -> emit -> execute
     └── active_signals.json  Python -> MQL5 signal file (playbook 4.4 format)
@@ -58,6 +60,24 @@ paper-trading environment before any live deployment.
   win rate >=48%, PF >=1.3.
 - `backtest/walk_forward.py` — sliding-window optimizer with
   walk-forward efficiency ratio (OOS/IS Sharpe >= 0.5).
+- `backtest/ab_testing.py` — A/B scaffold (playbook 9.5): paired per-fold
+  variant comparison with t-test gating before any candidate adoption.
+- `backtest/validation.py` — synthetic-data harness validation; renders
+  the honest validation report (`main.py --validate`).
+
+## Signal quality & degradation (playbook section 9)
+
+- `monitoring/quality_tracker.py` (9.2) — persists the funnel (fired /
+  confirmed / traded / won / gross PnL) and aggregates the monthly
+  `signal_quality` rows in SQLite (`db/store.py`).
+- `monitoring/degradation.py` (9.4) — rolling 30-day win-rate and Sharpe
+  checks per inefficiency with the automated ladder
+  ok -> reduce_size (0.5x) -> paused -> retired; state persists in the
+  `degradation_state` table and the paper pipeline applies the
+  responses to sizing.
+- `backtest/ab_testing.py` (9.5) — candidate variants are compared on
+  shared data; "adopt_candidate" additionally requires passing the 5.3
+  acceptance gate and 5.5 walk-forward on out-of-sample REAL data.
 
 ## Phase status (playbook phases)
 

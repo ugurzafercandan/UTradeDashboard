@@ -18,11 +18,15 @@ _PARENT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _PARENT not in sys.path:
     sys.path.insert(0, _PARENT)
 
+from .ab_testing import ABTestFramework, ABTestResult, ABVariant
 from .analyzer import BacktestAnalyzer
 from .runner import BacktestResult, BacktestRunner, InMemoryPrices
 from .walk_forward import WalkForwardOptimizer
 
 __all__ = [
+    "ABTestFramework",
+    "ABTestResult",
+    "ABVariant",
     "BacktestAnalyzer",
     "BacktestResult",
     "BacktestRunner",

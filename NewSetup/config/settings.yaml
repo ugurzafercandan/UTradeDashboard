@@ -64,7 +64,22 @@ paper_trading:
   starting_balance: 10000.0
   spread_pct: 0.02             # simulated spread cost, % of price
 
+monitoring:                     # playbook section 9
+  signal_quality:               # 9.2 per-inefficiency monthly funnel
+    db_file: "db/newsetup.sqlite3"
+  degradation:                  # 9.4 rolling health checks + response ladder
+    window_days: 30
+    min_trades: 20              # below this the window is ignored (no noise actions)
+    win_rate_floor_pct: 40.0    # clearly under the 48% acceptance bar
+    sharpe_floor: 0.0           # negative rolling Sharpe = degraded
+    reduce_size_lot_mult: 0.5   # first automated response
+
+ab_testing:                     # 9.5 candidate variant comparison
+  min_folds: 3
+  p_value_threshold: 0.05
+
 paths:
   signals_file: "active_signals.json"
   logs_dir: "logs"
   results_dir: "backtest/results"
+  db_file: "db/newsetup.sqlite3"

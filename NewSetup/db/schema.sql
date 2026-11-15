@@ -67,5 +67,18 @@ CREATE TABLE IF NOT EXISTS signal_quality (
     UNIQUE (month, inefficiency_id)
 );
 
+-- Strategy degradation tracking (playbook 9.4): one row per inefficiency
+-- holding the current automated-response level and the lot multiplier the
+-- sizer must apply. Level ladder: ok -> reduce_size -> paused -> retired.
+CREATE TABLE IF NOT EXISTS degradation_state (
+    inefficiency_id INTEGER PRIMARY KEY,
+    level TEXT NOT NULL DEFAULT 'ok'
+        CHECK (level IN ('ok','reduce_size','paused','retired')),
+    lot_multiplier REAL NOT NULL DEFAULT 1.0,
+    updated_at DATETIME NOT NULL,
+    reason TEXT
+);
+
 CREATE INDEX IF NOT EXISTS idx_signals_ts ON signals(ts);
 CREATE INDEX IF NOT EXISTS idx_trades_opened ON trades(opened_at);
+CREATE INDEX IF NOT EXISTS idx_trades_closed ON trades(closed_at);
