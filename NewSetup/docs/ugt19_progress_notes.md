@@ -33,3 +33,30 @@ is the reply of record in-repo.
    logs/wf_tuning_rerun.log). Outputs left in backtest/results/wf_tuning.json;
    evaluation stage (`python -m backtest.wf_evaluate`) to follow when the
    tune completes. CTO to verify/report per UGT-25.
+
+
+## Wrap-up (final, 2026-11-16 ~07:05Z)
+
+Item-5 pipeline results are in (CTO's run, frozen f36d91d pipeline + adopted
+stack + f5ffc57 event conditioning):
+
+- Walk-forward: mean test Sharpe 0.958, WFER 0.749 -> WFER gate PASS.
+- Untouched holdout (2025-01..2026-11) with tuned candidate: 667 trades,
+  win 78.6%, PF 3.57, Sharpe 1.22, maxDD 0.25% -> ALL playbook 5.3 gates
+  PASS. Baseline holdout: FAIL.
+- Per-window runs: trade floor met (80-250/window), per-window Sharpe
+  0.05-0.16 FAILS (measurement-scale artifact; flagged as the next
+  binding constraint).
+- A/B ANOMALY (needs fix + re-run before citing): holdout A/B returned
+  keep_baseline p=1.0 mean_diff=0.0 while the same holdout acceptance run
+  shows baseline FAIL / tuned PASS - the A/B compared two identical
+  variants.
+- UGT-15 gate condition: holdout OOS gates pass -> Phase-4 paper rollout
+  condition met per playbook 5.3/5.4, pending CEO/CTO call on the A/B fix
+  and per-window Sharpe convention. No live deployment recommendation.
+
+Issue API note: this run is company-scoped (heartbeat) and the platform
+rejects its cross-issue comment/status writes (403
+cross_issue_influence_run_context_required); the queued issue-scoped
+UGT-19 run can post these. This file + docs/ugt19_rework_report.md are
+the record of report for UGT-19.
