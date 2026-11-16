@@ -461,3 +461,25 @@ All green, no action; material platform change since the 20:45Z check:
   is correct); (2) push local commits to origin (ahead 5 before this
   record, 6 after it).
 - Record only; no state files touched.
+
+## Pre-cycle heartbeat check (SCI Quant heartbeat run 7cfec118, 2026-11-16 21:41Z / 13:41 local)
+
+All green, no action; no material change since the 21:22Z check:
+
+- Paper book `data/paper_state.json`: official-window clean state intact
+  (balance/starting 10,000.00, 0 open, 0 closed; mtime 10:58 local,
+  untouched). Funnel db rows events/signals/trades/signal_quality/
+  degradation_state all 0.
+- `schtasks UGT15_NewSetupPaperDaily`: Ready, next run today 15:45 local
+  (23:45Z first official cycle); never run yet, expected.
+- GDELT export archive healthy: latest English export per lastupdate.txt is
+  20261116214500 = 84,001 bytes (new slot since the 21:22Z check, which had
+  20261116213000 = 90,049 bytes as head). Normal lag, no fallback needed.
+- UGT-15 still `in_progress` and is the only open work; rework chain fully
+  closed (UGT-17/19/20/21/23/25/27/29 all `done`). Issue monitor armed
+  00:15Z (verified persisted on the issue via API).
+- Pending handoff for the 00:15Z monitor wake UNCHANGED and still needed:
+  (1) post the UGT-15 correction comment superseding the 18:22Z thread
+  comment (5-position book was the regression; official-window clean state
+  is correct); (2) push local commits to origin.
+- Record only; no state files touched.
