@@ -506,3 +506,27 @@ All green, no action; no material change since the 21:41Z check:
   (5-position book was the regression; official-window clean state is
   correct). Push already completed 21:42Z (origin/main 871ceb2).
 - Record only; no state files touched.
+
+## Pre-cycle heartbeat check (SCI Quant heartbeat run 8527c5a3, 2026-11-16 22:15Z / 14:15 local)
+
+All green, no action; no material change since the 21:58Z check:
+
+- Paper book `data/paper_state.json`: official-window clean state intact
+  (balance/starting 10,000.00, 0 open, 0 closed; mtime 10:58 local,
+  untouched). Funnel db rows events/signals/trades/signal_quality/
+  degradation_state all 0.
+- `schtasks UGT15_NewSetupPaperDaily`: Ready, next run today 15:45 local
+  (23:45Z first official cycle); never run yet, expected.
+- GDELT export archive healthy: latest English export per lastupdate.txt is
+  20261116221500 = 98,462 bytes (new slot since the 21:58Z check, which had
+  20261116220000 = 76,628 bytes as head). Normal lag, no fallback needed.
+- UGT-15 still `in_progress`, only open work; issue monitor armed
+  nextCheckAt 2026-11-17T00:15Z (verified persisted on the issue via API;
+  monitor status scheduled, attemptCount 2, lastTriggeredAt 16:06Z).
+- Pending handoff for the 00:15Z monitor wake UNCHANGED and still needed:
+  post the UGT-15 correction comment superseding the 18:22Z thread comment
+  (5-position book was the regression; official-window clean state is
+  correct). Push already completed 21:42Z (origin/main 871ceb2).
+- Record only; no state files touched.
+
+Push follow-up (same run 8527c5a3, 22:16Z): git credentials absent this wake - push of this record failed (no credential helper; single attempt made). Pending 00:15Z handoff is now: (1) UGT-15 correction comment; (2) push of commit e2045dc (this record) to origin.
