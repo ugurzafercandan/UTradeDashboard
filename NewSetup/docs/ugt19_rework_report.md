@@ -1,0 +1,117 @@
+# UGT-19 structural rework report (SCI Quant; status: items 1-4 complete, item 5 pipeline re-run executed per UGT-25 division of labor)
+
+Run: ed36b02c (SCI Quant heartbeat). Spec: UGT-17 (= UGT-14 sec 5) reproduced
+in UGT-19. Coordination: UGT-25 - CTO adopted items 1/3/4 (commits 0c3d6a7,
+54fcaa8), supplied the 101-event dataset (e0872cc) and owns the final
+pipeline re-run + report; item 2 intraday rework is mine (a31d86b).
+
+## Item 1 - Backfillable historical event data
+
+- config/event_history.yaml: 38 curated dated landmark events across the 5
+  playbook windows, each with source URL, goldstein score, relevance score.
+- GDELT 2.0 export archive extract: scripts/fetch_gdelt_window_exports.py
+  downloaded 2,891/2,892 planned 15-minute slots (6/day over every window
+  day; 1 slot failed after retries - noted limitation), filtered to
+  disruptive events (Goldstein <= -5 with >= 5 articles, or material-conflict
+  CAMEO root codes 18/19/20 with >= 10 articles, or mass protest <= -4 with
+  >= 50 articles): 236,438 events in data/caches/events/gdelt_export_events.csv.
+- data/historical_events.py: event store + EventProvider + replay matcher
+  mirroring Layer1Scanner._eval_event (keywords, score gate, direction
+  heuristic).
+- Layer-1 consistency fix (scanner + replay kept identical): the keyword
+  shock vocabulary now equals the _is_supply_shock direction vocabulary;
+  previously war/attack/halt could set direction but could never fire a
+  trigger.
+
+EVENT triggers fire in all 5 windows (raw signal counts per window):
+
+| window | events in window | EVENT signals | PRICE signals |
+|---|---|---|---|
+| covid_2020 | 70,094 | 191-203 | 98-171 |
+| suez_2021 | 19,962 | 40 | 63-64 |
+| china_power_2021 | 32,477 | 71 | 133-157 |
+| russia_sanctions_2022 | 33,650 | 221 | 155-226 |
+| red_sea_2023_24 | 77,826 | 296 | 278-383 |
+
+(Ranges reflect D1-only vs intraday replay variants.)
+
+## Item 2 - Intraday data (H1/M15)
+
+- H1 bars per symbol for all 5 playbook windows (240d warmup) plus a deep
+  2018-06 backfill for the covid window: 88 files in data/caches/intraday/.
+  M15 fetched for the red_sea window (Pepperstone M15 depth starts 2022-08).
+  coverage.json reports per symbol/window usability.
+- Broker depth limitations (honest): Pepperstone demo H1 starts 2018-06
+  (FX/metals), equities/ETF CFDs start 2020-06, Aluminium H1 only from
+  2023-07; covid window intraday usable for 21 of 48 symbols, later
+  windows 36-40 of 48. 5 symbols have no broker mapping at all.
+- Runner multi-timeframe rework: execution stream (H1) for entries/exits
+  and ATR stop sizing; layer-2 RSI/SMA stay on daily aggregates of the
+  H1 stream (playbook daily semantics preserved).
+- Window trade counts vs the 30-trade floor (default settings, rebuilt
+  stack): covid 106, suez 36, china 78, russia 107, red_sea 105 (was
+  27/10/25/24/31 on the old D1 stack). All 5 windows at/above the floor.
+- Tradeoffs: with execution-timeframe ATR stops, win rates at default
+  params run 37-45% (below the 48% gate) and PF 1.11-1.58; with
+  daily-ATR stops win rates were 48-70% and PF 1.9-3.2 but trades 10-31
+  (below floor) with 80-day holds. The walk-forward grid tunes
+  atr_mult_sl/reward_risk on the rebuilt stack.
+
+## Item 3 - Per-inefficiency direction model
+
+- scripts/fit_direction_model.py: per-inefficiency reversion vs
+  continuation from 5,325 layer-1 PRICE trigger moments on D1 history
+  (10-trading-day forward returns), fit window ends 2024-12-31 so the
+  untouched holdout stays clean.
+- Result (honest): NO inefficiency's reversion/continuation split is
+  statistically distinguishable. Global continuation expectancy
+  -0.024% +/- 0.109% SE (PF 0.99 vs 1.01) - the 1.645*SE significance
+  gate rejects per-inefficiency and category decisions; all 40 resolve
+  to the documented global default: continuation (consistent with the
+  UGT-14 continuation probe PF 1.59 through the stack).
+- Per-inefficiency stats recorded in config/direction_model.yaml;
+  newsetup/direction.py policy wired identically into the live scanner
+  and the backtest replay (validated stack == live stack).
+
+## Item 4 - Layer-1/layer-2 consistency rework
+
+- Layer2Confirmation rewritten thesis-aware (reversion / continuation /
+  event), replacing the old one-size gate that required a reversion
+  signal to pass continuation checks (the source of the 11%/39% split).
+- Re-measured (scripts/measure_layer2_split.py, 7,952 raw signals, 7,149
+  PRICE + 803 EVENT):
+  - both-agree: 11.0% -> 44.2% (EVENT triggers: 85.2%)
+  - neither:    39.0% -> 12.0%
+  - old-gate split on the same new signals: 1.6% both / 44.6% neither.
+- Full backtest/results/layer2_split.json.
+
+## Item 5 - Pipeline re-run (frozen f36d91d code on the rebuilt stack)
+
+- My tune run (logs/wf_tuning_rerun.log) completed folds 1-2 before being
+  killed by a session-kernel timeout: fold 2020 train Sharpe 1.47 / test
+  Sharpe 1.10 (211 trades), fold 2021 train 1.43 / test 1.27 (345 trades)
+  - vs UGT-14's ~0 train / -0.155 mean test.
+- Per UGT-25 the CTO owns the final tune_walk_forward + wf_evaluate runs;
+  their tune was launched 22:24 local (python -m backtest.tune_walk_forward
+  tune) on the same frozen pipeline code and adopted stack. Results land
+  in backtest/results/wf_tuning.json + wf_evaluation.json; final verdict
+  vs playbook 5.3 gates to be reported there (honest pass-or-fail).
+
+## Data limitations (summary)
+
+- GDELT export slot 20231111184500 failed all retries (1 of 2,892).
+- Intraday H1 depth per class of instrument as above; M15 only red_sea;
+  intraday bar timestamps are terminal server time vs event UTC (<=3h
+  skew, immaterial at H1 resolution given news-date granularity).
+- Intraday CSV volume column is 0 (volume lost in a fetch-script bug that
+  shifted columns; OHLC recovered; volume unused by layers 2-3).
+- Event store covers the 5 playbook windows only; walk-forward fold years
+  outside the windows still replay PRICE triggers only (per the frozen
+  pipeline design; the CTO's 101-event dataset extends 2017-2026 coverage
+  for their integrated run).
+
+## Tests
+
+- Full suite green on the adopted tree (123 tests at item-1 commit, 126 at
+  item-3/4 commit including new thesis-aware layer-2 and direction-model
+  tests; CTO's test_mapped_events adds more).
