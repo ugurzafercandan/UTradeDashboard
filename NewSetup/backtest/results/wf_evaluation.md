@@ -9,7 +9,30 @@
 
 ## A/B on untouched holdout (2025-01-01..2026-11-13)
 
-- Decision: **keep_baseline** (p=1.000, mean diff=0.00, folds=4)
+- Decision: **adopt_candidate** (paired folds, mean diff=+0.522,
+  t=2.83, p=0.0046, folds=4)
+- CORRECTED (UGT-27): the previous run reported keep_baseline p=1.000
+  mean_diff=0.00 because `ab_testing.compare()` sliced folds WITHOUT warmup
+  history before the fold start - every fold signal then failed layer-2
+  `min_history_bars` ("insufficient history") and both arms traded zero on
+  every fold. Fixed: fold bars now include `ab_testing.warmup_days`
+  (default 400) of warmup before the fold start (same convention as
+  `slice_run`); fold signals stay strictly inside the fold window.
+- Fold 0 covers the pre-holdout warmup segment (no holdout signals): 0
+  trades on both arms is expected, not degeneracy. Folds 1-3 are the
+  signal-bearing holdout folds:
+
+| fold | baseline trades | baseline Sharpe | tuned trades | tuned Sharpe |
+|---|---|---|---|---|
+| fold 0 | 0 | 0.000 | 0 | 0.000 |
+| fold 1 | 42 | 0.157 | 160 | 1.012 |
+| fold 2 | 61 | 0.454 | 289 | 1.018 |
+| fold 3 | 71 | 0.117 | 236 | 0.786 |
+
+- Full-run on the same holdout: baseline 178 trades Sharpe 0.26 PF 1.66;
+  tuned 667 trades Sharpe 1.22 PF 3.57 (acceptance PASS/FAIL table below).
+- Recommendation: **adopt the tuned candidate** - it beats the frozen
+  baseline on every signal-bearing holdout fold (paired p=0.0046).
 
 ## Tuned playbook windows (acceptance table)
 

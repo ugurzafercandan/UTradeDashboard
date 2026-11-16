@@ -118,3 +118,46 @@ def test_ab_inconclusive_when_trades_below_minimum():
                         {"XAUUSD": bars}, signals, folds=4)
     assert result.decision == "inconclusive"
     assert any("trade" in n for n in result.notes)
+
+
+def test_fold_window_includes_warmup_before_fold():
+    """UGT-27 regression: fold bars must include warmup history before the
+    fold start so layer-2 indicators can warm up; signals stay strictly
+    inside the fold window."""
+    from backtest.ab_testing import _fold_window
+    bars = _synth_bars(1000)
+    events = [(b.ts, "XAUUSD", b) for b in bars]
+    fold_events = events[500:750]
+    signals = _buy_signals(bars, count=5)
+    data, fold_signals = _fold_window({"XAUUSD": bars}, fold_events, signals,
+                                      warmup_days=400)
+    lo, hi = fold_events[0][0], fold_events[-1][0]
+    # Warmup history precedes the fold boundary ...
+    assert data["XAUUSD"][0].ts < lo
+    assert data["XAUUSD"][-1].ts == hi
+    # ... while signals stay strictly inside the fold window.
+    assert all(lo <= s.ts <= hi for s in fold_signals)
+
+
+def test_ab_folds_trade_with_warmup_history():
+    """UGT-27 regression: without fold warmup every fold signal dies on
+    layer-2 "insufficient history" (min_history_bars=200 > fold size), both
+    arms trade zero on every fold and the paired comparison degenerates
+    (mean_diff 0.0, p=1.0, spurious keep_baseline)."""
+    bars = _synth_bars(600)                 # hourly -> fold size 150 < 200
+    signals = _buy_signals(bars)
+    assert signals
+    settings = {
+        "layer2": {"min_score": 0.5, "min_history_bars": 200, "rsi_period": 5,
+                   "sma_fast": 5, "sma_slow": 20},
+        "backtest": {"acceptance": {"min_trades": 1}},
+        "ab_testing": {"min_folds": 3, "p_value_threshold": 0.05,
+                       "warmup_days": 400},
+    }
+    ab = ABTestFramework(BacktestRunner(settings=settings), settings=settings)
+    result = ab.compare(ABVariant("base", {}),
+                        ABVariant("cand", {"rsi_oversold": 30.0}),
+                        {"XAUUSD": bars}, signals, folds=4)
+    assert result.folds == 4
+    assert any(f["baseline_trades"] > 0 for f in result.fold_sharpes), (
+        "fold runs starved of history: " + str(result.fold_sharpes))

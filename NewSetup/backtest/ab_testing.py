@@ -7,7 +7,10 @@ SAME data: a full-run comparison plus a paired per-fold comparison.
 Design (stated honestly):
 - The timeline is split into ``folds`` contiguous chunks; both variants
   run over every fold, and the per-fold Sharpe difference
-  (candidate - baseline) forms a paired sample.
+  (candidate - baseline) forms a paired sample. Each fold's bars include
+  ``ab_testing.warmup_days`` (default 400) of warmup history before the
+  fold start so layer-2 indicators can warm up; fold signals stay
+  strictly inside the fold window.
 - Significance is a paired t-statistic with a normal-approximation
   two-sided p-value (erf-based; no scipy dependency). With folds < 5
   this approximation is crude — treat the p-value as advisory only.
@@ -25,13 +28,14 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
+from datetime import timedelta
 from typing import Optional
 
 from newsetup.config import load_settings
 from newsetup.models import PriceBar, RawSignal
 
 from .runner import BacktestRunner
-from .walk_forward import _merged_timeline, _slice_window
+from .walk_forward import _merged_timeline
 
 
 @dataclass
@@ -93,6 +97,30 @@ def _paired_ttest(diffs: list[float]) -> tuple[float, float]:
     return t, p
 
 
+def _fold_window(price_data: dict[str, list[PriceBar]], fold_events: list,
+                 raw_signals: list[RawSignal],
+                 warmup_days: int) -> tuple[dict[str, list[PriceBar]], list[RawSignal]]:
+    """Fold bars INCLUDING `warmup_days` of warmup before the fold start.
+
+    Layer-2 confirmation needs ``layer2.min_history_bars`` + lookback bars
+    BEFORE the signal (RSI/SMA warmup); a fold sliced bare from its own
+    boundary starves every fold signal with "insufficient history" and
+    trades nothing (the UGT-27 A/B anomaly: every fold Sharpe 0.0 on both
+    arms, mean_diff 0.0, p=1.0, spurious keep_baseline). Warmup bars warm
+    the indicators; signals stay strictly inside the fold window, so fold
+    metrics remain fold-pure (same convention as ``slice_run``).
+    """
+    lo, hi = fold_events[0][0], fold_events[-1][0]
+    warm_lo = lo - timedelta(days=warmup_days)
+    data: dict[str, list[PriceBar]] = {}
+    for symbol, bars in price_data.items():
+        selected = [b for b in bars if warm_lo <= b.ts <= hi]
+        if selected:
+            data[symbol] = selected
+    signals = [s for s in raw_signals if lo <= s.ts <= hi]
+    return data, signals
+
+
 class ABTestFramework:
     """Runs paired variant comparisons over shared data (playbook 9.5)."""
 
@@ -101,6 +129,7 @@ class ABTestFramework:
         self.settings = settings or runner.settings or load_settings()
         ab = self.settings.get("ab_testing", {}) or {}
         self.min_folds = int(ab.get("min_folds", 3))
+        self.warmup_days = int(ab.get("warmup_days", 400))
         self.p_threshold = float(ab.get("p_value_threshold", 0.05))
         acc = self.settings.get("backtest", {}).get("acceptance", {}) or {}
         self.min_trades = int(acc.get("min_trades", 30))
@@ -134,8 +163,9 @@ class ABTestFramework:
             lo = k * fold_size
             hi = (k + 1) * fold_size if k < folds - 1 else len(events)
             fold_events = events[lo:hi]
-            fold_data, fold_signals = _slice_window(price_data, fold_events,
-                                                    raw_signals)
+            fold_data, fold_signals = _fold_window(price_data, fold_events,
+                                                  raw_signals,
+                                                  self.warmup_days)
             if not fold_data:
                 continue
             base = self.runner.run(fold_data, fold_signals,

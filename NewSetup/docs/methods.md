@@ -100,7 +100,11 @@ layout and usage summary live in the [NewSetup README](../README.md).
 - `analyzer.py` — `BacktestAnalyzer` computes Sharpe, Sortino, max
   drawdown, win rate and profit factor, and applies the hard
   acceptance gate (playbook 5.3): >= 30 trades, max DD <= 12%,
-  Sharpe >= 1.0, win rate >= 48%, PF >= 1.3.
+  Sharpe >= 1.0, win rate >= 48%, PF >= 1.3. Per-window Sharpe for
+  the 5.3 window gate uses the daily-aggregated convention:
+  per-point Sharpe on intraday H1 windows is deflated by ~sqrt(24),
+  so window Sharpe is computed on daily-aggregated equity
+  (`scripts/window_sharpe_daily.py`, commit 9f866db).
 - `walk_forward.py` — `WalkForwardOptimizer` slides train/test windows
   across the merged multi-symbol timeline, tunes layer-2/3 parameters
   on the in-sample segment and scores the out-of-sample segment; the
@@ -108,8 +112,15 @@ layout and usage summary live in the [NewSetup README](../README.md).
   (playbook 5.5).
 - `ab_testing.py` — A/B scaffold (playbook 9.5): paired per-fold
   comparison of a candidate variant against the baseline with a
-  t-test gate; adopting a candidate additionally requires passing the
-  5.3 acceptance gate and 5.5 walk-forward on out-of-sample REAL data.
+  t-test gate. Each fold's bars include `ab_testing.warmup_days`
+  (default 400) of warmup history BEFORE the fold start; without it
+  every fold signal fails layer-2 "insufficient history"
+  (`min_history_bars` cannot warm up inside a bare slice) and the
+  paired comparison degenerates to mean_diff=0 / p=1 on both arms.
+  Fold signals stay strictly inside the fold window, so fold metrics
+  stay fold-pure. Adopting a candidate additionally requires passing
+  the 5.3 acceptance gate and 5.5 walk-forward on out-of-sample REAL
+  data.
 - `validation.py` — synthetic-data harness validation
   (`main.py --validate`): deterministic trend + cycle + noise bars,
   BUY signals at deterministic oversold dips, a full pass of every
