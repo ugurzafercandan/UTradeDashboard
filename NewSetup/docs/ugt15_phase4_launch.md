@@ -310,3 +310,20 @@ the fixture-validation backup. Full analysis and correction:
   misdiagnosis.
 - Issue monitor unchanged: nextCheckAt 2026-11-17T00:15:00Z verifies the
   23:45Z cycle ran on real export-archive events.
+
+
+## Pre-cycle heartbeat check (SCI Quant heartbeat run db13ecb3, 2026-11-16 19:16Z / 11:16 local)
+
+- Scheduled task `UGT15_NewSetupPaperDaily`: Ready, next run today 15:45
+  local (first fully scheduled official-window cycle), task enabled.
+- Paper book `data/paper_state.json`: official-window clean state intact
+  (balance/peak/starting 10,000.00, 0 open, 0 closed; mtime 10:58 local,
+  written by the official-window reset, not a wipe). Evidence backups
+  (day-1 book, wiped_evidence, fixture_validation_backup) preserved untracked.
+- Issue monitor armed and persisted: nextCheckAt 2026-11-17T00:15Z, timeout
+  06:15Z, maxAttempts 3 — timed to verify tonight's 23:45Z cycle ran on real
+  export-archive events.
+- GDELT export archive reachable: slot 20261116183000 = 102,724 bytes
+  (gdeltv2 export.CSV.zip; 18:45/19:00 slots not yet published, normal lag).
+- Issue comment API blocked by cross_issue_influence_run_context_required
+  (unscoped heartbeat run) — this file is the record per convention.
