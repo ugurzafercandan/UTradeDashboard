@@ -150,3 +150,873 @@ events:
     inefficiency_ids: [26, 14]
     direction: BUY
     date_confidence: high
+  - id: "suez-20210323-grounding"
+    date: "2021-03-23"
+    group: "suez_2021"
+    headline: "Ever Given runs aground and blocks the Suez Canal, tying up about $9.6bn of trade per day"
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+    goldstein: -6.0
+    themes: [suez, shipping, container, chokepoint]
+    inefficiency_ids: [17, 18, 19, 26]
+    direction: BUY
+    date_confidence: high
+  - id: "suez-20210325-navigation-suspended"
+    date: "2021-03-25"
+    group: "suez_2021"
+    headline: "Suez Canal Authority suspends navigation as initial refloating attempts fail"
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+    goldstein: -6.0
+    themes: [suez, salvage, congestion]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "suez-20210326-cape-rerouting"
+    date: "2021-03-26"
+    group: "suez_2021"
+    headline: "Major carriers begin diverting Asia-Europe services around the Cape of Good Hope"
+    source: "https://www.philstar.com/business/2021/03/29/2087797/megaship-still-stuck-suez-canal-new-refloating-attempt-likely-monday"
+    goldstein: -5.0
+    themes: [suez, rerouting, cape, freight]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: medium
+  - id: "suez-20210328-queue-369"
+    date: "2021-03-28"
+    group: "suez_2021"
+    headline: "At least 369 ships queue at canal ends as salvage continues"
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+    goldstein: -5.0
+    themes: [suez, congestion, backlog]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "suez-20210329-refloated"
+    date: "2021-03-29"
+    group: "suez_2021"
+    headline: "Ever Given refloated at 15:05 local time; canal passage restored"
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+    goldstein: 2.0
+    themes: [suez, salvage, reopening]
+    inefficiency_ids: [17, 19]
+    direction: SELL
+    date_confidence: high
+  - id: "suez-20210402-backlog-clearing"
+    date: "2021-04-02"
+    group: "suez_2021"
+    headline: "Suez Canal Authority says it is close to clearing the waiting-ship backlog"
+    source: "https://www.swissinfo.ch/eng/reuters/suez-canal-says-close-to-clearing-backlog-after-ship-dislodged/46501362"
+    goldstein: 2.0
+    themes: [suez, backlog, normalization]
+    inefficiency_ids: [17]
+    direction: SELL
+    date_confidence: high
+  - id: "suez-20210403-backlog-cleared"
+    date: "2021-04-03"
+    group: "suez_2021"
+    headline: "Suez Canal backlog of hundreds of queued ships cleared"
+    source: "https://www.upi.com/Top_News/World-News/2021/04/03/egypt-Suez-Canal-backlog/4491617465802"
+    goldstein: 2.5
+    themes: [suez, backlog, resumption]
+    inefficiency_ids: [17, 19]
+    direction: SELL
+    date_confidence: high
+  - id: "suez-20210413-impounded"
+    date: "2021-04-13"
+    group: "suez_2021"
+    headline: "Egypt impounds Ever Given pending a billion-dollar compensation claim"
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+    goldstein: -3.0
+    themes: [suez, legal, insurance, detention]
+    inefficiency_ids: [17]
+    direction: BUY
+    date_confidence: high
+  - id: "chinapower-20210916-rationing"
+    date: "2021-09-16"
+    group: "china_power_2021"
+    headline: "Guangdong and Jiangsu impose peak-hour power rationing on factories under dual-control policy"
+    source: "https://www.z2data.com/insights/china-power-shortage-timeline-updates-electronics/"
+    goldstein: -4.5
+    themes: [power-cuts, china, dual-control, manufacturing]
+    inefficiency_ids: [29, 40, 25, 12, 38]
+    direction: BUY
+    date_confidence: high
+  - id: "chinapower-20210920-yulin-magnesium"
+    date: "2021-09-20"
+    group: "china_power_2021"
+    headline: "Yulin and Fugu magnesium smelters in Shaanxi shut under energy-consumption controls"
+    source: "https://www.caixinglobal.com/2021-10-28/magnesium-prices-down-40-in-key-china-production-hub-as-lights-come-back-on-101793014.html"
+    goldstein: -5.0
+    themes: [magnesium, china, power-cuts]
+    inefficiency_ids: [12, 25]
+    direction: BUY
+    date_confidence: high
+  - id: "chinapower-20210928-taiwan-semis"
+    date: "2021-09-28"
+    group: "china_power_2021"
+    headline: "Ten Taiwanese semiconductor makers disclose Jiangsu production shutdowns from power cuts"
+    source: "https://www.fortune.com/2021/09/28/china-energy-crisis-chip-shortage-supply-chain-delay/"
+    goldstein: -5.0
+    themes: [semiconductor, power-cuts, jiangsu]
+    inefficiency_ids: [29, 30, 28]
+    direction: BUY
+    date_confidence: high
+  - id: "chinapower-20211012-power-price-reform"
+    date: "2021-10-12"
+    group: "china_power_2021"
+    headline: "NDRC liberalizes coal-fired power pricing, widening the market float to 20 percent"
+    source: "https://english.www.gov.cn/statecouncil/ministries/202110/12/content_WS616520eac6d0df57f98e187d.html"
+    goldstein: 1.0
+    themes: [power-price, reform, ndrc]
+    inefficiency_ids: [25, 40, 34]
+    direction: SELL
+    date_confidence: high
+  - id: "chinapower-20211013-coal-record"
+    date: "2021-10-13"
+    group: "china_power_2021"
+    headline: "Zhengzhou thermal coal futures hit record highs as Shanxi floods add to supply constraints"
+    source: "https://www.cnbc.com/2021/10/13/china-coal-prices-hit-record-high-as-floods-add-to-supply-constraints.html"
+    goldstein: -5.0
+    themes: [coal, floods, record-price]
+    inefficiency_ids: [25, 40, 12, 34]
+    direction: BUY
+    date_confidence: high
+  - id: "chinapower-20211019-ndrc-intervention"
+    date: "2021-10-19"
+    group: "china_power_2021"
+    headline: "NDRC signals coal price intervention; futures limit-down 8 percent off the record"
+    source: "https://www.reuters.com/business/energy/china-coal-prices-drop-record-high-govt-weighs-intervention-2021-10-19/"
+    goldstein: -2.5
+    themes: [coal, price-controls, ndrc]
+    inefficiency_ids: [25, 40, 12]
+    direction: SELL
+    date_confidence: high
+  - id: "chinapower-20211022-eu-magnesium-warning"
+    date: "2021-10-22"
+    group: "china_power_2021"
+    headline: "European industry groups warn of an international magnesium supply emergency"
+    source: "https://www.asiafinancial.com/european-groups-warn-of-drastic-magnesium-shortage"
+    goldstein: -5.5
+    themes: [magnesium, shortage, europe]
+    inefficiency_ids: [12, 25]
+    direction: BUY
+    date_confidence: high
+  - id: "chinapower-20211028-coal-crash"
+    date: "2021-10-28"
+    group: "china_power_2021"
+    headline: "Chinese coal futures nearly halve from their peak as NDRC sets a target price"
+    source: "https://www.reuters.com/business/energy/china-planner-met-with-coal-producers-study-profiteering-standards-2021-10-28/"
+    goldstein: -1.5
+    themes: [coal, price-intervention, correction]
+    inefficiency_ids: [25, 40, 12]
+    direction: SELL
+    date_confidence: high
+  - id: "chinapower-20211111-coal-output-record"
+    date: "2021-11-11"
+    group: "china_power_2021"
+    headline: "NDRC: daily coal output hits record 12.05 million tonnes as the supply push pays off"
+    source: "https://english.www.gov.cn/statecouncil/ministries/202111/12/content_WS618d9d67c6d0df57f98e4d3e.html"
+    goldstein: 2.0
+    themes: [coal, output, normalization]
+    inefficiency_ids: [25, 40, 12]
+    direction: SELL
+    date_confidence: high
+  - id: "russia-20220221-dnr-lnr-recognition"
+    date: "2022-02-21"
+    group: "russia_sanctions_2022"
+    headline: "Russia recognizes the Donetsk and Luhansk people's republics, escalating the Ukraine crisis"
+    source: "https://www.marshallcenter.org/en/publications/clock-tower-security-series/russia-seminar-series/russia-recognizes-independent-statehood-so-called-donetsk-peoples-republic-and-luhansk"
+    goldstein: -9.0
+    themes: [ukraine, recognition, sanctions, escalation]
+    inefficiency_ids: [26, 25]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220224-invasion"
+    date: "2022-02-24"
+    group: "russia_sanctions_2022"
+    headline: "Russia launches full-scale invasion of Ukraine, roiling energy, food and metals markets"
+    source: "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine"
+    goldstein: -10.0
+    themes: [war, ukraine, energy, food, trade]
+    inefficiency_ids: [19, 26, 30, 25, 32]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220226-swift-cutoff"
+    date: "2022-02-26"
+    group: "russia_sanctions_2022"
+    headline: "US, EU, UK and Canada pledge to remove selected Russian banks from SWIFT"
+    source: "https://www.reuters.com/world/europe/heavy-fighting-kyiv-outskirts-russia-ukraine-signal-possibility-talks-2022-02-26/"
+    goldstein: -9.0
+    themes: [sanctions, swift, finance]
+    inefficiency_ids: [32]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220228-cbr-reserve-freeze"
+    date: "2022-02-28"
+    group: "russia_sanctions_2022"
+    headline: "Russian ruble crashes as the West freezes central bank international reserves"
+    source: "https://en.wikipedia.org/wiki/International_sanctions_during_the_Russo-Ukrainian_War"
+    goldstein: -8.5
+    themes: [finance, ruble, reserves, sanctions]
+    inefficiency_ids: [32]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220301-box-lines-suspend-russia"
+    date: "2022-03-01"
+    group: "russia_sanctions_2022"
+    headline: "Maersk, MSC and CMA CGM suspend bookings to and from Russia"
+    source: "https://www.reuters.com/business/worlds-biggest-container-lines-suspend-shipping-russia-2022-03-01/"
+    goldstein: -7.5
+    themes: [shipping, sanctions, container]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220304-zaporizhzhia"
+    date: "2022-03-04"
+    group: "russia_sanctions_2022"
+    headline: "Russian assault causes fire at the Zaporizhzhia nuclear power plant, Europe's largest"
+    source: "https://www.reuters.com/world/europe/fire-put-out-near-ukrainian-nuclear-power-plant-2022-03-04/"
+    goldstein: -9.0
+    themes: [nuclear, war, ukraine]
+    inefficiency_ids: [10, 34]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220307-wheat-record"
+    date: "2022-03-07"
+    group: "russia_sanctions_2022"
+    headline: "Chicago wheat settles at an all-time high as Ukraine's grain trade is paralyzed"
+    source: "https://www.bloomberg.com/news/articles/2022-03-07/wheat-climbs-nearer-to-record-as-ukraine-supply-paralyzed-by-war"
+    goldstein: -8.0
+    themes: [wheat, food-security, record-price]
+    inefficiency_ids: [26]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220308-us-oil-ban"
+    date: "2022-03-08"
+    group: "russia_sanctions_2022"
+    headline: "US bans imports of Russian oil, LNG and coal"
+    source: "https://bidenwhitehouse.archives.gov/briefing-room/statements-releases/2022/03/08/fact-sheet-united-states-bans-imports-of-russian-oil-liquefied-natural-gas-and-coal/"
+    goldstein: -8.0
+    themes: [oil, sanctions, embargo]
+    inefficiency_ids: [19]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220308-lme-nickel"
+    date: "2022-03-08"
+    group: "russia_sanctions_2022"
+    headline: "LME suspends nickel trading after the Tsingshan short squeeze sends prices above $100,000"
+    source: "https://www.reuters.com/business/lme-suspends-nickel-trading-day-after-prices-see-record-run-2022-03-08/"
+    goldstein: -8.5
+    themes: [nickel, lme, squeeze, metals]
+    inefficiency_ids: [38, 25, 9]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220308-repowereu"
+    date: "2022-03-08"
+    group: "russia_sanctions_2022"
+    headline: "European Commission unveils the REPowerEU plan to quit Russian fossil gas"
+    source: "https://ireland.representation.ec.europa.eu/news-and-events/news/repowereu-joint-european-action-more-affordable-secure-and-sustainable-energy-2022-03-08_en"
+    goldstein: 1.0
+    themes: [energy, europe, diversification]
+    inefficiency_ids: [34, 35]
+    direction: SELL
+    date_confidence: high
+  - id: "russia-20220311-neon-halt"
+    date: "2022-03-11"
+    group: "russia_sanctions_2022"
+    headline: "Ukraine invasion halts half of world's neon output for chipmaking"
+    source: "https://www.reuters.com/article/ukraine-crisis-neon/exclusive-ukraine-halts-half-of-worlds-neon-output-for-chips-clouding-outlook-idUSL2N2VD06A"
+    goldstein: -7.0
+    themes: [semiconductor, neon, ukraine]
+    inefficiency_ids: [30, 29, 28]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220331-ruble-gas-decree"
+    date: "2022-03-31"
+    group: "russia_sanctions_2022"
+    headline: "Putin decrees gas payments in rubles for unfriendly states, threatening cutoffs"
+    source: "https://www.cnbc.com/2022/03/31/putin-says-russian-gas-must-be-paid-for-in-rubles-from-friday.html"
+    goldstein: -7.0
+    themes: [gas, payments, russia]
+    inefficiency_ids: [32, 34]
+    direction: BUY
+    date_confidence: high
+  - id: "russia-20220427-gazprom-cuts-poland-bulgaria"
+    date: "2022-04-27"
+    group: "russia_sanctions_2022"
+    headline: "Gazprom cuts gas supplies to Poland and Bulgaria in the rubles dispute"
+    source: "https://www.reuters.com/business/energy/gazprom-says-it-halts-gas-supplies-poland-bulgaria-payments-row-2022-04-27/"
+    goldstein: -8.0
+    themes: [gas, europe, supply-cut]
+    inefficiency_ids: [34, 35]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20231119-galaxy-leader"
+    date: "2023-11-19"
+    group: "red_sea_2023_24"
+    headline: "Houthi rebels hijack the Galaxy Leader in the Red Sea, taking 25 crew hostage"
+    source: "https://en.wikipedia.org/wiki/Hijacking_of_the_Galaxy_Leader"
+    goldstein: -8.0
+    themes: [houthi, hijacking, red-sea]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20231211-strinda"
+    date: "2023-12-11"
+    group: "red_sea_2023_24"
+    headline: "Houthi missile hits the Norwegian tanker Strinda in the Bab-el-Mandeb strait"
+    source: "https://www.centcom.mil/MEDIA/PUBLIC-RELEASES/Article/3614265/centcom-statement-on-missile-attack-in-the-bab-el-mandeb/"
+    goldstein: -7.0
+    themes: [houthi, tanker, red-sea]
+    inefficiency_ids: [19, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20231215-maersk-pause"
+    date: "2023-12-15"
+    group: "red_sea_2023_24"
+    headline: "Maersk pauses all container transits through the Red Sea and Gulf of Aden"
+    source: "https://www.reuters.com/world/maersk-pause-all-container-shipments-through-red-sea-2023-12-15/"
+    goldstein: -7.0
+    themes: [maersk, pause, container, rerouting]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20231218-bp-pause"
+    date: "2023-12-18"
+    group: "red_sea_2023_24"
+    headline: "BP pauses all Red Sea shipments, the first oil major to reroute"
+    source: "https://www.bbc.com/news/business-67748605"
+    goldstein: -7.0
+    themes: [bp, oil, pause]
+    inefficiency_ids: [19, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20231218-prosperity-guardian"
+    date: "2023-12-18"
+    group: "red_sea_2023_24"
+    headline: "Pentagon announces Operation Prosperity Guardian, a multinational Red Sea security task force"
+    source: "https://www.war.gov/News/Releases/Release/article/3621110/statement-from-secretary-of-defense-lloyd-j-austin-iii-on-ensuring-freedom-of-navigation-in-the-red-sea/"
+    goldstein: -4.0
+    themes: [military, coalition, red-sea]
+    inefficiency_ids: [19, 33]
+    direction: SELL
+    date_confidence: high
+  - id: "redsea-20231231-maersk-hangzhou"
+    date: "2023-12-31"
+    group: "red_sea_2023_24"
+    headline: "Houthis attack the Maersk Hangzhou; US Navy sinks three Houthi boats"
+    source: "https://en.wikipedia.org/wiki/Attacks_on_the_MV_Maersk_Hangzhou"
+    goldstein: -8.0
+    themes: [houthi, maersk, navy]
+    inefficiency_ids: [17, 19, 33]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20240112-us-uk-strikes"
+    date: "2024-01-12"
+    group: "red_sea_2023_24"
+    headline: "US and UK launch air and missile strikes on Houthi targets across Yemen"
+    source: "https://www.reuters.com/world/us-britain-carry-out-strikes-against-houthis-yemen-officials-2024-01-11/"
+    goldstein: -8.5
+    themes: [strikes, yemen, escalation]
+    inefficiency_ids: [19, 33, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20240116-shell-pause"
+    date: "2024-01-16"
+    group: "red_sea_2023_24"
+    headline: "Shell suspends all Red Sea shipments indefinitely as attacks continue"
+    source: "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+    goldstein: -6.5
+    themes: [shell, oil, pause]
+    inefficiency_ids: [19, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20240218-rubymar-struck"
+    date: "2024-02-18"
+    group: "red_sea_2023_24"
+    headline: "Houthi missile strikes the fertilizer-laden bulk carrier Rubymar"
+    source: "https://en.wikipedia.org/wiki/MV_Rubymar"
+    goldstein: -7.5
+    themes: [houthi, bulk, red-sea]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20240219-aspides"
+    date: "2024-02-19"
+    group: "red_sea_2023_24"
+    headline: "EU launches the defensive naval operation EUNAVFOR Aspides to escort Red Sea shipping"
+    source: "https://www.eeas.europa.eu/eunavfor-aspides/eunavfor-aspides-one-month-launch-operation_en"
+    goldstein: -2.0
+    themes: [eu, naval, escort]
+    inefficiency_ids: [19, 17]
+    direction: SELL
+    date_confidence: high
+  - id: "redsea-20240302-rubymar-sinks"
+    date: "2024-03-02"
+    group: "red_sea_2023_24"
+    headline: "Rubymar sinks in the Red Sea weeks after the strike, risking an environmental disaster"
+    source: "https://www.centcom.mil/MEDIA/PUBLIC-RELEASES/Article/3693370/sinking-of-motor-vessel-rubymar-risks-environmental-damage/"
+    goldstein: -7.0
+    themes: [sinking, red-sea, fertilizer]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "redsea-20240306-true-confidence"
+    date: "2024-03-06"
+    group: "red_sea_2023_24"
+    headline: "Houthi missile kills three seafarers on the True Confidence, the crisis's first civilian deaths"
+    source: "https://www.reuters.com/world/middle-east/three-missing-bulk-carrier-off-yemen-after-incident-reported-shipping-source-2024-03-06/"
+    goldstein: -8.0
+    themes: [houthi, fatalities, red-sea]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20170605-qatar-blockade"
+    date: "2017-06-05"
+    group: "supplement_2017_2019"
+    headline: "Saudi Arabia, UAE, Egypt and Bahrain sever ties and blockade Qatar"
+    source: "https://www.gco.gov.qa/en/media-centre/in-focus/gcc-crisis/"
+    goldstein: -7.0
+    themes: [qatar, embargo, lng, shipping]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20171016-kirkuk"
+    date: "2017-10-16"
+    group: "supplement_2017_2019"
+    headline: "Iraqi forces seize Kirkuk and its oil fields from the Kurdish Peshmerga"
+    source: "https://www.bbc.com/news/world-middle-east-41641563"
+    goldstein: -7.0
+    themes: [iraq, kirkuk, oil]
+    inefficiency_ids: [19]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180308-232-metals"
+    date: "2018-03-08"
+    group: "supplement_2017_2019"
+    headline: "US signs Section 232 tariffs of 25 percent on steel and 10 percent on aluminium"
+    source: "https://www.govinfo.gov/content/pkg/DCPD-201800222/html/DCPD-201800222.htm"
+    goldstein: -5.0
+    themes: [tariffs, steel, aluminium]
+    inefficiency_ids: [25, 38]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180402-china-soy-tariffs"
+    date: "2018-04-02"
+    group: "supplement_2017_2019"
+    headline: "China imposes tariffs on 128 US products including soybeans and pork"
+    source: "https://english.www.gov.cn/state_council/ministries/2018/04/02/content_281476099058480.htm"
+    goldstein: -4.5
+    themes: [tariffs, soybeans, trade-war]
+    inefficiency_ids: [26, 14]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180406-rusal-sanctions"
+    date: "2018-04-06"
+    group: "supplement_2017_2019"
+    headline: "OFAC designates Rusal and En+, shaking global aluminium supply"
+    source: "https://ofac.treasury.gov/system/files/126/20181219_notification_removal.pdf"
+    goldstein: -7.5
+    themes: [sanctions, rusal, aluminium, russia]
+    inefficiency_ids: [25]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180416-zte-ban"
+    date: "2018-04-16"
+    group: "supplement_2017_2019"
+    headline: "US bans exports to ZTE for seven years, threatening the company's chip supply"
+    source: "https://www.rfa.org/english/commentaries/energy_watch/chinas-zte-seeks-to-ease-us-export-ban-04302018105144.html"
+    goldstein: -6.0
+    themes: [export-controls, zte, semiconductor]
+    inefficiency_ids: [29, 28, 30]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180601-232-allies"
+    date: "2018-06-01"
+    group: "supplement_2017_2019"
+    headline: "US steel and aluminium tariffs extended to the EU, Canada and Mexico"
+    source: "https://www.bbc.com/news/business-44324565"
+    goldstein: -5.0
+    themes: [tariffs, steel, aluminium, allies]
+    inefficiency_ids: [25, 38]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180706-tariff-34b"
+    date: "2018-07-06"
+    group: "supplement_2017_2019"
+    headline: "First $34 billion of US-China tariffs take effect; Beijing retaliates the same day"
+    source: "https://www.bbc.com/news/business-44707253"
+    goldstein: -5.5
+    themes: [tariffs, trade-war, china]
+    inefficiency_ids: [3, 4, 5, 8, 12]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180823-tariff-16b"
+    date: "2018-08-23"
+    group: "supplement_2017_2019"
+    headline: "Second-round US tariffs on $16 billion of Chinese goods take effect"
+    source: "https://www.sema.org/news-media/enews/2018/32/us-tariffs-16-billion-worth-chinese-products-take-effect-august-23"
+    goldstein: -5.5
+    themes: [tariffs, trade-war]
+    inefficiency_ids: [3, 4, 8, 40]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180830-argentina-peso"
+    date: "2018-08-30"
+    group: "supplement_2017_2019"
+    headline: "Argentine peso crashes to a record low; early IMF support sought amid soy export turmoil"
+    source: "https://www.cnbc.com/2018/08/30/argentina-crisis-peso-crashes-to-record-low-amid-imf-plea.html"
+    goldstein: -4.0
+    themes: [argentina, currency, soybeans, em]
+    inefficiency_ids: [26, 14]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20180924-tariff-200b"
+    date: "2018-09-24"
+    group: "supplement_2017_2019"
+    headline: "US tariffs on $200 billion of Chinese goods take effect at 10 percent"
+    source: "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2018/september/ustr-finalizes-tariffs-200"
+    goldstein: -6.0
+    themes: [tariffs, trade-war]
+    inefficiency_ids: [3, 4, 5, 8, 40]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20181201-buenos-aires-truce"
+    date: "2018-12-01"
+    group: "supplement_2017_2019"
+    headline: "Trump and Xi agree a 90-day tariff truce at the Buenos Aires G20 dinner"
+    source: "https://abcnews.go.com/Politics/trump-claims-big-leap-forward-china-trade-talks/story?id=59575917"
+    goldstein: 1.5
+    themes: [truce, trade-war, summit]
+    inefficiency_ids: [3, 4, 8, 40]
+    direction: SELL
+    date_confidence: high
+  - id: "supplement-20190127-rusal-delisted"
+    date: "2019-01-27"
+    group: "supplement_2017_2019"
+    headline: "OFAC delists Rusal and En+ after the Deripaska divestment deal"
+    source: "https://home.treasury.gov/news/press-releases/sm592"
+    goldstein: 2.0
+    themes: [sanctions-relief, aluminium, rusal]
+    inefficiency_ids: [25]
+    direction: SELL
+    date_confidence: high
+  - id: "supplement-20190510-tariff-hike-25"
+    date: "2019-05-10"
+    group: "supplement_2017_2019"
+    headline: "US raises the $200 billion tariff rate to 25 percent as talks collapse"
+    source: "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2019/may/statement-us-trade-representative"
+    goldstein: -6.0
+    themes: [tariffs, trade-war, escalation]
+    inefficiency_ids: [3, 4, 5, 8, 12]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20190520-jlmag-visit"
+    date: "2019-05-20"
+    group: "supplement_2017_2019"
+    headline: "Xi Jinping visits rare-earth magnet maker JL MAG in Ganzhou, read as a strategic signal"
+    source: "https://english.www.gov.cn/state_council/ministries/2019/05/29/content_281476687688934.htm"
+    goldstein: -4.5
+    themes: [rare-earth, china, warning]
+    inefficiency_ids: [8, 4, 5]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20190529-peoples-daily-warning"
+    date: "2019-05-29"
+    group: "supplement_2017_2019"
+    headline: "People's Daily warns the US not to underestimate China's rare-earth card"
+    source: "https://www.npr.org/2019/05/29/727850485/plenty-of-cards-to-play-chinese-media-suggest-cutting-rare-earth-exports-to-u-s"
+    goldstein: -6.0
+    themes: [rare-earth, threat, trade-war]
+    inefficiency_ids: [8, 4, 5]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20190701-japan-korea-controls"
+    date: "2019-07-01"
+    group: "supplement_2017_2019"
+    headline: "Japan tightens exports of semiconductor and display materials to South Korea"
+    source: "https://en.yna.co.kr/view/AEN20190701004400320"
+    goldstein: -6.0
+    themes: [export-controls, japan, korea, semiconductor]
+    inefficiency_ids: [29, 30, 28]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20190823-china-75b"
+    date: "2019-08-23"
+    group: "supplement_2017_2019"
+    headline: "China announces tariffs on $75 billion of US goods; Trump orders US firms to leave China"
+    source: "https://apnews.com/article/ap-top-news-international-news-asia-global-trade-donald-trump-84c8781157484f8ebb4c3f462f38e30d"
+    goldstein: -7.0
+    themes: [tariffs, trade-war, escalation]
+    inefficiency_ids: [3, 4, 8, 40]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20190914-abqaiq"
+    date: "2019-09-14"
+    group: "supplement_2017_2019"
+    headline: "Drone strikes on Abqaiq and Khurais halve Saudi oil output"
+    source: "https://www.eia.gov/todayinenergy/detail.php?id=41413"
+    goldstein: -9.5
+    themes: [attack, oil, saudi, drones]
+    inefficiency_ids: [19, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "supplement-20191011-phase-one"
+    date: "2019-10-11"
+    group: "supplement_2017_2019"
+    headline: "Trump announces the Phase One US-China trade deal, delaying the October tariff hike"
+    source: "https://www.npr.org/2019/10/11/769469085/trump-announces-phase-one-of-trade-deal-with-china"
+    goldstein: 2.0
+    themes: [trade-deal, truce, china]
+    inefficiency_ids: [3, 4, 8, 40]
+    direction: SELL
+    date_confidence: high
+  - id: "holdout-20250127-deepseek-rout"
+    date: "2025-01-27"
+    group: "holdout_2025_2026"
+    headline: "DeepSeek model sparks global AI selloff; Nvidia posts record market-cap loss"
+    source: "https://www.reuters.com/technology/chinas-deepseek-sets-off-ai-market-rout-2025-01-27/"
+    goldstein: -3.0
+    themes: [ai, deepseek, capex, market-rout]
+    inefficiency_ids: [37, 29, 28]
+    direction: SELL
+    date_confidence: high
+  - id: "holdout-20250204-ieepa-china-tariffs"
+    date: "2025-02-04"
+    group: "holdout_2025_2026"
+    headline: "US IEEPA tariffs on China take effect; Beijing announces retaliation"
+    source: "https://www.skadden.com/insights/publications/2025/02/trumps-tariffs-on-canada-mexico-and-china"
+    goldstein: -5.0
+    themes: [tariffs, china, retaliation]
+    inefficiency_ids: [3, 4, 5, 8, 40]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20250204-china-mineral-controls"
+    date: "2025-02-04"
+    group: "holdout_2025_2026"
+    headline: "China imposes export controls on tungsten, tellurium, bismuth, molybdenum and indium"
+    source: "http://www.china.org.cn/business/2025-02/04/content_117695587.htm"
+    goldstein: -5.5
+    themes: [export-controls, critical-minerals, china]
+    inefficiency_ids: [3, 29]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20250312-232-metals"
+    date: "2025-03-12"
+    group: "holdout_2025_2026"
+    headline: "US Section 232 steel and aluminium tariffs raised to 25 percent"
+    source: "https://www.chrobinson.com/en-us/resources/insights-and-advisories/client-advisories/2025q1/03-12-25-client-advisory-updated-guidance-steel-and-aluminum-derivative-tariffs-march-12/"
+    goldstein: -4.5
+    themes: [tariffs, steel, aluminium]
+    inefficiency_ids: [25, 38]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20250402-liberation-day"
+    date: "2025-04-02"
+    group: "holdout_2025_2026"
+    headline: "Trump announces sweeping reciprocal tariffs on nearly all imports on Liberation Day"
+    source: "https://www.csis.org/analysis/liberation-day-tariffs-explained"
+    goldstein: -6.5
+    themes: [tariffs, reciprocal, trade-war]
+    inefficiency_ids: [17, 3, 4, 8, 40]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20250404-china-ree-controls"
+    date: "2025-04-04"
+    group: "holdout_2025_2026"
+    headline: "China hits back with export controls on seven medium and heavy rare earths"
+    source: "https://www.reuters.com/world/china-hits-back-us-tariffs-with-rare-earth-export-controls-2025-04-04/"
+    goldstein: -7.0
+    themes: [rare-earth, export-controls, china]
+    inefficiency_ids: [8, 3, 4]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20250417-port-fees"
+    date: "2025-04-17"
+    group: "holdout_2025_2026"
+    headline: "USTR announces Section 301 port fees on Chinese-built and Chinese-operated vessels"
+    source: "https://ustr.gov/sites/default/files/files/Press/Releases/2025/301%20Ships%20-%20Action%20FRN%204-17.pdf"
+    goldstein: -5.0
+    themes: [shipping, port-fees, section-301]
+    inefficiency_ids: [17]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20250512-geneva-truce"
+    date: "2025-05-12"
+    group: "holdout_2025_2026"
+    headline: "US and China agree a 90-day tariff rollback in the Geneva joint statement"
+    source: "https://www.whitehouse.gov/briefings-statements/2025/05/joint-statement-on-u-s-china-economic-and-trade-meeting-in-geneva/"
+    goldstein: 2.0
+    themes: [truce, tariffs, china]
+    inefficiency_ids: [3, 4, 8, 40]
+    direction: SELL
+    date_confidence: high
+  - id: "holdout-20250613-israel-iran-war"
+    date: "2025-06-13"
+    group: "holdout_2025_2026"
+    headline: "Israel launches Operation Rising Lion against Iran's nuclear and missile program"
+    source: "https://www.idf.il/en/mini-sites/israel-at-war/briefings-by-idf-spokesperson-bg-effie-defrin/june-25-press-briefings/press-briefing-by-idf-spokesperson-bg-effie-defrin-june-13-2025/"
+    goldstein: -9.5
+    themes: [war, iran, oil, escalation]
+    inefficiency_ids: [19, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20250624-mideast-ceasefire"
+    date: "2025-06-24"
+    group: "holdout_2025_2026"
+    headline: "Israel-Iran ceasefire takes effect after the 12-day war"
+    source: "https://www.bbc.com/news/articles/czjk3kxr3zno"
+    goldstein: 2.0
+    themes: [ceasefire, iran, oil]
+    inefficiency_ids: [19, 17]
+    direction: SELL
+    date_confidence: high
+  - id: "holdout-20250730-copper-232"
+    date: "2025-07-30"
+    group: "holdout_2025_2026"
+    headline: "Trump proclaims a 50 percent Section 232 tariff on copper imports, effective August 1"
+    source: "https://www.whitehouse.gov/presidential-actions/2025/07/adjusting-imports-of-copper-into-the-united-states/"
+    goldstein: -4.5
+    themes: [tariffs, copper, section-232]
+    inefficiency_ids: [38, 9, 25]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20250924-grasberg-force-majeure"
+    date: "2025-09-24"
+    group: "holdout_2025_2026"
+    headline: "Freeport declares force majeure at Grasberg after the September 8 mud rush; copper guidance slashed"
+    source: "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2735188-freeport-declares-force-majeure-at-grasberg"
+    goldstein: -7.5
+    themes: [copper, force-majeure, grasberg, mine]
+    inefficiency_ids: [38, 9]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20251009-china-ree-expansion"
+    date: "2025-10-09"
+    group: "holdout_2025_2026"
+    headline: "China expands rare-earth export controls to defense, chips and battery technology"
+    source: "https://www.reuters.com/world/china/china-tightens-rare-earth-export-controls-2025-10-09/"
+    goldstein: -7.5
+    themes: [rare-earth, export-controls, batteries]
+    inefficiency_ids: [8, 3, 4, 29]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20251030-busan-deal"
+    date: "2025-10-30"
+    group: "holdout_2025_2026"
+    headline: "Trump and Xi reach a Busan trade truce: tariff cuts for fentanyl action and rare-earth licenses"
+    source: "https://www.reuters.com/world/china/looming-trump-xi-meeting-revives-hope-us-china-trade-truce-2025-10-29/"
+    goldstein: 2.0
+    themes: [truce, china, tariffs]
+    inefficiency_ids: [3, 4, 8, 40]
+    direction: SELL
+    date_confidence: high
+  - id: "holdout-20260220-scotus-ieepa-ruling"
+    date: "2026-02-20"
+    group: "holdout_2025_2026"
+    headline: "Supreme Court strikes down Trump's global IEEPA tariffs"
+    source: "https://www.reuters.com/legal/government/us-supreme-court-rejects-trumps-global-tariffs-2026-02-20/"
+    goldstein: 1.0
+    themes: [scotus, tariffs, ruling]
+    inefficiency_ids: [3, 4, 5, 8, 40]
+    direction: SELL
+    date_confidence: high
+  - id: "holdout-20260228-iran-war"
+    date: "2026-02-28"
+    group: "holdout_2025_2026"
+    headline: "US and Israel launch strikes on Iran; the 2026 Iran war begins and Gulf shipping seizes up"
+    source: "https://www.britannica.com/event/2026-Iran-war"
+    goldstein: -10.0
+    themes: [war, iran, oil, chokepoint]
+    inefficiency_ids: [19, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20260301-hormuz-attacks"
+    date: "2026-03-01"
+    group: "holdout_2025_2026"
+    headline: "Gulf tanker attacks begin; MKD Vyom crew member killed off Oman"
+    source: "https://www.reuters.com/world/asia-pacific/how-many-ships-have-been-attacked-gulf-since-start-iran-war-2026-03-11"
+    goldstein: -9.0
+    themes: [hormuz, tankers, war-risk]
+    inefficiency_ids: [19, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20260505-war-declared-over"
+    date: "2026-05-05"
+    group: "holdout_2025_2026"
+    headline: "US declares the Iran conflict over; the Project Freedom Hormuz escort operation is paused"
+    source: "https://www.cnn.com/2026/05/05/world/live-news/iran-war-news"
+    goldstein: 2.0
+    themes: [ceasefire, iran, hormuz]
+    inefficiency_ids: [19, 17]
+    direction: SELL
+    date_confidence: high
+  - id: "holdout-20260713-sanaa-strike"
+    date: "2026-07-13"
+    group: "holdout_2025_2026"
+    headline: "Yemeni government-Saudi strikes hit Sanaa International Airport"
+    source: "https://en.wikipedia.org/wiki/2026_Sanaa_airport_strike"
+    goldstein: -8.0
+    themes: [yemen, strikes, red-sea]
+    inefficiency_ids: [19, 33]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20260720-canada-338"
+    date: "2026-07-20"
+    group: "holdout_2025_2026"
+    headline: "US issues proclamations for 50 percent Section 338 tariffs on Canadian goods"
+    source: "https://www.tradecommissioner.gc.ca/en/market-industry-info/search-country-region/country/canada-united-states-export/us-tariffs/answers-common-questions-tariffs.html"
+    goldstein: -6.0
+    themes: [tariffs, canada, section-338]
+    inefficiency_ids: [13, 25, 38, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20260724-301-tariffs"
+    date: "2026-07-24"
+    group: "holdout_2025_2026"
+    headline: "Trump imposes 10-12.5 percent Section 301 tariffs on 60 trading partners as the interim levy expires"
+    source: "https://www.reuters.com/world/us/trump-imposes-forced-labor-duties-60-trading-partners-as-10-us-tariffs-expire-2026-07-24/"
+    goldstein: -6.0
+    themes: [tariffs, section-301, global]
+    inefficiency_ids: [3, 4, 8, 40]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20260908-us-ban-canada"
+    date: "2026-09-08"
+    group: "holdout_2025_2026"
+    headline: "US moves to ban Canadian alcohol, dairy and motorcycle imports effective September 29"
+    source: "https://www.reuters.com/business/us-ban-canadian-dairy-alcohol-motor-vehicle-imports-september-29-2026-09-08/"
+    goldstein: -6.5
+    themes: [tariffs, canada, food, trade-war]
+    inefficiency_ids: [26, 17]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20260908-canada-counter-tariffs"
+    date: "2026-09-08"
+    group: "holdout_2025_2026"
+    headline: "Canadian dollar-for-dollar counter-tariffs on US goods take effect"
+    source: "https://www.canada.ca/en/department-finance/programs/international-trade-finance-policy/canadas-response-us-tariffs/complete-list-us-products-subject-to-counter-tariffs.html"
+    goldstein: -6.0
+    themes: [tariffs, canada, retaliation, potash]
+    inefficiency_ids: [13, 26, 25]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20261011-riyadh-houthi-strikes"
+    date: "2026-10-11"
+    group: "holdout_2025_2026"
+    headline: "Second Houthi strike in two days hits Riyadh's King Khalid International Airport"
+    source: "https://www.bbc.com/news/articles/cr93znyk44e1o"
+    goldstein: -9.0
+    themes: [houthi, saudi, aviation]
+    inefficiency_ids: [19, 33]
+    direction: BUY
+    date_confidence: high
+  - id: "holdout-20261014-gfs-pride-sinks"
+    date: "2026-10-14"
+    group: "holdout_2025_2026"
+    headline: "Container ship GFS Pride sinks in the Strait of Hormuz after being struck by a projectile"
+    source: "https://www.bbc.com/news/articles/crkg7q97z078o"
+    goldstein: -9.0
+    themes: [hormuz, sinking, shipping]
+    inefficiency_ids: [17, 19]
+    direction: BUY
+    date_confidence: high
