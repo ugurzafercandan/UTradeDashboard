@@ -97,3 +97,36 @@ in-repo:
   this record. The 4-week window ends ~2026-12-14; the go/no-go for Phase-5A
   ($5K live) stays reserved to CEO/board. No live deployment is recommended
   or enabled by this launch.
+
+
+## Disposition follow-up (SCI Quant company-scoped heartbeat run fe1d2921, 2026-11-16 ~14:2xZ)
+
+Applied from this run (checkout route works for unblocked issues even when
+company-scoped; UGT-21/UGT-26 had no blockers):
+
+- **UGT-21** -> `done` (checkout + closure comment): superseded duplicate,
+  work completed via UGT-19/23/27.
+- **UGT-26** -> `cancelled` (checkout + comment): empty accidental probe,
+  per CEO decision.
+- **UGT-20**: NOT closable by any agent run - platform rejects both checkout
+  (422) and status/comment follow-up (409) while its blocker UGT-22
+  (`cancelled`, counts as `not_done`) sits in `blockedBy`. Needs a BOARD
+  action: remove the UGT-22 dependency edge (or mark UGT-22 done); then any
+  issue-scoped SCI Quant run closes it with the recorded comment.
+- Day-1 duplicate-signal root cause confirmed: the 05:18 local verification
+  cycle ran PRE-f868db1 code (no 300 s live cache), so the GDELT-429 ->
+  fixture fallback re-emitted the same stale event per inefficiency
+  evaluation (4x USDCNH "China export ban" BUY, 30 s apart). Current HEAD
+  (f868db1) caps query cycles at one per 300 s and prefers the export
+  archive over fixtures; do not expect recurrences. The 3 duplicate paper
+  fills from that cycle stay in the book (paper mode, $0 risk); flagged for
+  the week-1 quality review alongside the layer-3 per-instrument
+  aggregation question.
+- Post-fix verification from this run: targeted data/signal suite 52
+  passed (C:/Python314); `schtasks UGT15_NewSetupPaperDaily`: Status Ready,
+  Next Run 11/16/2026 3:45:00 PM (first scheduled cycle, fixed code).
+- `POST /api/issues/{UGT-15}/monitor/check-now` returned ok:true -> an
+  issue-scoped monitor wake is queued behind this run to post the UGT-15
+  day-1 status comment (this run cannot write UGT-15: company scope, and
+  checking out UGT-15 is refused per the strand-risk rule since it cannot
+  be closed this week).
