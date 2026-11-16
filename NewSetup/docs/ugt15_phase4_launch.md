@@ -157,3 +157,35 @@ Comment writes to the issue from this run were 403 (company-scoped run, no task 
 - No other board items actionable this heartbeat: UGT-15 first scheduled cycle runs
   15:45 server-local (23:45Z) today with fixed code; monitor armed for 2026-11-17T00:15Z
   to verify it ran on real GDELT events (export/DOC, not fixtures).
+
+## Official-window state reset + verification (SCI Quant issue-scoped heartbeat run 6aabe898, 2026-11-16 ~16:05Z)
+
+Supersedes the day-1 "fills stay in the book" note above (the 14:57Z
+heartbeat's plan): the 9b5b3b3 run reset BOTH live state stores to a clean
+start for the official 4-week window, because every day-1 fill predated the
+dedup/isolation fixes and ran on stale fixture events (GDELT 429 all day).
+
+- **Live paper book** `data/paper_state.json` reset to a fresh account
+  (balance/peak 10,000.00, 0 open, 0 closed) at 15:23:22Z. The pre-reset
+  book (5 open incl. 3x duplicate USDCNH, 1 fixture USDZAR SL -50.37,
+  balance 9,949.63) is preserved as
+  `data/paper_state.json.fixture_validation_backup` (untracked, gitignored
+  class). It was contaminated at 15:21:05Z when the PRE-fix fixture
+  validation persisted to the live state file; the post-fix validation at
+  15:23:40Z correctly wrote `paper_state_scratch.json` only.
+- **Live funnel db** `db/newsetup.sqlite3` is empty (0 rows in events /
+  signals / trades / signal_quality / degradation_state), pre-rollout copy
+  at `db/newsetup.sqlite3.prerollout_backup`.
+- Rationale: the official forward sample starts with the first fully
+  scheduled cycle (today 15:45 server-local = 23:45Z) on fixed code
+  (dedup, armed risk breakers, export-archive fallback). Day-1 morning
+  fills were produced by pre-fix code on deterministic stale fixtures and
+  would bias the 4-week stats; excluding them is the honest-sample choice.
+- Verified this run: full pytest suite at HEAD `9b5b3b3` -> 148 passed
+  (rc 0, C:/Python314); `schtasks UGT15_NewSetupPaperDaily` Ready, next
+  run 11/16/2026 3:45:00 PM; export-archive path re-confirmed working
+  earlier today (4,677 events / 96 slots, newest 2026-11-16 14:00 UTC),
+  so tonight's cycle ingests real GDELT events even while the DOC API
+  keeps 429ing.
+- Issue monitor unchanged: next check 2026-11-17T00:15Z (external_service/
+  paperclip, maxAttempts 3) verifies the 23:45Z cycle ran on real events.
