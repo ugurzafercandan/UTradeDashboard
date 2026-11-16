@@ -145,7 +145,7 @@ def main(argv=None) -> int:
                 rates = fetch_rates(mt5, broker_symbol, mt5.TIMEFRAME_H1, lo, end)
                 for r in rates:
                     ts = datetime.fromtimestamp(float(r["time"]), tz=timezone.utc)
-                    row = (ts, float(r["open"]), float(r["high"]),
+                    row = (float(r["open"]), float(r["high"]),
                            float(r["low"]), float(r["close"]), float(r["tick_volume"]))
                     h1_by_symbol.setdefault(symbol, {})[ts] = row
 
@@ -154,7 +154,7 @@ def main(argv=None) -> int:
                     m15 = fetch_rates(mt5, broker_symbol, mt5.TIMEFRAME_M15, lo, end)
                     for r in m15:
                         ts = datetime.fromtimestamp(float(r["time"]), tz=timezone.utc)
-                        row = (ts, float(r["open"]), float(r["high"]),
+                        row = (float(r["open"]), float(r["high"]),
                                float(r["low"]), float(r["close"]), float(r["tick_volume"]))
                         m15_by_symbol.setdefault(symbol, {})[ts] = row
 

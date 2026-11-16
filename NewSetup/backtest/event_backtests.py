@@ -17,9 +17,11 @@ markdown summary (realdata_event_backtests.md).
 
 from __future__ import annotations
 
+import csv
 import json
 import logging
-from datetime import datetime, timezone
+import os
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from newsetup.config import ROOT, load_inefficiencies, load_settings
@@ -35,6 +37,51 @@ log = logging.getLogger("newsetup.event_backtests")
 # Historical event store (curated + GDELT extract), loaded once per
 # process; see data/historical_events.py (UGT-17/19 work item 1).
 _EVENT_STORE: list | None = None
+
+INTRADAY_DIR = os.path.join(ROOT, "data", "caches", "intraday")
+
+
+class IntradayCache:
+    """Per-symbol intraday H1 bars (UGT-17/19 item 2).
+
+    Loads data/caches/intraday/{SYMBOL}_H1.csv (written by
+    scripts/fetch_intraday.py) once per process; window_bars() returns the
+    bars relevant to a playbook window (empty when the symbol has no
+    intraday file).
+    """
+
+    def __init__(self, cache_dir: str = INTRADAY_DIR):
+        self.cache_dir = cache_dir
+        self._bars: dict[str, list[PriceBar]] = {}
+
+    def load(self, symbol: str) -> list[PriceBar]:
+        if symbol not in self._bars:
+            path = os.path.join(self.cache_dir, f"{symbol.replace('/', '_')}_H1.csv")
+            bars: list[PriceBar] = []
+            if os.path.exists(path):
+                with open(path, newline="", encoding="utf-8") as f:
+                    for row in csv.DictReader(f):
+                        bars.append(PriceBar(
+                            ts=datetime.strptime(row["ts"], "%Y-%m-%dT%H:%M:%SZ")
+                                       .replace(tzinfo=timezone.utc),
+                            open=float(row["open"]), high=float(row["high"]),
+                            low=float(row["low"]), close=float(row["close"]),
+                            volume=float(row["volume"])))
+            self._bars[symbol] = bars
+        return self._bars[symbol]
+
+    def window_bars(self, symbol: str, window: str) -> list[PriceBar]:
+        """H1 bars for `symbol` that could matter for `window` (warmup
+        buffer included); [] when the window predates broker history."""
+        bars = self.load(symbol)
+        if not bars:
+            return []
+        start_s, end_s, _d = PLAYBOOK_WINDOWS[window]
+        start = datetime.strptime(start_s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        end = datetime.strptime(end_s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        if bars[0].ts > start:      # intraday history starts inside window
+            return []
+        return [b for b in bars if b.ts <= end]
 
 
 def _event_store() -> list:
@@ -76,12 +123,18 @@ def replay_price_signals(bars: list[PriceBar],
                          settings: Optional[dict] = None,
                          cooldown: int = 5,
                          start: Optional[datetime] = None,
-                         end: Optional[datetime] = None) -> list[RawSignal]:
+                         end: Optional[datetime] = None,
+                         bars_per_day: int = 1) -> list[RawSignal]:
     """Replay Layer1Scanner._eval_price over one symbol's history.
 
     Emits at most one signal per `cooldown` bars once the 1d/30d move
     crosses the layer1 spike thresholds (settings.layer1), with the same
     direction logic as the live scanner.
+
+    `bars_per_day` rescales the thresholds to intraday streams
+    (UGT-17/19 item 2): on H1 bars (24/day) the 24h move looks back 24
+    bars, the 30d move 720 bars, and `cooldown` is given in bars so the
+    caller passes the day-equivalent (e.g. 120 for 5 days).
     """
     settings = settings or load_settings()
     cfg = settings["layer1"]
@@ -100,8 +153,10 @@ def replay_price_signals(bars: list[PriceBar],
             continue
         if end and bar.ts > end:
             break
-        chg_24h = _pct(closes[:i + 1], 1)
-        chg_30d = _pct(closes[:i + 1], min(30, i))
+        lb_24h = max(1, 1 * bars_per_day)
+        lb_30d = max(1, min(30 * bars_per_day, i))
+        chg_24h = _pct(closes[:i + 1], lb_24h)
+        chg_30d = _pct(closes[:i + 1], lb_30d)
         direction = None
         chg = None
         if chg_24h is not None and chg_24h <= -spike_24h:
@@ -161,22 +216,47 @@ def run_event_backtest(window: str,
     inefficiencies = load_inefficiencies()
     symbols = symbols if symbols is not None else cache.cached_symbols()
     price_data: dict[str, list[PriceBar]] = {}
+    bars_per_day: dict[str, int] = {}
     raw_signals: list[RawSignal] = []
     skipped: dict[str, str] = {}
+    intraday_used: dict[str, int] = {}
     pseudo_id = 1000  # synthetic inefficiency ids for unmapped symbols
 
+    intraday_cache = IntradayCache()
+
     for symbol in symbols:
-        bars = cache.load(symbol)
+        # UGT-17/19 item 2: prefer the intraday H1 stream for this window
+        # (entries/exits resolve within the event response) when the
+        # broker history covers >= 210 pre-window daily bars; otherwise
+        # fall back to the D1 cache as before.
+        h1 = intraday_cache.window_bars(symbol, window)
+        in_window_h1 = [b for b in h1 if start <= b.ts <= end] if h1 else []
+        pre_days = len({b.ts.date() for b in h1 if b.ts < start}) if h1 else 0
+        bars = None
+        # layer-2 needs >= 210 pre-window DAILY bars from the daily
+        # aggregates of this H1 stream (~300 calendar days); keep ~330
+        # days of warmup so the first in-window bars see a full window.
+        if h1 and in_window_h1 and pre_days >= 215:
+            bars = [b for b in h1 if b.ts >= start - timedelta(days=330)]
+            bars_per_day[symbol] = 24
+            intraday_used[symbol] = len(bars)
+        else:
+            d1 = cache.load(symbol)
+            if not d1:
+                skipped[symbol] = "no cached bars"
+                continue
+            in_window = [b for b in d1 if start <= b.ts <= end]
+            pre_window = [b for b in d1 if b.ts < start]
+            if len(pre_window) < warmup_bars:
+                skipped[symbol] = f"insufficient warmup ({len(pre_window)} bars)"
+                continue
+            if not in_window:
+                skipped[symbol] = "no bars inside window"
+                continue
+            bars = pre_window[-warmup_bars:] + in_window
+            bars_per_day[symbol] = 1
         if not bars:
-            skipped[symbol] = "no cached bars"
-            continue
-        in_window = [b for b in bars if start <= b.ts <= end]
-        pre_window = [b for b in bars if b.ts < start]
-        if len(pre_window) < warmup_bars:
-            skipped[symbol] = f"insufficient warmup ({len(pre_window)} bars)"
-            continue
-        if not in_window:
-            skipped[symbol] = "no bars inside window"
+            skipped[symbol] = "empty bars after windowing"
             continue
         owner = _symbol_owner(inefficiencies, symbol)
         if owner is not None:
@@ -184,10 +264,11 @@ def run_event_backtest(window: str,
         else:                       # unique pseudo-id keeps layer-3 per-
             pseudo_id += 1          # inefficiency caps from colliding
             ineff_id, ineff_name = pseudo_id, symbol
-        price_data[symbol] = pre_window[-warmup_bars:] + in_window
+        price_data[symbol] = bars
+        bpd = bars_per_day[symbol]
         raw_signals.extend(replay_price_signals(
             price_data[symbol], ineff_id, ineff_name, symbol,
-            start=start, end=end))
+            start=start, end=end, cooldown=5 * bpd, bars_per_day=bpd))
 
     # UGT-17/19 item 1: event-conditioned triggers on the historical
     # event store (curated playbook landmarks + GDELT export extract),
@@ -204,7 +285,8 @@ def run_event_backtest(window: str,
 
     runner = BacktestRunner(settings=settings_overrides)
     result = runner.run(price_data, raw_signals,
-                        starting_balance=starting_balance)
+                        starting_balance=starting_balance,
+                        bars_per_day=bars_per_day)
     by_type = {"EVENT": 0, "PRICE": 0}
     for sig in raw_signals:
         by_type[sig.trigger_type] = by_type.get(sig.trigger_type, 0) + 1
@@ -218,6 +300,9 @@ def run_event_backtest(window: str,
         "raw_signals": len(raw_signals),
         "raw_signals_by_type": by_type,
         "events_in_window": len(window_events),
+        "intraday_symbols": sorted(intraday_used),
+        "intraday_symbol_count": len(intraday_used),
+        "d1_symbol_count": len(price_data) - len(intraday_used),
         "metrics": result.metrics,
         "acceptance_passed": result.acceptance_passed,
         "acceptance_failures": result.acceptance_failures,

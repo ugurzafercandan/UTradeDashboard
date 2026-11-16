@@ -81,12 +81,24 @@ class InMemoryPrices:
     get_series(symbol, lookback_days) returns the tail of the symbol's
     series up to the current replay index; the runner advances the cursor
     as it walks the merged chronological stream.
+
+    UGT-17/19 item 2 (intraday execution): `bars_per_day` marks symbols
+    whose execution stream is intraday (H1=24, M15=96). For those,
+    get_series returns DAILY aggregates of the visible execution bars so
+    layer-2 (RSI/SMA) and layer-3 (ATR) keep playbook daily-bar semantics,
+    while get_spot returns the latest execution bar (entry pricing and
+    broker SL/TP resolution happen on the intraday stream).
     """
 
-    def __init__(self, price_data: dict[str, list[PriceBar]]):
+    def __init__(self, price_data: dict[str, list[PriceBar]],
+                 bars_per_day: Optional[dict[str, int]] = None):
         self.series: dict[str, list[PriceBar]] = {
             symbol: sorted(bars, key=lambda b: b.ts)
             for symbol, bars in price_data.items()
+        }
+        self.bars_per_day: dict[str, int] = {
+            symbol: (bars_per_day or {}).get(symbol, 1)
+            for symbol in self.series
         }
         self._cursor: dict[str, int] = {symbol: 0 for symbol in self.series}
 
@@ -94,12 +106,54 @@ class InMemoryPrices:
         """Make bars[:index] visible to the signal layers."""
         self._cursor[symbol] = max(self._cursor.get(symbol, 0), index)
 
+    def get_spot(self, symbol: str) -> Optional[PriceBar]:
+        """Latest visible execution bar (entry pricing on the H1 stream)."""
+        bars = self.series.get(symbol, [])
+        cursor = self._cursor.get(symbol, 0)
+        if cursor <= 0:
+            return None
+        return bars[cursor - 1]
+
+    def get_execution_bars(self, symbol: str, count: int = 30) -> list[PriceBar]:
+        """Tail of the raw execution stream (intraday when present).
+
+        Layer-3 uses these for ATR-based stop sizing so that on an H1
+        execution stream stops/targets are sized to intraday volatility
+        and exits resolve within the event response instead of spanning
+        months of daily-ATR distance.
+        """
+        bars = self.series.get(symbol, [])
+        cursor = self._cursor.get(symbol, 0)
+        return bars[max(0, cursor - count):cursor]
+
+    def _daily_aggregates(self, bars: list[PriceBar]) -> list[PriceBar]:
+        """Aggregate an execution-bar window into daily OHLCV bars."""
+        by_day: dict = {}
+        for b in bars:
+            key = b.ts.date()
+            cur = by_day.get(key)
+            if cur is None:
+                by_day[key] = PriceBar(ts=b.ts, open=b.open, high=b.high,
+                                       low=b.low, close=b.close,
+                                       volume=b.volume)
+            else:
+                cur.high = max(cur.high, b.high)
+                cur.low = min(cur.low, b.low)
+                cur.close = b.close
+                cur.volume = cur.volume + b.volume
+        return [by_day[d] for d in sorted(by_day)]
+
     def get_series(self, symbol: str, lookback_days: int = 250) -> list[PriceBar]:
         bars = self.series.get(symbol, [])
         cursor = self._cursor.get(symbol, 0)
         if cursor <= 0:
             return []
-        return bars[max(0, cursor - lookback_days):cursor]
+        bpd = self.bars_per_day.get(symbol, 1)
+        if bpd <= 1:
+            return bars[max(0, cursor - lookback_days):cursor]
+        window = bars[max(0, cursor - (lookback_days + 10) * bpd):cursor]
+        daily = self._daily_aggregates(window)
+        return daily[-lookback_days:]
 
 
 # ----------------------------------------------------------------------
@@ -235,11 +289,12 @@ class BacktestRunner:
             price_data: dict[str, list[PriceBar]],
             raw_signals: list[RawSignal],
             starting_balance: float = 10000.0,
-            settings_overrides: Optional[dict] = None) -> BacktestResult:
+            settings_overrides: Optional[dict] = None,
+            bars_per_day: Optional[dict[str, int]] = None) -> BacktestResult:
         """Replay the merged timeline and return metrics + acceptance."""
         settings = _deep_merge(
             self.settings, _nest_overrides(self.settings, settings_overrides))
-        provider = InMemoryPrices(price_data)
+        provider = InMemoryPrices(price_data, bars_per_day=bars_per_day)
         broker = self.broker if self.broker is not None else _SimBroker(
             starting_balance, settings)
         layer2 = Layer2Confirmation(provider, settings=settings)

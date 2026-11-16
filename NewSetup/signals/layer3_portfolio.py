@@ -61,10 +61,22 @@ class Layer3PortfolioManager:
             if raw.inefficiency_id in open_by_ineff:
                 continue  # one position per inefficiency
 
-            bars = price_provider.get_series(raw.instrument, lookback_days=30) if price_provider else []
-            if not bars or not bars[-1]:
+            # Entry prices come from the execution stream (intraday spot
+            # when present - UGT-17/19 item 2); ATR/stop sizing uses the
+            # EXECUTION bars so exits resolve on the intraday stream when
+            # one is present (falls back to the daily context series).
+            spot = (getattr(price_provider, "get_spot", None)
+                    and price_provider.get_spot(raw.instrument)) or None
+            exec_bars = None
+            if price_provider is not None and hasattr(price_provider, "get_execution_bars"):
+                exec_bars = price_provider.get_execution_bars(raw.instrument, count=30)
+            bars = exec_bars or (price_provider.get_series(raw.instrument, lookback_days=30) if price_provider else [])
+            if spot is not None:
+                entry = spot.close
+            elif not bars or not bars[-1]:
                 continue
-            entry = bars[-1].close
+            else:
+                entry = bars[-1].close
             a = atr(bars, 14) or (entry * 0.02)
             stop_dist = a * self.atr_mult_sl
             if stop_dist <= 0:
