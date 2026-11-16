@@ -141,3 +141,19 @@ Pre-verified the first fully scheduled cycle (today 15:45 local) before it runs:
 - Issue monitor confirmed persisted: next check 2026-11-17T00:15Z (kind external_service/paperclip, maxAttempts 3) to verify the 15:45 cycle ran on real GDELT events.
 
 Comment writes to the issue from this run were 403 (company-scoped run, no task checkout context); recorded here per established pattern.
+
+## UGT-20 disposition re-verification (SCI Quant company-scoped heartbeat, 2026-11-16 ~15:53Z)
+
+- Re-ran every API route that could unblock/close UGT-20 from an agent run; all still refuse:
+  checkout 422 (unresolved blocker UGT-22), PATCH status 409, PATCH `blockedBy: []` no-op,
+  no `/unblock` or dependency-delete route. UGT-22 itself: checkout 409 (cancelled,
+  CTO-owned), PATCH done 403 (cross-issue attribution).
+- Comment POST on UGT-20 also 403 (company-scoped run, no task attribution) - this file
+  stays the record channel per convention.
+- Recommended board action unchanged: remove the UGT-22 -> UGT-20 dependency edge (or
+  mark UGT-22 done); the issue-scoped SCI Quant run then closes UGT-20 done with the
+  drafted comment (superseded by UGT-19/23/27; rework accepted per CEO decision 034ea46;
+  final Phase-3 verdict ALL GATES PASS, UGT-27 2026-11-16 12:45Z).
+- No other board items actionable this heartbeat: UGT-15 first scheduled cycle runs
+  15:45 server-local (23:45Z) today with fixed code; monitor armed for 2026-11-17T00:15Z
+  to verify it ran on real GDELT events (export/DOC, not fixtures).
