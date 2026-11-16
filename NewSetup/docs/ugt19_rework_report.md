@@ -92,10 +92,77 @@ EVENT triggers fire in all 5 windows (raw signal counts per window):
   Sharpe 1.10 (211 trades), fold 2021 train 1.43 / test 1.27 (345 trades)
   - vs UGT-14's ~0 train / -0.155 mean test.
 - Per UGT-25 the CTO owns the final tune_walk_forward + wf_evaluate runs;
-  their tune was launched 22:24 local (python -m backtest.tune_walk_forward
-  tune) on the same frozen pipeline code and adopted stack. Results land
-  in backtest/results/wf_tuning.json + wf_evaluation.json; final verdict
-  vs playbook 5.3 gates to be reported there (honest pass-or-fail).
+  their tune (launched 22:24 local, frozen f36d91d pipeline + adopted
+  stack + their event conditioning, commit f5ffc57) completed and the
+  evaluation stage ran to completion. Numbers below are from
+  backtest/results/wf_tuning.json + wf_evaluation.json (generated
+  2026-11-16T06:53Z / 06:59Z).
+
+### Final pipeline results (rebuilt stack)
+
+Walk-forward (3y train -> 1y test, 1152-combo grid, test years 2020-2024):
+
+| fold | train Sharpe | test Sharpe | test trades | test win% | test PF | test DD% |
+|---|---|---|---|---|---|---|
+| 2020 | 1.260 | 0.856 | 217 | 74.2 | 2.77 | 0.19 |
+| 2021 | 1.180 | 1.279 | 349 | 79.4 | 3.88 | 0.32 |
+| 2022 | 1.393 | 0.680 | 317 | 68.5 | 2.15 | 0.51 |
+| 2023 | 1.252 | 1.046 | 349 | 76.8 | 3.33 | 0.29 |
+| 2024 | 1.313 | 0.929 | 340 | 77.4 | 3.41 | 0.29 |
+
+- Mean train Sharpe 1.279, mean test Sharpe 0.958 (UGT-14: ~0 / -0.155).
+- WFER 0.749 >= 0.5 gate: PASS (meaningful, train > 0).
+
+Untouched holdout acceptance (2025-01-01..2026-11-13):
+
+| variant | trades | win% | PF | Sharpe | maxDD% | verdict |
+|---|---|---|---|---|---|---|
+| baseline | 178 | 47.2 | 1.66 | 0.26 | 0.82 | FAIL (win, Sharpe) |
+| tuned | 667 | 78.6 | 3.57 | 1.22 | 0.25 | **ALL GATES PASS** |
+
+Tuned playbook windows (with intraday execution):
+
+| window | trades | win% | PF | Sharpe | DD% | verdict |
+|---|---|---|---|---|---|---|
+| covid_2020 | 250 | 54.4 | 1.15 | 0.05 | 0.91 | FAIL (PF, Sharpe) |
+| suez_2021 | 80 | 71.2 | 2.34 | 0.16 | 0.25 | FAIL (Sharpe) |
+| china_power_2021 | 168 | 66.1 | 1.95 | 0.16 | 0.24 | FAIL (Sharpe) |
+| russia_sanctions_2022 | 191 | 57.1 | 1.29 | 0.07 | 0.60 | FAIL (PF marginal 1.29, Sharpe) |
+| red_sea_2023_24 | 205 | 56.1 | 1.21 | 0.06 | 0.64 | FAIL (PF, Sharpe) |
+
+- Direction probe (continuation, full period): PF 3.61, Sharpe 1.52.
+- Confirmation tension on the rebuilt stack: both-agree 44.5%, neither
+  11.8% (old-gate split on same signals: 1.7%/44.6%).
+
+### Honest verdict and open items
+
+1. Holdout OOS acceptance PASSES every gate with the tuned candidate
+   (Sharpe 1.22 >= 1.0, DD 0.25% <= 12%, win 78.6% >= 48%, PF 3.57 >= 1.3,
+   667 >= 30 trades), and WFER 0.749 >= 0.5. The structural rework moved
+   the stack from "no edge for tuning to find" (UGT-14) to a walk-forward
+   + holdout-passing configuration.
+2. Per-window acceptance still FAILS on per-window Sharpe (0.05-0.16) and
+   marginally on PF in 3 windows - single 4-5-month windows with
+   conservative per-trade risk (0.5%, min-lot floored) produce ~1%
+   window returns; Sharpe at that scale is structurally low. This is a
+   measurement-scale artifact as much as an edge deficiency; it should
+   be the next binding constraint to address (window-relative risk sizing
+   or per-window Sharpe convention), NOT papered over.
+3. ANOMALY to verify before any rollout decision: the A/B test on the
+   holdout returned decision keep_baseline with p=1.0 and mean_diff=0.0,
+   while the same holdout shows baseline FAIL vs tuned PASS on every
+   metric. p=1.0/diff=0.0 indicates the A/B compared two identical
+   variants (likely the tuned overrides not reaching the A/B runner in
+   the integrated event-conditioning version). The holdout acceptance
+   table is the trustworthy signal; the A/B needs a fix + re-run before
+   it is cited either way.
+4. Caveats for the adoption decision: the event store windows + CTO's
+   101-event dataset are hand-curated/GDELT-derived news timelines (news
+   hours approximate); intraday depth limits as listed above; the tuned
+   candidate (min_score 0.35, RSI 7, SMA 50/100, atr_mult 1.5, RR 1.0,
+   heat 3%, sector 20%) is selected on folds ending 2024 and verified
+   only on the 2025-2026 holdout - UGT-15 paper trading remains the
+   required next gate before any live exposure.
 
 ## Data limitations (summary)
 
