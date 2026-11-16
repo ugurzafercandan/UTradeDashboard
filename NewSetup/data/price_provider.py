@@ -14,17 +14,59 @@ from datetime import datetime, timedelta, timezone
 from newsetup.models import PriceBar
 
 
+def _mt5_settings() -> dict:
+    """MT5 connection settings from config/settings.yaml (``mt5`` section).
+
+    Tolerates a missing section so the module keeps importing (and tests
+    keep passing) on machines without the config.
+    """
+    try:
+        from newsetup.config import load_settings
+
+        cfg = (load_settings() or {}).get("mt5") or {}
+        return cfg if isinstance(cfg, dict) else {}
+    except Exception:                           # noqa: BLE001
+        return {}
+
+
 class MT5PriceProvider:
-    """Real price history via the MetaTrader5 python API (optional dep)."""
+    """Real price history via the MetaTrader5 python API (optional dep).
+
+    Attaches to the configured NewSetup terminal by EXPLICIT path
+    (config/settings.yaml ``mt5`` section) - never via bare
+    ``mt5.initialize()``: a bare call attaches to whichever terminal owns
+    python API port 22346, and per the server autostart policy that port is
+    owned by the Alpari trades terminal, not the Pepperstone NewSetup
+    terminal. After connecting, the account guard refuses any terminal
+    whose login differs from the configured one (mirrors
+    execution/mt5_bridge.py): a mismatch means we are attached to the wrong
+    terminal and must not read prices from it.
+    """
 
     def __init__(self, offline: bool = False):
         self.offline = offline
         self.mt5 = None
+        self.connected_login: int | None = None
         if not offline:
             try:
                 import MetaTrader5 as mt5       # optional heavy dep
-                if mt5.initialize():
-                    self.mt5 = mt5
+                cfg = _mt5_settings()
+                kwargs: dict = {}
+                if cfg.get("terminal_path"):
+                    kwargs["path"] = str(cfg["terminal_path"])
+                if cfg.get("portable"):
+                    kwargs["portable"] = True
+                if cfg.get("init_timeout_s"):
+                    kwargs["timeout"] = int(float(cfg["init_timeout_s"]) * 1000)
+                if mt5.initialize(**kwargs):
+                    info = mt5.account_info()
+                    login = int(getattr(info, "login", 0) or 0) if info is not None else 0
+                    expected = cfg.get("login")
+                    if expected is not None and int(expected) != login:
+                        mt5.shutdown()          # wrong terminal: refuse it
+                    else:
+                        self.mt5 = mt5
+                        self.connected_login = login
             except Exception:                   # noqa: BLE001
                 self.mt5 = None
 
@@ -32,10 +74,22 @@ class MT5PriceProvider:
     def available(self) -> bool:
         return self.mt5 is not None
 
+    def _broker_symbol(self, symbol: str) -> str:
+        """Playbook symbol -> broker symbol (config/broker_map.yaml)."""
+        try:
+            from newsetup.config import load_broker_map
+            return load_broker_map().get(symbol, symbol)
+        except Exception:                       # noqa: BLE001
+            return symbol
+
     def get_series(self, symbol: str, lookback_days: int = 250) -> list[PriceBar]:
         if self.mt5 is None:
             return []
-        bars = self.mt5.copy_rates_from_pos(symbol, self.mt5.TIMEFRAME_D1, 0, lookback_days)
+        name = self._broker_symbol(symbol)
+        # symbol_select is required before copy_rates on a live terminal
+        if not self.mt5.symbol_select(name, True):
+            return []
+        bars = self.mt5.copy_rates_from_pos(name, self.mt5.TIMEFRAME_D1, 0, lookback_days)
         if bars is None:
             return []
         return [

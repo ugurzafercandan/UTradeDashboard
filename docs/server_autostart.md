@@ -18,6 +18,7 @@ Live copy of this inventory: `C:\workspace\startup\README.md`.
 | monitoring_console :8002 | Boot scheduled task | `USO417_MonitoringConsole`: `...monitoring_console.py --host 0.0.0.0 --port 8002 --config ...pt_config_expserver.json` |
 | paper_trader_v3 | Time scheduled task | `USO366_ForwardTest` (daily): `python C:\workspace\fx_ml\paper_trader_v3.py --config C:\workspace\fx_ml\pt_config_expserver.json` |
 | GDELT pipelines | Time scheduled tasks | `GDELT_Pipeline_USO385` (run_gdelt.bat), `GDELTResume` (run_gdelt_resume.bat) — non-trading, unchanged |
+| NewSetup paper pipeline (UGT-15 Phase 4) | Time scheduled task | `UGT15_NewSetupPaperDaily` (daily trigger, 15:45 server-local, Interactive only): `...\UTradeDashboard\NewSetup\scripts\run_paper_daily.bat` -> `C:\Python314\python.exe main.py --once` (paper mode). One Layer1->2->3 cycle: paper fills via `execution/paper_broker.py`, daily report, funnel rows to `db/newsetup.sqlite3`, paper book persisted to `NewSetup/data/paper_state.json`; log: `NewSetup/logs/paper_daily.log`. MT5 attach by explicit path (Pepperstone portable, acct 61636260) with account guard; port 22346 stays owned by the Alpari terminal. |
 
 ## Rules
 

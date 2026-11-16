@@ -72,6 +72,8 @@ backtest:
 paper_trading:
   starting_balance: 10000.0
   spread_pct: 0.02             # simulated spread cost, % of price
+  state_file: "data/paper_state.json"   # UGT-15 Phase 4: durable paper book
+                                         # (daily cycles accumulate one account)
 
 monitoring:                     # playbook section 9
   signal_quality:               # 9.2 per-inefficiency monthly funnel

@@ -16,3 +16,4 @@ NewSetup/data/caches/
 NewSetup/logs/
 NewSetup/active_signals.json
 NewSetup/backtest/results/*.json
+NewSetup/data/paper_state.json

@@ -59,6 +59,62 @@ class TestPriceProviders:
         assert len(short) == 10
 
 
+class TestMT5Provider:
+    """UGT-15 Phase-4 pre-deploy: explicit-path attach + account guard +
+    playbook->broker symbol mapping in MT5PriceProvider (the live price
+    path of the daily paper pipeline)."""
+
+    @staticmethod
+    def _fake_mt5(login, init_calls, selected):
+        class _Acct:
+            pass
+        _Acct.login = login
+        class _Fake:
+            TIMEFRAME_D1 = 24
+            def initialize(self, **kw):
+                init_calls.append(kw)
+                return True
+            def account_info(self):
+                return _Acct()
+            def shutdown(self):
+                init_calls.append("shutdown")
+            def symbol_select(self, name, on):
+                selected.append(name)
+                return name == "Copper"
+            def copy_rates_from_pos(self, name, tf, start, n):
+                return [{"time": 1735689600, "open": 4.0, "high": 4.5,
+                         "low": 3.9, "close": 4.2, "tick_volume": 100.0}]
+        return _Fake()
+
+    def test_attaches_by_configured_path_and_maps_symbol(self, monkeypatch):
+        import sys
+        init_calls, selected = [], []
+        fake = self._fake_mt5(61636260, init_calls, selected)
+        monkeypatch.setitem(sys.modules, "MetaTrader5", fake)
+        from data.price_provider import MT5PriceProvider
+        prov = MT5PriceProvider(offline=False)
+        assert prov.available
+        assert prov.connected_login == 61636260
+        # explicit terminal path + portable flag from settings.yaml mt5 section
+        assert any("terminal64.exe" in str(kw.get("path", "")) for kw in init_calls
+                   if isinstance(kw, dict))
+        assert any(kw.get("portable") is True for kw in init_calls if isinstance(kw, dict))
+        # playbook symbol -> broker symbol before any terminal call
+        bars = prov.get_series("COPPER", lookback_days=250)
+        assert selected == ["Copper"]
+        assert bars and 3.9 <= bars[-1].close <= 4.5
+
+    def test_guard_refuses_wrong_account(self, monkeypatch):
+        import sys
+        init_calls, selected = [], []
+        fake = self._fake_mt5(52920535, init_calls, selected)  # Alpari acct
+        monkeypatch.setitem(sys.modules, "MetaTrader5", fake)
+        from data.price_provider import MT5PriceProvider
+        prov = MT5PriceProvider(offline=False)
+        assert not prov.available            # wrong terminal: stay offline
+        assert prov.get_series("COPPER") == []
+
+
 class TestMonitoring:
     def test_alerter_records_and_levels(self):
         a = Alerter()

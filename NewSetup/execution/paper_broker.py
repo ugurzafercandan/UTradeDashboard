@@ -8,6 +8,8 @@ sizing: 1 lot == 10 units of quote currency per price unit of movement
 
 from __future__ import annotations
 
+import json
+import os
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -47,6 +49,17 @@ class PaperBroker:
         self._open: list[Trade] = []
         self._closed: list[Trade] = []
         self._last_prices: dict[str, float] = {}
+        # Durable paper-book state (UGT-15 Phase 4): the broker is otherwise
+        # in-memory, so a fresh process would restart the 4-week book from
+        # the starting balance every day. Restore from disk when present so
+        # daily cycles accumulate one continuous paper account.
+        self._state_path: Optional[str] = None
+        state_file = (pt or {}).get("state_file") or (
+            (settings or {}).get("paper_trading", {}) or {}).get("state_file")
+        if state_file:
+            root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            self._state_path = os.path.join(root, str(state_file))
+        self._load_state()
 
     # ------------------------------------------------------------------
     def _fill_price(self, entry: float, direction: str) -> float:
@@ -61,6 +74,75 @@ class PaperBroker:
             return (exit_price - trade.entry_price) * trade.lot_size * 10.0
         return (trade.entry_price - exit_price) * trade.lot_size * 10.0
 
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _trade_to_dict(t: Trade) -> dict:
+        return {
+            "instrument": t.instrument, "direction": t.direction,
+            "lot_size": t.lot_size, "entry_price": t.entry_price,
+            "exit_price": t.exit_price, "stop_loss": t.stop_loss,
+            "take_profit": t.take_profit,
+            "opened_at": t.opened_at.isoformat() if t.opened_at else None,
+            "closed_at": t.closed_at.isoformat() if t.closed_at else None,
+            "pnl": t.pnl, "exit_reason": t.exit_reason,
+            "inefficiency_id": t.inefficiency_id, "sector": t.sector,
+        }
+
+    @staticmethod
+    def _trade_from_dict(d: dict) -> Trade:
+        return Trade(
+            instrument=d["instrument"], direction=d["direction"],
+            lot_size=float(d["lot_size"]), entry_price=float(d["entry_price"]),
+            exit_price=float(d.get("exit_price", 0.0)),
+            stop_loss=float(d["stop_loss"]), take_profit=float(d["take_profit"]),
+            opened_at=datetime.fromisoformat(d["opened_at"]) if d.get("opened_at") else utcnow(),
+            closed_at=datetime.fromisoformat(d["closed_at"]) if d.get("closed_at") else None,
+            pnl=float(d.get("pnl", 0.0)), exit_reason=str(d.get("exit_reason", "")),
+            inefficiency_id=int(d.get("inefficiency_id", 0)),
+            sector=str(d.get("sector", "")),
+        )
+
+    def _load_state(self) -> None:
+        """Restore balance/open/closed/last prices from ``state_file``.
+
+        Tolerant of a missing or corrupt file: warn and start fresh (the
+        paper pipeline must never crash on its own state file).
+        """
+        if not self._state_path or not os.path.exists(self._state_path):
+            return
+        try:
+            with open(self._state_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self.balance = float(data["balance"])
+            self.starting_balance = float(data.get("starting_balance", self.starting_balance))
+            self._open = [self._trade_from_dict(d) for d in data.get("open", [])]
+            self._closed = [self._trade_from_dict(d) for d in data.get("closed", [])]
+            self._last_prices = {str(k): float(v) for k, v in data.get("last_prices", {}).items()}
+        except Exception:                         # noqa: BLE001
+            import logging
+            logging.getLogger("newsetup.paper_broker").warning(
+                "paper state file %s unreadable; starting a fresh book", self._state_path)
+
+    def save_state(self) -> Optional[str]:
+        """Atomically persist the paper book for the next daily cycle."""
+        if not self._state_path:
+            return None
+        data = {
+            "version": 1,
+            "starting_balance": self.starting_balance,
+            "balance": self.balance,
+            "open": [self._trade_to_dict(t) for t in self._open],
+            "closed": [self._trade_to_dict(t) for t in self._closed],
+            "last_prices": dict(self._last_prices),
+        }
+        os.makedirs(os.path.dirname(self._state_path), exist_ok=True)
+        tmp = self._state_path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=1)
+        os.replace(tmp, self._state_path)
+        return self._state_path
+
+    # ------------------------------------------------------------------
     def _close(self, trade: Trade, exit_price: float, reason: str,
                closed_at: datetime) -> Trade:
         trade.exit_price = exit_price

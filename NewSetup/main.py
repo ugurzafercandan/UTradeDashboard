@@ -151,6 +151,14 @@ def run_signal_pipeline(p: dict) -> list[dict]:
                 "critical",
                 f"DEGRADATION #{a.inefficiency_id} {a.from_level} -> "
                 f"{a.to_level}: {'; '.join(a.reasons)}")
+    # Persist the paper book so the next daily cycle continues the same
+    # 4-week account instead of restarting from the starting balance
+    # (UGT-15 Phase 4; PaperBroker is in-memory by design).
+    save = getattr(p["broker"], "save_state", None)
+    if callable(save):
+        saved = save()
+        if saved:
+            log.info("paper book persisted to %s", saved)
     return emitted
 
 
