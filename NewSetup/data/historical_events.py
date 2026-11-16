@@ -197,6 +197,7 @@ def replay_event_signals(events: list[Event],
                 confidence=min(0.95, 0.5 + abs(ev.goldstein_score) / 20.0
                                 + ev.score / 4.0),
                 ts=ev.ts,
+                thesis="event",
             ))
             last_emit[ineff.id] = ev.ts
     return signals

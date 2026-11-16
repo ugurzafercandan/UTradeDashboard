@@ -84,15 +84,48 @@ class TestLayer2Confirmation:
                         trigger_type="EVENT", trigger_description="mine strike",
                         confidence=0.8)
 
-    def test_confirms_with_rsi_and_trend(self):
+    def test_confirms_event_with_headroom(self):
+        # event BUY needs RSI headroom (< overbought); uptrend keeps RSI
+        # moderate, so the event thesis confirms by design
         closes = [200.0 + i * 0.5 for i in range(210)]      # rising trend
-        closes += [320.0 - 8.0 * i for i in range(1, 8)]   # sharp pullback, oversold
+        closes += [320.0 - 8.0 * i for i in range(1, 8)]   # sharp pullback
         prices = FakePrices(closes)
         conf = Layer2Confirmation(prices, None, settings=make_settings())
         result = conf.confirm(self._raw("BUY"))
         assert result.confirmed
         assert result.score >= conf.min_score
         assert any("RSI" in r for r in result.reasons)
+        assert any("event" in r for r in result.reasons)
+
+    def test_confirms_continuation_buy_with_trend_and_momentum(self):
+        closes = [100.0 + i * 0.8 for i in range(260)]     # steady uptrend
+        prices = FakePrices(closes)
+        conf = Layer2Confirmation(prices, None, settings=make_settings())
+        raw = self._raw("BUY")
+        raw.thesis = "continuation"
+        result = conf.confirm(raw)
+        assert result.confirmed                     # RSI>50 + fast>slow
+        assert any("momentum" in r for r in result.reasons)
+
+    def test_confirms_reversion_buy_in_pullback_context(self):
+        closes = [400.0 - i * 1.2 for i in range(240)]    # long downtrend
+        closes += [closes[-1] - 9.0 * i for i in range(1, 5)]  # crash
+        prices = FakePrices(closes)
+        conf = Layer2Confirmation(prices, None, settings=make_settings())
+        raw = self._raw("BUY")
+        raw.thesis = "reversion"
+        result = conf.confirm(raw)
+        assert result.confirmed                     # oversold RSI + fast<slow
+        assert any("reversion" in r for r in result.reasons)
+
+    def test_continuation_buy_rejected_in_downtrend(self):
+        closes = [400.0 - i * 1.0 for i in range(240)]     # downtrend
+        prices = FakePrices(closes)
+        conf = Layer2Confirmation(prices, None, settings=make_settings())
+        raw = self._raw("BUY")
+        raw.thesis = "continuation"
+        result = conf.confirm(raw)
+        assert not result.confirmed                 # trend+momentum against
 
     def test_rejects_insufficient_history(self):
         conf = Layer2Confirmation(FakePrices([100.0] * 10), None, settings=make_settings())

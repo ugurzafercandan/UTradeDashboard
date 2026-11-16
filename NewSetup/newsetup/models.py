@@ -89,6 +89,13 @@ class RawSignal:
     trigger_description: str
     confidence: float         # 0..1
     ts: datetime = field(default_factory=utcnow)
+    # Direction thesis of the trigger (UGT-17/19 items 3-4):
+    #   "reversion"    - fade the price spike (against the move)
+    #   "continuation" - go with the move (data-model default)
+    #   "event"        - semantic news direction (disruption long /
+    #                    de-escalation short), layer-2 uses headroom checks
+    # Empty string is treated as the model default thesis.
+    thesis: str = ""
 
     def to_dict(self) -> dict:
         return {

@@ -131,10 +131,15 @@ def test_momentum_replay_direction():
         assert "momentum" in sig.trigger_description
 
 
-def test_momentum_replay_is_dual_of_reversion():
+def test_momentum_replay_matches_direction_model_replay():
+    """UGT-17/19 item 3: the direction model's default thesis is
+    continuation, so the sanctioned price replay and the diagnostic
+    momentum replay now emit the SAME directions (the old global
+    mean-reversion mapping is gone)."""
     from backtest.event_backtests import replay_price_signals
     bars = FakeCache._make_bars(0)
     rev = replay_price_signals(bars, 1, "X", "SYMA0")
     mom = wf_evaluate.replay_momentum_signals(bars, 1, "X", "SYMA0")
     assert len(rev) == len(mom)
-    assert all(r.direction != m.direction for r, m in zip(rev, mom))
+    assert all(r.direction == m.direction for r, m in zip(rev, mom))
+    assert all(r.thesis == "continuation" for r in rev)

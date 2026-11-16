@@ -1,0 +1,152 @@
+# Hand-built playbook event dataset from dated news timelines (UGT-23).
+# Purpose: backfill historical event coverage so layer-1 EVENT triggers fire in backtests
+# (GDELT DOC 2.0 has no history). Dates are first-report UTC dates - no lookahead.
+metadata:
+  generated_at: "2026-11-16"
+  generator: "UGT-23 research run (hand-built from dated news timelines)"
+  method: "Each event date verified against dated news timelines / Wikipedia / news archives via web search."
+  limitations:
+  - "Hand-built curated dataset; granularity is day-level, not the 15-min GDELT cadence."
+  - "Headlines are paraphrases of the source coverage, not raw API records."
+  - "Goldstein scores are estimates mirroring the GDELT conflict scale, not API values."
+events:
+  - id: "covid-20200217-apple-supply-warning"
+    date: "2020-02-17"
+    group: "covid_2020"
+    headline: "Apple warns iPhone supply is constrained by coronavirus, withdraws revenue guidance"
+    source: "https://www.cnbc.com/2020/02/17/apple-warns-on-coronavirus-it-wont-meet-revenue-guidance-because-of-constrained-iphone-supply-and-suppressed-demand-in-china.html"
+    goldstein: -4.0
+    themes: [covid, supply-chain, semiconductor, electronics]
+    inefficiency_ids: [29, 28]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200309-oil-price-war"
+    date: "2020-03-09"
+    group: "covid_2020"
+    headline: "OPEC+ talks collapse; Saudi Arabia slashes prices and oil crashes about 30 percent"
+    source: "https://www.bbc.com/news/business-51796748"
+    goldstein: -6.0
+    themes: [oil, opec, price-war, demand-destruction]
+    inefficiency_ids: [19]
+    direction: SELL
+    date_confidence: high
+  - id: "covid-20200309-italy-lockdown"
+    date: "2020-03-09"
+    group: "covid_2020"
+    headline: "Italy extends lockdown to the entire country, the first nationwide Western quarantine"
+    source: "https://www.reuters.com/article/us-health-coronavirus-italy-economy/italy-extends-coronavirus-lockdown-to-whole-country-as-new-cases-surge-idUSKBN20W0NU"
+    goldstein: -6.5
+    themes: [covid, lockdown, italy, manufacturing]
+    inefficiency_ids: [17, 36, 26]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200311-who-pandemic"
+    date: "2020-03-11"
+    group: "covid_2020"
+    headline: "WHO characterizes COVID-19 as a pandemic"
+    source: "https://www.who.int/director-general/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020"
+    goldstein: -8.0
+    themes: [covid, pandemic, shipping, semiconductor]
+    inefficiency_ids: [17, 29, 30]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200317-eu-external-borders"
+    date: "2020-03-17"
+    group: "covid_2020"
+    headline: "EU leaders agree to close the bloc's external borders for 30 days"
+    source: "https://www.cnbc.com/2020/03/17/coronavirus-european-union-leaders-agree-to-close-borders.html"
+    goldstein: -5.5
+    themes: [covid, borders, trade, shipping]
+    inefficiency_ids: [17, 26]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200318-malaysia-mco"
+    date: "2020-03-18"
+    group: "covid_2020"
+    headline: "Malaysia movement control order shuts semiconductor packaging and electronics plants"
+    source: "https://amcham.com.my/wp-content/uploads/Unofficial-Translation-of-the-NSC-Media-Statement-on-the-COVID-19-Control-of-Movement-Order-MITI.pdf"
+    goldstein: -6.0
+    themes: [covid, semiconductor, malaysia, osat]
+    inefficiency_ids: [29, 30]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200323-uk-lockdown"
+    date: "2020-03-23"
+    group: "covid_2020"
+    headline: "UK orders nationwide stay-at-home lockdown"
+    source: "https://www.cnn.com/2020/03/23/uk/uk-coronavirus-lockdown-gbr-intl/"
+    goldstein: -6.0
+    themes: [covid, lockdown, labor, logistics]
+    inefficiency_ids: [17, 36]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200324-india-lockdown"
+    date: "2020-03-24"
+    group: "covid_2020"
+    headline: "Modi orders 21-day nationwide lockdown, halting Indian manufacturing and pharma exports"
+    source: "https://www.pmindia.gov.in/en/news_updates/pm-calls-for-complete-lockdown-of-entire-nation-for-21-days/"
+    goldstein: -6.5
+    themes: [covid, lockdown, pharmaceuticals, manufacturing]
+    inefficiency_ids: [17, 36]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200327-cares-act"
+    date: "2020-03-27"
+    group: "covid_2020"
+    headline: "CARES Act signed: $2.2tn stimulus including payroll-support and small-business measures"
+    source: "https://home.treasury.gov/policy-issues/coronavirus/about-the-cares-act"
+    goldstein: 1.0
+    themes: [covid, stimulus, labor, economy]
+    inefficiency_ids: [36]
+    direction: SELL
+    date_confidence: high
+  - id: "covid-20200408-wuhan-reopens"
+    date: "2020-04-08"
+    group: "covid_2020"
+    headline: "Wuhan ends 76-day lockdown as China restarts export manufacturing"
+    source: "https://www.bbc.com/newsround/52211757"
+    goldstein: 2.0
+    themes: [covid, china, reopening, manufacturing]
+    inefficiency_ids: [29, 30, 17]
+    direction: SELL
+    date_confidence: high
+  - id: "covid-20200412-opec-cut"
+    date: "2020-04-12"
+    group: "covid_2020"
+    headline: "OPEC+ agrees record 9.7 million b/d output cut to support crashing oil prices"
+    source: "https://www.reuters.com/article/business/opec-agrees-largest-ever-oil-output-cut-of-97-million-bpd-sources-idUSKCN21U0R0/"
+    goldstein: -3.0
+    themes: [oil, opec, production-cut]
+    inefficiency_ids: [19]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200420-wti-negative"
+    date: "2020-04-20"
+    group: "covid_2020"
+    headline: "WTI May crude settles at -$37.63 as storage fills; first negative settlement ever"
+    source: "https://www.cftc.gov/media/5296/InterimStaffReportNYMEX_WTICrudeOil/download"
+    goldstein: -5.0
+    themes: [oil, glut, storage, demand-destruction]
+    inefficiency_ids: [19]
+    direction: SELL
+    date_confidence: high
+  - id: "covid-20200428-meat-dpa"
+    date: "2020-04-28"
+    group: "covid_2020"
+    headline: "Trump invokes Defense Production Act to keep US meat plants open amid COVID closures"
+    source: "https://www.usda.gov/about-usda/news/press-releases/2020/04/28/usda-implement-president-trumps-executive-order-meat-and-poultry-processors"
+    goldstein: -5.5
+    themes: [covid, food, meatpacking, dpa]
+    inefficiency_ids: [26, 14, 15]
+    direction: BUY
+    date_confidence: high
+  - id: "covid-20200613-xinfadi"
+    date: "2020-06-13"
+    group: "covid_2020"
+    headline: "Beijing shuts Xinfadi wholesale market after fresh COVID-19 cluster"
+    source: "https://apnews.com/ab84a4e856af775e82a8b3f954dca83b"
+    goldstein: -4.0
+    themes: [covid, food-supply, china, trade]
+    inefficiency_ids: [26, 14]
+    direction: BUY
+    date_confidence: high

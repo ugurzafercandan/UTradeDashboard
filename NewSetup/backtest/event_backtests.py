@@ -23,6 +23,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from newsetup.config import ROOT, load_inefficiencies, load_settings
+from newsetup.direction import map_direction, thesis_for
 from newsetup.models import PriceBar, RawSignal
 
 from data.bar_cache import BarCache
@@ -86,6 +87,10 @@ def replay_price_signals(bars: list[PriceBar],
     cfg = settings["layer1"]
     spike_24h = float(cfg["price_spike_pct_24h"])
     spike_30d = float(cfg["price_spike_pct_30d"])
+    # Per-inefficiency direction model (UGT-17/19 item 3): same thresholds,
+    # thesis-fitted direction instead of the hardwired mean-reversion map.
+    # thesis_for falls back to the model default for pseudo/unmapped ids.
+    thesis = thesis_for(inefficiency_id)
     signals: list[RawSignal] = []
     last_idx = -10 ** 9
     closes = [b.close for b in bars]
@@ -100,11 +105,11 @@ def replay_price_signals(bars: list[PriceBar],
         direction = None
         chg = None
         if chg_24h is not None and chg_24h <= -spike_24h:
-            direction, chg = "BUY", chg_24h        # supply-shock spike up -> BUY proxy
+            direction, chg = map_direction(thesis, "DOWN"), chg_24h
         elif chg_24h is not None and chg_24h >= spike_24h:
-            direction, chg = "SELL", chg_24h
+            direction, chg = map_direction(thesis, "UP"), chg_24h
         elif chg_30d is not None and abs(chg_30d) >= spike_30d:
-            direction = "SELL" if chg_30d > 0 else "BUY"
+            direction = map_direction(thesis, "UP" if chg_30d > 0 else "DOWN")
             chg = chg_30d
         if direction is None or i - last_idx < cooldown:
             continue
@@ -118,6 +123,7 @@ def replay_price_signals(bars: list[PriceBar],
                                 f"(threshold {spike_24h}%)",
             confidence=0.6,
             ts=bar.ts,
+            thesis=thesis,
         ))
         last_idx = i
     return signals

@@ -13,6 +13,7 @@ from typing import Protocol
 
 from newsetup.config import (load_gdelt_keywords, load_inefficiencies,
                              load_settings)
+from newsetup.direction import map_direction, thesis_for
 from newsetup.models import (Event, Inefficiency, PriceBar, RawSignal,
                              utcnow)
 
@@ -99,6 +100,7 @@ class Layer1Scanner:
                     trigger_type="EVENT",
                     trigger_description=f"{ev.headline} (score={ev.score:.2f})",
                     confidence=min(0.95, 0.5 + abs(ev.goldstein_score) / 20.0 + ev.score / 4.0),
+                    thesis="event",
                 )
         return None
 
@@ -109,18 +111,31 @@ class Layer1Scanner:
         closes = [b.close for b in bars]
         chg_24h = self._pct(closes, 1)
         chg_30d = self._pct(closes, min(30, len(closes) - 1))
+        # Per-inefficiency direction thesis (UGT-17/19 item 3): the same
+        # spike can be faded (reversion) or followed (continuation)
+        # depending on the inefficiency's fitted model entry.
+        thesis = thesis_for(ineff.id)
+        move = None
         for chg in (chg_24h, chg_30d):
             if chg is None:
                 continue
             if chg <= -self.spike_24h:
-                return self._price_signal(ineff, symbol, "BUY", chg)
-            if chg >= self.spike_24h:
-                return self._price_signal(ineff, symbol, "SELL", chg)
+                move = "DOWN"
+            elif chg >= self.spike_24h:
+                move = "UP"
+            if move:
+                return self._price_signal(ineff, symbol,
+                                           map_direction(thesis, move),
+                                           chg, thesis)
         if chg_30d is not None and abs(chg_30d) >= self.spike_30d:
-            return self._price_signal(ineff, symbol, "SELL" if chg_30d > 0 else "BUY", chg_30d)
+            move = "UP" if chg_30d > 0 else "DOWN"
+            return self._price_signal(ineff, symbol,
+                                      map_direction(thesis, move),
+                                      chg_30d, thesis)
         return None
 
-    def _price_signal(self, ineff, symbol, direction, chg) -> RawSignal:
+    def _price_signal(self, ineff, symbol, direction, chg,
+                      thesis: str = "") -> RawSignal:
         return RawSignal(
             inefficiency_id=ineff.id,
             inefficiency_name=ineff.name,
@@ -129,6 +144,7 @@ class Layer1Scanner:
             trigger_type="PRICE",
             trigger_description=f"{symbol} move {chg:+.2f}% (threshold {self.spike_24h}%)",
             confidence=0.6,
+            thesis=thesis,
         )
 
     def _eval_sentiment(self, trigger, ineff, symbol) -> RawSignal | None:

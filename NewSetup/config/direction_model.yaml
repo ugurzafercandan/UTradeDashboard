@@ -1,0 +1,562 @@
+_doc: 'Per-inefficiency price-trigger direction model (UGT-17/19 item 3). Generated
+  by scripts/fit_direction_model.py from D1 history through 2024-12-31 (holdout untouched).
+  direction: reversion = fade the spike; continuation = go with the move. Stats are
+  % pnl over a 10-trading-day forward horizon.'
+default: continuation
+fit_window_end: '2024-12-31'
+forward_bars: 10
+min_triggers: 30
+global_stats:
+  continuation:
+    n: 5325
+    expectancy_pct: -0.0243
+    se_pct: 0.1093
+    profit_factor: 0.991
+    win_rate_pct: 49.3
+  reversion:
+    n: 5325
+    expectancy_pct: 0.0243
+    se_pct: 0.1093
+    profit_factor: 1.009
+    win_rate_pct: 50.6
+inefficiencies:
+  1:
+    name: Helium
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 109
+        expectancy_pct: -0.2766
+        se_pct: 0.5605
+        profit_factor: 0.884
+        win_rate_pct: 49.5
+      reversion:
+        n: 109
+        expectancy_pct: 0.2766
+        se_pct: 0.5605
+        profit_factor: 1.132
+        win_rate_pct: 50.5
+  2:
+    name: Antimony
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 1
+        expectancy_pct: 0.7224
+        se_pct: 0.0
+        profit_factor: .inf
+        win_rate_pct: 100.0
+      reversion:
+        n: 1
+        expectancy_pct: -0.7224
+        se_pct: 0.0
+        profit_factor: 0.0
+        win_rate_pct: 0.0
+  3:
+    name: Gallium/Germanium
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 362
+        expectancy_pct: -0.1969
+        se_pct: 0.4675
+        profit_factor: 0.937
+        win_rate_pct: 50.6
+      reversion:
+        n: 362
+        expectancy_pct: 0.1969
+        se_pct: 0.4675
+        profit_factor: 1.067
+        win_rate_pct: 49.4
+  4:
+    name: Graphite
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 11
+        expectancy_pct: 0.7512
+        se_pct: 0.7636
+        profit_factor: 1.993
+        win_rate_pct: 54.5
+      reversion:
+        n: 11
+        expectancy_pct: -0.7512
+        se_pct: 0.7636
+        profit_factor: 0.502
+        win_rate_pct: 45.5
+  5:
+    name: Manganese
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 58
+        expectancy_pct: 0.3456
+        se_pct: 0.4944
+        profit_factor: 1.263
+        win_rate_pct: 44.8
+      reversion:
+        n: 58
+        expectancy_pct: -0.3456
+        se_pct: 0.4944
+        profit_factor: 0.792
+        win_rate_pct: 55.2
+  6:
+    name: Fluorspar
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  7:
+    name: Phosphate Rock
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 145
+        expectancy_pct: 0.2115
+        se_pct: 0.6945
+        profit_factor: 1.066
+        win_rate_pct: 48.3
+      reversion:
+        n: 145
+        expectancy_pct: -0.2115
+        se_pct: 0.6945
+        profit_factor: 0.938
+        win_rate_pct: 51.7
+  8:
+    name: Rare Earth Refining
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  9:
+    name: Cobalt
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 175
+        expectancy_pct: -0.0149
+        se_pct: 0.3477
+        profit_factor: 0.991
+        win_rate_pct: 48.0
+      reversion:
+        n: 175
+        expectancy_pct: 0.0149
+        se_pct: 0.3477
+        profit_factor: 1.009
+        win_rate_pct: 52.0
+  10:
+    name: Uranium Enrichment
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 199
+        expectancy_pct: -0.0971
+        se_pct: 0.6334
+        profit_factor: 0.971
+        win_rate_pct: 48.2
+      reversion:
+        n: 199
+        expectancy_pct: 0.0971
+        se_pct: 0.6334
+        profit_factor: 1.03
+        win_rate_pct: 51.8
+  11:
+    name: Titanium Sponge
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 9
+        expectancy_pct: -0.8371
+        se_pct: 1.0326
+        profit_factor: 0.42
+        win_rate_pct: 44.4
+      reversion:
+        n: 9
+        expectancy_pct: 0.8371
+        se_pct: 1.0326
+        profit_factor: 2.383
+        win_rate_pct: 55.6
+  12:
+    name: Magnesium
+    category: ENERGY_MINING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  13:
+    name: Potash
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  14:
+    name: Seed Genetics
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 283
+        expectancy_pct: 0.443
+        se_pct: 0.3707
+        profit_factor: 1.201
+        win_rate_pct: 53.7
+      reversion:
+        n: 283
+        expectancy_pct: -0.443
+        se_pct: 0.3707
+        profit_factor: 0.832
+        win_rate_pct: 46.3
+  15:
+    name: Pollination
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  16:
+    name: Refrigerant Gases
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 273
+        expectancy_pct: 0.2199
+        se_pct: 0.4082
+        profit_factor: 1.095
+        win_rate_pct: 52.4
+      reversion:
+        n: 273
+        expectancy_pct: -0.2199
+        se_pct: 0.4082
+        profit_factor: 0.913
+        win_rate_pct: 47.6
+  17:
+    name: Container Imbalance
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  18:
+    name: Panama Canal
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  19:
+    name: Red Sea / Suez
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 332
+        expectancy_pct: 0.4869
+        se_pct: 0.5841
+        profit_factor: 1.168
+        win_rate_pct: 50.3
+      reversion:
+        n: 332
+        expectancy_pct: -0.4869
+        se_pct: 0.5841
+        profit_factor: 0.856
+        win_rate_pct: 49.7
+  20:
+    name: Vanilla
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  21:
+    name: Palm Oil
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  22:
+    name: Fishmeal
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  23:
+    name: Cocoa
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 227
+        expectancy_pct: 0.4961
+        se_pct: 0.5446
+        profit_factor: 1.192
+        win_rate_pct: 52.0
+      reversion:
+        n: 227
+        expectancy_pct: -0.4961
+        se_pct: 0.5446
+        profit_factor: 0.839
+        win_rate_pct: 48.0
+  24:
+    name: Natural Rubber
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats: {}
+  25:
+    name: Bauxite/Alumina
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 273
+        expectancy_pct: 0.5411
+        se_pct: 0.7624
+        profit_factor: 1.124
+        win_rate_pct: 50.5
+      reversion:
+        n: 273
+        expectancy_pct: -0.5411
+        se_pct: 0.7624
+        profit_factor: 0.89
+        win_rate_pct: 49.1
+  26:
+    name: Wheat Chokepoints
+    category: FOOD_SHIPPING
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 627
+        expectancy_pct: -0.269
+        se_pct: 0.2478
+        profit_factor: 0.889
+        win_rate_pct: 48.2
+      reversion:
+        n: 627
+        expectancy_pct: 0.269
+        se_pct: 0.2478
+        profit_factor: 1.125
+        win_rate_pct: 51.8
+  27:
+    name: Undersea Cables
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 262
+        expectancy_pct: 0.0958
+        se_pct: 0.5009
+        profit_factor: 1.037
+        win_rate_pct: 45.8
+      reversion:
+        n: 262
+        expectancy_pct: -0.0958
+        se_pct: 0.5009
+        profit_factor: 0.964
+        win_rate_pct: 52.7
+  28:
+    name: ASML Monopoly
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 91
+        expectancy_pct: -0.0435
+        se_pct: 0.8063
+        profit_factor: 0.984
+        win_rate_pct: 56.0
+      reversion:
+        n: 91
+        expectancy_pct: 0.0435
+        se_pct: 0.8063
+        profit_factor: 1.016
+        win_rate_pct: 44.0
+  29:
+    name: TSMC Concentration
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats: {}
+  30:
+    name: Neon Gas
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats: {}
+  31:
+    name: Ultra-Pure Water
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 132
+        expectancy_pct: -0.1975
+        se_pct: 0.4497
+        profit_factor: 0.909
+        win_rate_pct: 49.2
+      reversion:
+        n: 132
+        expectancy_pct: 0.1975
+        se_pct: 0.4497
+        profit_factor: 1.1
+        win_rate_pct: 50.8
+  32:
+    name: SWIFT System
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats: {}
+  33:
+    name: GPS/GNSS
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 103
+        expectancy_pct: 0.0833
+        se_pct: 0.5501
+        profit_factor: 1.041
+        win_rate_pct: 49.5
+      reversion:
+        n: 103
+        expectancy_pct: -0.0833
+        se_pct: 0.5501
+        profit_factor: 0.96
+        win_rate_pct: 49.5
+  34:
+    name: Power Transformers
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 139
+        expectancy_pct: -0.3835
+        se_pct: 0.4499
+        profit_factor: 0.83
+        win_rate_pct: 48.9
+      reversion:
+        n: 139
+        expectancy_pct: 0.3835
+        se_pct: 0.4499
+        profit_factor: 1.205
+        win_rate_pct: 51.1
+  35:
+    name: HVDC Converters
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 3
+        expectancy_pct: -0.484
+        se_pct: 0.5902
+        profit_factor: 0.259
+        win_rate_pct: 33.3
+      reversion:
+        n: 3
+        expectancy_pct: 0.484
+        se_pct: 0.5902
+        profit_factor: 3.858
+        win_rate_pct: 66.7
+  36:
+    name: Skilled Labor
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats: {}
+  37:
+    name: Cloud Concentration
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 607
+        expectancy_pct: -0.1374
+        se_pct: 0.2462
+        profit_factor: 0.943
+        win_rate_pct: 49.4
+      reversion:
+        n: 607
+        expectancy_pct: 0.1374
+        se_pct: 0.2462
+        profit_factor: 1.06
+        win_rate_pct: 50.6
+  38:
+    name: Copper
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 462
+        expectancy_pct: 0.0338
+        se_pct: 0.3801
+        profit_factor: 1.011
+        win_rate_pct: 47.6
+      reversion:
+        n: 462
+        expectancy_pct: -0.0338
+        se_pct: 0.3801
+        profit_factor: 0.989
+        win_rate_pct: 51.9
+  39:
+    name: Sand
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 258
+        expectancy_pct: -0.4311
+        se_pct: 0.4211
+        profit_factor: 0.831
+        win_rate_pct: 46.5
+      reversion:
+        n: 258
+        expectancy_pct: 0.4311
+        se_pct: 0.4211
+        profit_factor: 1.204
+        win_rate_pct: 53.5
+  40:
+    name: Polysilicon
+    category: TECH_INFRA
+    direction: continuation
+    decided_from: global
+    stats:
+      continuation:
+        n: 184
+        expectancy_pct: -1.4495
+        se_pct: 0.9891
+        profit_factor: 0.758
+        win_rate_pct: 46.2
+      reversion:
+        n: 184
+        expectancy_pct: 1.4495
+        se_pct: 0.9891
+        profit_factor: 1.32
+        win_rate_pct: 53.8
