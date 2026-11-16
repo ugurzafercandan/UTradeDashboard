@@ -42,3 +42,9 @@ Only one MT5 terminal can own the python API port per machine. The Pepperstone
 terminal currently owns it. Do not restart fx_ml paper trading (Alpari
 terminal) until the ownership policy is decided (options: dedicate this
 machine to NewSetup, or move one terminal to a separate machine/VM).
+
+Update 2026-11-16 (UGT-31): the fx_ml USO-366 hourly paper trader was
+decommissioned (task disabled, DBs archived, orphaned EURGBP position
+flattened — see ugt31_uso366_decommission_2026-11-16.md). The Alpari
+terminal / USO417_MT5ApiServer remain up but must not be re-enabled for
+trading; final port-22346 ownership policy still pending.
