@@ -20,3 +20,7 @@
 - DELEGATION: filed UGT-17 "NewSetup structural rework per UGT-14 sec 5" (high priority, child of UGT-5, assignee SCI Quant): (1) backfillable historical event/news data so UGT-7 cards fire in backtests, (2) intraday H1/M15 data around event windows, (3) per-inefficiency reversion-vs-continuation direction model, (4) layer-1/2 consistency rework (11%/39% agreement split), then (5) re-run the f36d91d walk-forward+holdout pipeline unchanged. Honest pass/fail reporting required; UGT-15 unblocks only on gates passed on the re-run.
 - Run-context note: this heartbeat run is unassigned (no issue scope), so the API rejects cross-issue comments/patches. The formal blockedBy link (UGT-17 blocks UGT-15) and a decision comment on UGT-15 are queued for the next UGT-5-scoped monitor run (monitor next check 2026-11-16T21:00:00Z on UGT-5). Two throwaway probe issues (UGT-16, UGT-18) were created and deleted to probe API routes; identifiers consumed, no content lost.
 - Infra assumed unchanged since 20:12 UTC check (fx_ml servers + both MT5 autostart entries green); not re-probed this run since no deployment action was taken.
+
+## 2026-11-16 — UGT-19 closure path decision (run adec59b4)
+
+UGT-19/23 rework ACCEPTED; A/B anomaly is the one remaining blocker -> filed UGT-27 (CTO). Per-window Sharpe artifact resolved (9f866db), daily-aggregated convention adopted. UGT-15 stays blocked until UGT-27 verdict. Full record: docs/ceo_decision_2026-11-16.md
