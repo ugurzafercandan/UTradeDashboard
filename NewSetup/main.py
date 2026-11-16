@@ -61,7 +61,8 @@ def build_pipeline(settings: dict | None = None,
     portfolio = Layer3PortfolioManager(settings=settings)
     bus = SignalBus(settings=settings)
     broker = PaperBroker(starting_balance=settings["paper_trading"]["starting_balance"],
-                         spread_pct=settings["paper_trading"]["spread_pct"])
+                         spread_pct=settings["paper_trading"]["spread_pct"],
+                         settings=settings)
     risk = RiskEnforcer(settings=settings)
     manager = OrderManager(broker)
     alerter = Alerter()
@@ -110,6 +111,37 @@ def _apply_degradation_responses(p: dict, confirmed: list) -> list:
     return out
 
 
+def _dedup_by_instrument(sized: list, open_trades: list) -> list:
+    """One position per (instrument, direction) across the book and batch.
+
+    One trigger event can confirm several inefficiencies that all proxy the
+    same instrument (UGT-15 first-cycle validation: 3 sector inefficiencies
+    -> 3 identical USDCNH BUYs = 3x intended exposure). Keep the
+    highest-confidence signal per (instrument, direction); skip signals
+    whose (instrument, direction) already has an open trade.
+    """
+    open_keys = {(t.instrument, t.direction) for t in (open_trades or [])}
+    best: dict = {}
+    dropped = 0
+    for s in sized:
+        raw = s.signal.raw
+        key = (raw.instrument, raw.direction)
+        if key in open_keys:
+            dropped += 1
+            log.info("dedup: dropping signal for %s %s (position already open)",
+                     raw.instrument, raw.direction)
+            continue
+        conf = float(getattr(raw, "confidence", 0.0) or 0.0)
+        cur = best.get(key)
+        if cur is None or conf > float(getattr(cur.signal.raw, "confidence", 0.0) or 0.0):
+            if cur is not None:
+                dropped += 1
+            best[key] = s
+    if dropped:
+        log.info("dedup: dropped %d duplicate-instrument signals", dropped)
+    return list(best.values())
+
+
 def run_signal_pipeline(p: dict) -> list[dict]:
     """One full cycle: scan -> confirm -> size -> emit -> execute (paper)."""
     raw = p["scanner"].scan_all()
@@ -124,7 +156,15 @@ def run_signal_pipeline(p: dict) -> list[dict]:
                                           p["broker"].open_trades, p["prices"])
     p["_last_sized"] = sized
     sized = _apply_degradation_responses(p, confirmed)
+    sized = _dedup_by_instrument(sized, p["broker"].open_trades)
     log.info("Layer 3: %d sized positions", len(sized))
+    # Feed live account state into the risk enforcer BEFORE placing so the
+    # 5/8/12% drawdown breakers and the daily-loss halt are actually armed
+    # (UGT-15 first-cycle validation: enforcer state was never updated, so
+    # check() always saw 0% drawdown).
+    acct = p["broker"].account_state
+    p["risk"].update_drawdown(acct.equity, p["broker"].peak_equity)
+    p["risk"].set_day_pnl(p["broker"].day_pnl(), acct.equity)
     emitted = p["bus"].emit(sized)
     for s in sized:
         p["manager"].place(s, risk_enforcer=p["risk"])

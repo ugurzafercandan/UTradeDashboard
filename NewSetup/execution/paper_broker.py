@@ -47,6 +47,7 @@ class PaperBroker:
             else pt.get("spread_pct", 0.02)
         )
         self.balance: float = self.starting_balance
+        self.peak_equity: float = self.starting_balance
         self._open: list[Trade] = []
         self._closed: list[Trade] = []
         self._last_prices: dict[str, float] = {}
@@ -123,6 +124,7 @@ class PaperBroker:
                 data = json.load(f)
             self.balance = float(data["balance"])
             self.starting_balance = float(data.get("starting_balance", self.starting_balance))
+            self.peak_equity = float(data.get("peak_equity", self.starting_balance))
             self._open = [self._trade_from_dict(d) for d in data.get("open", [])]
             self._closed = [self._trade_from_dict(d) for d in data.get("closed", [])]
             self._last_prices = {str(k): float(v) for k, v in data.get("last_prices", {}).items()}
@@ -139,6 +141,7 @@ class PaperBroker:
             "version": 1,
             "starting_balance": self.starting_balance,
             "balance": self.balance,
+            "peak_equity": self.peak_equity,
             "open": [self._trade_to_dict(t) for t in self._open],
             "closed": [self._trade_to_dict(t) for t in self._closed],
             "last_prices": dict(self._last_prices),
@@ -249,6 +252,10 @@ class PaperBroker:
     def account_state(self) -> AccountState:
         """Balance/equity snapshot; paper account uses no margin."""
         equity = self.balance + self._open_pnl()
+        # Track the high-water mark so drawdown breakers (RiskEnforcer)
+        # have a persistent peak across the 4-week book.
+        if equity > self.peak_equity:
+            self.peak_equity = equity
         return AccountState(
             balance=round(self.balance, 2),
             equity=round(equity, 2),
@@ -277,6 +284,7 @@ class PaperBroker:
     def reset(self) -> None:
         """Reset the account to its starting state (for tests)."""
         self.balance = self.starting_balance
+        self.peak_equity = self.starting_balance
         self._open.clear()
         self._closed.clear()
         self._last_prices.clear()
