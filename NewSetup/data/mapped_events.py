@@ -141,9 +141,15 @@ def replay_mapped_event_signals(entries: list[dict],
 
 def load_mapped_signals(inefficiencies: list[Inefficiency],
                         available_symbols: Optional[set] = None,
-                        groups: Optional[Iterable[str]] = None,
+                        groups: Optional[Iterable[str]] = DEFAULT_GROUPS,
                         cooldown_hours: int = 24) -> list[RawSignal]:
-    """Convenience: load the dataset and replay it (default groups)."""
+    """Convenience: load the dataset and replay it.
+
+    Defaults to the non-window groups (2017-19 supplement + 2025-26
+    holdout); pass groups=None for all 101 events including the five
+    playbook window groups (note those double-count the UGT-19 store's
+    window coverage).
+    """
     entries = load_mapped_entries(groups)
     return replay_mapped_event_signals(entries, inefficiencies,
                                        available_symbols=available_symbols,

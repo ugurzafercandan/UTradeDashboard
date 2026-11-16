@@ -6,8 +6,9 @@ then:
 1. A/B baseline-vs-tuned on the UNTOUCHED holdout (2025-01-01..cache end)
    via backtest/ab_testing.py, adopting strictly per its own rules.
 2. Re-runs the 5 playbook event windows with the tuned candidate and the
-   UGT-7 inefficiency mapping active (PRICE-trigger replay; GDELT has no
-   historical coverage - stated limitation).
+   UGT-7 inefficiency mapping active (EVENT triggers replay from the
+   historical event store + UGT-23 mapped dataset; PRICE triggers are
+   direction-model aware; intraday H1 bars resolve window entries).
 3. Runs the holdout acceptance with baseline vs tuned parameters.
 4. Structural diagnostics for the report: layer-1 signal density per
    window, layer-2 confirmation tension (RSI vs SMA), layer-1 threshold
@@ -176,37 +177,46 @@ def run_tuned_windows(cache: BarCache, tuned_overrides) -> list[dict]:
 def confirmation_tension(signals: list[RawSignal],
                          price_data,
                          settings: Optional[dict] = None) -> dict:
-    """RSI-vs-SMA agreement split at raw-signal time (layer-2 tension)."""
+    """Layer-1/layer-2 agreement split at raw-signal time.
+
+    UGT-17/19 item 4: measures the THESIS-AWARE gate (the deployed
+    signals/layer2_confirmation.py), reusing scripts/measure_layer2_split
+    .components() so the diagnostic cannot drift from the real gate.
+    Also reports the old one-size gate's split (UGT-14 definition) on the
+    same signals for the before/after comparison, and a per-thesis
+    breakdown.
+    """
+    from scripts.measure_layer2_split import components, classify
     settings = settings or load_settings()
     cfg = settings["layer2"]
+    bars_by_symbol = {s: sorted(bars, key=lambda b: b.ts)
+                      for s, bars in price_data.items()}
     counts = {"both_agree": 0, "rsi_only": 0, "sma_only": 0, "neither": 0}
-    sorted_bars = {s: sorted(bars, key=lambda b: b.ts)
-                   for s, bars in price_data.items()}
-    series = {s: [b.close for b in bars] for s, bars in sorted_bars.items()}
+    old_counts = {"both_agree": 0, "rsi_only": 0, "sma_only": 0, "neither": 0}
+    per_thesis: dict[str, dict[str, int]] = {}
     for sig in signals:
-        bars = sorted_bars.get(sig.instrument)
-        if not bars:
+        parts = components(sig, bars_by_symbol, cfg)
+        if parts is None:
             continue
-        idx = _index_at(sig.ts, bars)
-        if idx is None or idx < cfg["sma_slow"]:
-            continue
-        window = series[sig.instrument][:idx + 1]
-        r = rsi_calc(window, cfg["rsi_period"])
-        fast = sma_calc(window, cfg["sma_fast"])
-        slow = sma_calc(window, cfg["sma_slow"])
-        if r is None or fast is None or slow is None:
-            continue
-        rsi_ok = (sig.direction == "BUY" and r <= cfg["rsi_oversold"]) or \
-                 (sig.direction == "SELL" and r >= cfg["rsi_overbought"])
-        sma_ok = (sig.direction == "BUY" and fast > slow) or \
-                 (sig.direction == "SELL" and fast < slow)
-        key = ("both_agree" if rsi_ok and sma_ok else
-               "rsi_only" if rsi_ok else
-               "sma_only" if sma_ok else "neither")
+        new_rsi, new_second, old_rsi, old_sma = parts
+        key = classify(new_rsi, new_second)
         counts[key] += 1
+        old_key = classify(old_rsi, old_sma)
+        old_counts[old_key] += 1
+        thesis = sig.thesis or ("event" if sig.trigger_type == "EVENT"
+                                else "continuation")
+        per_thesis.setdefault(thesis, {"both_agree": 0, "rsi_only": 0,
+                                       "sma_only": 0, "neither": 0})[key] += 1
     total = sum(counts.values())
-    return {k: {"count": v, "pct": round(100.0 * v / total, 1) if total else 0.0}
-            for k, v in counts.items()} | {"evaluated_signals": total}
+    out = {k: {"count": v, "pct": round(100.0 * v / total, 1) if total else 0.0}
+           for k, v in counts.items()}
+    out |= {"evaluated_signals": total,
+            "old_gate_split": {
+                k: {"count": v,
+                    "pct": round(100.0 * v / total, 1) if total else 0.0}
+                for k, v in old_counts.items()},
+            "per_thesis": per_thesis}
+    return out
 
 
 def _index_at(ts, bars) -> Optional[int]:
@@ -383,10 +393,25 @@ def write_markdown(report: dict) -> str:
     d = report["diagnostics"]
     lines += ["", "## Structural diagnostics", "",
               "Layer-2 confirmation tension at raw-signal time "
-              "(RSI vs SMA support of trigger direction):", ""]
-    for k, v in d["confirmation_tension"].items():
-        lines.append(f"- {k}: {v['count']} ({v['pct']}%)" if isinstance(v, dict)
-                     else f"- {k}: {v}")
+              "(thesis-aware gate, both components supporting the trigger):",
+              ""]
+    tension = d["confirmation_tension"]
+    for k in ("both_agree", "rsi_only", "sma_only", "neither"):
+        v = tension[k]
+        lines.append(f"- {k}: {v['count']} ({v['pct']}%)")
+    lines.append(f"- evaluated signals: {tension['evaluated_signals']}")
+    lines.append("- old one-size gate on the same signals: "
+                 + ", ".join(f"{k} {v['count']} ({v['pct']}%)"
+                             for k, v in tension["old_gate_split"].items()))
+    for thesis, counts in tension.get("per_thesis", {}).items():
+        n = sum(counts.values())
+        both = counts.get("both_agree", 0)
+        neither = counts.get("neither", 0)
+        lines.append(f"- thesis={thesis}: {n} signals, "
+                     f"both-agree {100.0 * both / n:.1f}%"
+                     if n else f"- thesis={thesis}: 0 signals")
+        if n:
+            lines[-1] += f", neither {100.0 * neither / n:.1f}%"
     lines += ["", "Layer-1 trigger sensitivity (diagnostic only, NOT adopted):", ""]
     for row in d["layer1_threshold_sensitivity"]:
         m = row["full_period_metrics"]

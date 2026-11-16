@@ -13,9 +13,12 @@ the acceptance minimum trade count on train) is selected and evaluated on
 the test year.  The candidate adopted for final evaluation is the pick of
 the LAST (most recent) fold, so the holdout is never used for selection.
 
-Signals are the layer-1 PRICE trigger replay (event_backtests module):
-GDELT DOC 2.0 has no historical coverage, so EVENT triggers cannot fire on
-2017-2026 history - a stated limitation carried over from the baseline.
+Signals are the layer-1 replay stack (event_backtests +
+data/historical_events + data/mapped_events): PRICE triggers per symbol
+(direction-model aware) PLUS EVENT triggers from the historical event
+store (UGT-17/19) and the UGT-23 mapped dataset - so EVENT triggers now
+fire across 2017-2026 including the holdout (GDELT DOC 2.0 itself still
+has no history; the store backfills it).
 
 Usage (from the repo root, C:/Python314/python.exe):
 
@@ -102,7 +105,21 @@ def overrides_from_combo(combo: dict) -> dict:
 # ------------------------------------------------------------------ data
 def build_universe(cache: BarCache,
                    warmup_bars: int = 260) -> tuple[dict[str, list[PriceBar]], list[RawSignal]]:
-    """All cached symbols' full history + layer-1 PRICE replay signals."""
+    """All cached symbols' full history + layer-1 replay signals.
+
+    PRICE triggers replay per symbol (direction-model aware). Since the
+    UGT-17/23 structural rework, the universe ALSO carries layer-1 EVENT
+    triggers so the walk-forward folds and the holdout run test the
+    rebuilt stack instead of a price-trigger-only proxy (the UGT-14
+    diagnosis): the UGT-17/19 event store (curated playbook landmarks +
+    GDELT export extract, all five windows) plus the UGT-23 mapped
+    dataset (2017-2019 walk-forward train years + 2025-2026 holdout;
+    window groups excluded to avoid double-counting the store's window
+    coverage).
+    """
+    from data.historical_events import load_all_events, replay_event_signals
+    from data.mapped_events import load_mapped_signals
+
     inefficiencies = load_inefficiencies()
     price_data: dict[str, list[PriceBar]] = {}
     signals: list[RawSignal] = []
@@ -119,6 +136,18 @@ def build_universe(cache: BarCache,
             ineff_id, ineff_name = pseudo_id, symbol
         price_data[symbol] = bars
         signals.extend(replay_price_signals(bars, ineff_id, ineff_name, symbol))
+
+    available = set(price_data)
+    event_signals = replay_event_signals(
+        load_all_events(), inefficiencies, available_symbols=available)
+    mapped_signals = load_mapped_signals(
+        inefficiencies, available_symbols=available)
+    signals.extend(event_signals)
+    signals.extend(mapped_signals)
+    log.info("universe: %d symbols, %d PRICE + %d EVENT (store) "
+             "+ %d EVENT (mapped) signals", len(price_data),
+             len(signals) - len(event_signals) - len(mapped_signals),
+             len(event_signals), len(mapped_signals))
     signals.sort(key=lambda s: s.ts)
     return price_data, signals
 
