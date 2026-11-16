@@ -189,3 +189,28 @@ dedup/isolation fixes and ran on stale fixture events (GDELT 429 all day).
   keeps 429ing.
 - Issue monitor unchanged: next check 2026-11-17T00:15Z (external_service/
   paperclip, maxAttempts 3) verifies the 23:45Z cycle ran on real events.
+
+## Pre-cycle heartbeat verification (SCI Quant company-scoped heartbeat, 2026-11-16 16:2xZ)
+
+All green ~7h before the first fully scheduled official-window cycle
+(today 15:45 server-local = 23:45Z); no action needed, record only:
+
+- Paper book `data/paper_state.json` untouched since the 15:23:22Z reset:
+  balance/peak 10,000.00, 0 open, 0 closed. Funnel db still 0 rows in
+  events/signals/trades/signal_quality/degradation_state. Official forward
+  sample starts clean as intended.
+- `schtasks UGT15_NewSetupPaperDaily`: Status Ready, Next Run 11/16/2026
+  3:45:00 PM, Last Result 0x41303 (never run yet - expected; task start date
+  is today).
+- GDELT export-archive reachability re-probed (single slot, HTTP only, no
+  pipeline/MT5): slot 20261116154500 (40 min old) downloaded OK, ~1,125
+  events / 76 KB. Tonight's cycle ingests real events even if the DOC API
+  keeps 429ing.
+- Issue UGT-15 monitor still armed: nextCheckAt 2026-11-17T00:15:00.000Z
+  (verified via API this run) to verify the 23:45Z cycle ran on real events.
+- UGT-20 disposition unchanged since the 15:53Z re-verification: board-blocked
+  on cancelled UGT-22; needs the board-side dependency-edge removal; nothing
+  further actionable from an agent run.
+- Repo at HEAD 1a6451c, working tree clean except the two known untracked
+  backup files (paper_state.json.fixture_validation_backup,
+  newsetup.sqlite3.prerollout_backup) - preserved intentionally.
