@@ -9,6 +9,7 @@ import io
 import json
 import os
 import sys
+import zipfile
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -259,6 +260,81 @@ class TestMT5AccountGuard:
 
 
 # ---------------------------------------------------------------- GDELT
+def _export_zip_bytes() -> bytes:
+    """One valid GDELT 2.0 export-archive slot containing one keep-event
+    row (tab-separated, 61 columns) zipped as the monitor expects."""
+    f = [""] * 61
+    f[6] = "RUSSIA"                       # Actor1Name
+    f[26] = "194"                         # EventCode
+    f[28] = "19"                          # EventRootCode (military fight)
+    f[30] = "-8.0"                        # GoldsteinScale
+    f[33] = "15"                          # NumArticles
+    f[34] = "-5.0"                        # AvgTone
+    f[52] = "Suez, Egypt"                 # ActionGeo_FullName
+    f[53] = "EG"                          # ActionGeo_CountryCode
+    row = "\t".join(f) + "\n"
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("20261116120000.export.CSV", row)
+    return buf.getvalue()
+
+
+class TestGDELTExportArchive:
+    """UGT-15 Phase 4: DOC-API failures must fall back to the fresh GDELT
+    2.0 export archive (same feed as the UGT-14 walk-forward), not stale
+    fixtures."""
+
+    def test_parse_export_line_maps_row_to_event(self):
+        from data.gdelt_monitor import parse_export_line
+        f = [""] * 61
+        f[6], f[21] = "RUSSIA", "UKRAINE"
+        f[26], f[28] = "194", "19"
+        f[30], f[33], f[34] = "-8.0", "15", "-5.0"
+        f[52], f[53] = "Suez, Egypt", "EG"
+        ev = parse_export_line("\t".join(f), ts=BASE_TS)
+        assert ev is not None
+        assert ev.source == "gdelt_export"
+        assert "conventional military fight" in ev.headline
+        assert "Suez, Egypt" in ev.headline
+        assert "RUSSIA" in ev.headline and "UKRAINE" in ev.headline
+        assert ev.goldstein_score == -8.0
+        assert 0 < ev.score <= 1.0
+
+    def test_parse_export_line_drops_noise(self):
+        from data.gdelt_monitor import parse_export_line
+        f = [""] * 61
+        f[26], f[28] = "010", "10"        # 'make statement', cooperation
+        f[30], f[33], f[34] = "1.0", "50", "0.0"
+        f[52], f[53] = "Italy", "IT"
+        assert parse_export_line("\t".join(f), ts=BASE_TS) is None
+        assert parse_export_line("short\trow", ts=BASE_TS) is None
+
+    def test_doc_failure_falls_back_to_export_archive(self, monkeypatch):
+        zipped = _export_zip_bytes()
+
+        class FakeResp(io.BytesIO):
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return None
+
+        def fake_urlopen(url, timeout=None):
+            if "data.gdeltproject.org/gdeltv2" in url:
+                return FakeResp(zipped)
+            raise OSError("HTTP Error 429: Too Many Requests")
+
+        monkeypatch.setattr("data.gdelt_monitor.urlopen", fake_urlopen)
+        monitor = GDELTMonitor(offline=False)
+        monitor.EXPORT_SLOTS = 2          # keep the test light
+        events = monitor.get_events()
+        assert events
+        assert all(e.source == "gdelt_export" for e in events)
+        assert all("Suez, Egypt" in e.headline for e in events)
+        # export results are cached like DOC results
+        assert monitor.get_events() is not None
+
+
 class TestGDELTLive:
     def test_live_query_parses_doc20_payload(self, monkeypatch):
         payload = {"articles": [

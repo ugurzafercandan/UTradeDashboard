@@ -8,10 +8,11 @@ real coverage), converts each to the scanner Event model with a
 synthesized headline (CAMEO root description + action geography), and
 writes data/caches/events/gdelt_export_events.csv.
 
-GDELT 2.0 export schema (tab-separated, no header), columns used here:
+GDELT 2.0 export schema (tab-separated, no header, 61 columns;
+indices verified against a live slot, 2026-11-16):
     26 EventCode, 28 EventRootCode, 30 GoldsteinScale, 31 NumMentions,
-    32 NumSources, 33 NumArticles, 34 AvgTone, 51 ActionGeo_FullName,
-    52 ActionGeo_CountryCode, 58 DATEADDED, 59 SOURCEURL
+    32 NumSources, 33 NumArticles, 34 AvgTone, 52 ActionGeo_FullName,
+    53 ActionGeo_CountryCode, 59 DATEADDED, 60 SOURCEURL
 
 Usage (from NewSetup/, any Python with requests/stdlib):
 
@@ -111,8 +112,8 @@ def fetch_slot(slot: str, retries: int = 3) -> list[dict]:
             continue
         if not keep_event(goldstein, root, articles):
             continue
-        geo = f[51] or ""
-        country = f[52] or ""
+        geo = f[52] or ""
+        country = f[53] or ""
         desc = CAMEO_ROOT.get(root, f"event {f[26]}")
         headline = f"{desc} in {geo or country}".strip()
         if not headline or headline == f"event {f[26]}":
@@ -124,7 +125,7 @@ def fetch_slot(slot: str, retries: int = 3) -> list[dict]:
             "goldstein": goldstein,
             "score": round(score, 3),
             "themes": f"cameo{root}|{country.lower()}",
-            "source_url": f[59][:200] if len(f) > 59 else "",
+            "source_url": f[60][:200] if len(f) > 60 else "",
         })
     return out
 

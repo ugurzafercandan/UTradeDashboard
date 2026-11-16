@@ -35,6 +35,7 @@ class PaperBroker:
     ):
         """Defaults come from ``settings['paper_trading']`` when provided,
         otherwise the playbook paper defaults (10000 / 0.02%)."""
+        settings_passed = settings is not None
         settings = settings or load_settings()
         pt = settings.get("paper_trading", {}) if settings else {}
         self.starting_balance = float(
@@ -59,6 +60,13 @@ class PaperBroker:
         if state_file:
             root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             self._state_path = os.path.join(root, str(state_file))
+        # Test isolation (UGT-15 Phase 4): once the daily rollout starts,
+        # the settings-default state file IS the live 4-week paper book.
+        # A broker built from default settings under pytest must neither
+        # read nor write it; persistence is still exercised explicitly via
+        # a passed-in settings['paper_trading']['state_file'].
+        if not settings_passed and "PYTEST_CURRENT_TEST" in os.environ:
+            self._state_path = None
         self._load_state()
 
     # ------------------------------------------------------------------
