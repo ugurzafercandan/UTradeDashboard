@@ -263,3 +263,23 @@ record only, no state touched:
 - Repo at HEAD b3812e1, working tree clean except the two intentional untracked
   backup files.
 - Issue monitor armed: nextCheckAt 2026-11-17T00:15Z verifies the 23:45Z cycle.
+
+
+## Heartbeat disposition (SCI Quant run 46c9423f, 2026-11-16 ~18:10Z)
+
+Paper-book wipe incident found and repaired; full record in
+docs/incidents/2026-11-16_paper_book_wipe.md.
+
+- data/paper_state.json had been overwritten with an empty fresh-default
+  book at 08:43 local (fixture-validation run operated on the live state
+  path; a reset broker was then saved over the populated book).
+- Repaired from paper_state.json.fixture_validation_backup (fixture
+  artifacts excluded): 5 open day-1 positions restored, balance 10,000.00,
+  closed=[]. Load verified through PaperBroker: 5 open / 0 closed.
+- Hardening: PaperBroker.save_state() anti-wipe guard (RuntimeError when a
+  fresh-default book would overwrite a populated state file) + regression
+  test; full suite passes (C:/Python314).
+- Tracker comment blocked by cross_issue_influence_run_context_required
+  (same 403 as the launch run); this file is the record per convention.
+- Scheduled task UGT15_NewSetupPaperDaily Ready; next run today 15:45
+  local. Issue monitor armed: next check 2026-11-17T00:15Z.

@@ -137,6 +137,23 @@ class PaperBroker:
         """Atomically persist the paper book for the next daily cycle."""
         if not self._state_path:
             return None
+        # Anti-wipe guard (UGT-15 incident 2026-11-16): refuse to save a
+        # fresh-default book (no open, no closed trades, balance == start)
+        # over a state file that holds real trades. A test/validation run
+        # that reset() the broker must never destroy the live book.
+        if (not self._open and not self._closed
+                and self.balance == self.starting_balance
+                and os.path.exists(self._state_path)):
+            try:
+                with open(self._state_path, "r", encoding="utf-8") as f:
+                    existing = json.load(f)
+                if existing.get("open") or existing.get("closed"):
+                    raise RuntimeError(
+                        "save_state refused: overwriting non-empty paper "
+                        f"book at {self._state_path} with a fresh-reset "
+                        "empty book; refusing (anti-wipe guard)")
+            except (OSError, ValueError):
+                pass  # unreadable existing file: proceed with the save
         data = {
             "version": 1,
             "starting_balance": self.starting_balance,

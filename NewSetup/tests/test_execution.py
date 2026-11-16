@@ -195,3 +195,22 @@ def test_paper_book_state_tolerates_corrupt_file(tmp_path):
     b = PaperBroker(settings=settings)
     assert b.balance == pytest.approx(10000.0)   # fresh book, no crash
     assert b.open_trades == [] and b.closed_trades == []
+
+
+def test_anti_wipe_guard_on_save_state(tmp_path):
+    """A fresh-reset book must never overwrite a populated state file
+    (UGT-15 incident 2026-11-16: a validation run wiped the live book)."""
+    import json
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({
+        "version": 1, "starting_balance": 10000.0, "balance": 10000.0,
+        "peak_equity": 10000.0,
+        "open": [{"instrument": "USDCNH", "pnl": 0.0}], "closed": [],
+        "last_prices": {}}))
+    broker = PaperBroker(starting_balance=10000.0, spread_pct=0.02,
+                         settings={"paper_trading": {"state_file": str(state)}})
+    broker.reset()  # fresh default book: no open, no closed, balance == start
+    with pytest.raises(RuntimeError, match="anti-wipe"):
+        broker.save_state()
+    # the populated file is untouched
+    assert json.loads(state.read_text())["open"]
