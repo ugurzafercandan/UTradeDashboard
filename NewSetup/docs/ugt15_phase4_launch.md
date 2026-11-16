@@ -214,3 +214,33 @@ All green ~7h before the first fully scheduled official-window cycle
 - Repo at HEAD 1a6451c, working tree clean except the two known untracked
   backup files (paper_state.json.fixture_validation_backup,
   newsetup.sqlite3.prerollout_backup) - preserved intentionally.
+
+
+## Issue-scoped heartbeat verification (SCI Quant run 6ca5ceb5, 2026-11-16 ~16:4xZ)
+
+Checked out UGT-15 and verified the official-window start state ~7h before the
+first fully scheduled cycle (15:45 server-local = 23:45Z):
+
+- `data/paper_state.json`: clean fresh account (balance/peak 10,000.00, 0 open,
+  0 closed) per the intentional 15:23:22Z official-window reset; pre-reset
+  contaminated book still preserved in
+  `data/paper_state.json.fixture_validation_backup` (balance 9,949.63, 5 open,
+  1 closed).
+- Funnel db `db/newsetup.sqlite3`: 0 rows in events/signals/trades/
+  signal_quality/degradation_state - clean start confirmed.
+- `schtasks UGT15_NewSetupPaperDaily`: Ready, next run 11/16/2026 3:45:00 PM,
+  Last Result 0x41303 (never run; expected, start date is today).
+- Issue monitor confirmed via API: nextCheckAt 2026-11-17T00:15:00.000Z,
+  external_service/paperclip, maxAttempts 3 - verifies the 23:45Z cycle ran on
+  real GDELT export-archive events.
+
+**Near-miss note (recorded for honesty):** this run initially misread the
+15:21/15:23Z scratch-run log entries as an accidental state clobber and briefly
+restored the pre-reset book from the backup into `paper_state.json`. Reading the
+rollout log corrected that: the reset was the deliberate official-window start.
+Reverted within minutes (~16:43Z); zero impact - the first official cycle had not
+run and the file spent the interval as an unobserved bookkeeping artifact, no
+trade data was generated from it. Lesson applied: consult this document before
+touching live state files.
+
+No other changes; working tree otherwise clean at HEAD 9c54e27.
