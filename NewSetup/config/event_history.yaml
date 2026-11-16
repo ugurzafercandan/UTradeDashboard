@@ -1,0 +1,295 @@
+# NewSetup - historical event history (UGT-17/19 rework, work item 1)
+#
+# Hand-curated, dated landmark supply-chain disruption events for the five
+# playbook 5.2 validation windows. GDELT DOC 2.0 (the live layer-1 event
+# feed) only covers recent months, so historical backtests replay EVENT
+# triggers from this file plus the GDELT 2.0 export archive extract
+# (scripts/fetch_gdelt_window_exports.py -> data/caches/events/).
+#
+# Fields per event:
+#   ts:         UTC timestamp (date is the documented news date; hour is an
+#               approximate session marker - stated limitation, D1/H1 bars
+#               make exact hour non-binding)
+#   headline:   as-reported headline text used for layer-1 keyword matching
+#   goldstein:  GDELT-style conflict score, -10 (severe conflict) .. +10
+#   score:      scanner relevance score 0..1 (curated events: >= 0.85)
+#   themes:     free-form theme tags (informational)
+#   source:     verifiable reference URL for the dated timeline
+#   window:     playbook window key (backtest/event_backtests.PLAYBOOK_WINDOWS)
+
+events:
+  # ---------------- covid_2020 (2020-02-15 .. 2020-06-30) ----------------
+  - ts: "2020-03-09T07:00:00Z"
+    headline: "Saudi Arabia launches oil price war after OPEC+ pact collapses; crude crashes 25 percent"
+    goldstein: -8.0
+    score: 0.9
+    themes: [energy, oil, opec]
+    source: "https://en.wikipedia.org/wiki/2020_Russia%E2%80%93Saudi_Arabia_oil_price_war"
+    window: covid_2020
+  - ts: "2020-03-11T13:00:00Z"
+    headline: "WHO declares COVID-19 outbreak a pandemic"
+    goldstein: -7.0
+    score: 0.95
+    themes: [covid, pandemic, global-shock]
+    source: "https://www.who.int/director-general/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020"
+    window: covid_2020
+  - ts: "2020-03-12T01:00:00Z"
+    headline: "US suspends travel from Europe as COVID-19 spreads; air freight capacity collapses"
+    goldstein: -6.0
+    score: 0.85
+    themes: [covid, travel-ban, freight]
+    source: "https://en.wikipedia.org/wiki/COVID-19_pandemic"
+    window: covid_2020
+  - ts: "2020-03-16T12:00:00Z"
+    headline: "Global markets crash; Fed cuts rates to zero as lockdowns shut factories worldwide"
+    goldstein: -7.0
+    score: 0.85
+    themes: [covid, market-crash, factory-shutdown]
+    source: "https://en.wikipedia.org/wiki/2020_stock_market_crash"
+    window: covid_2020
+  - ts: "2020-03-23T20:00:00Z"
+    headline: "UK announces nationwide lockdown; India orders 1.3 billion people indoors, supply chains halted"
+    goldstein: -8.0
+    score: 0.9
+    themes: [covid, lockdown, container, supply-chain]
+    source: "https://en.wikipedia.org/wiki/COVID-19_lockdowns"
+    window: covid_2020
+  - ts: "2020-03-25T14:00:00Z"
+    headline: "Container shortage strands goods as port congestion builds amid COVID-19 lockdowns"
+    goldstein: -6.0
+    score: 0.85
+    themes: [container-imbalance, port-congestion, scfi]
+    source: "https://en.wikipedia.org/wiki/COVID-19_pandemic#Supply_shortages"
+    window: covid_2020
+  - ts: "2020-04-13T06:00:00Z"
+    headline: "OPEC+ agrees record 9.7 million barrels per day production cut to stabilise oil"
+    goldstein: -5.0
+    score: 0.85
+    themes: [oil, opec, energy]
+    source: "https://en.wikipedia.org/wiki/2020_Russia%E2%80%93Saudi_Arabia_oil_price_war#Aftermath"
+    window: covid_2020
+  - ts: "2020-04-27T12:00:00Z"
+    headline: "US meat processing plants shutdown amid outbreaks threatens food supply"
+    goldstein: -6.0
+    score: 0.85
+    themes: [food, shutdown, meat]
+    source: "https://en.wikipedia.org/wiki/Impact_of_the_COVID-19_pandemic_on_the_meat_industry"
+    window: covid_2020
+  - ts: "2020-06-16T10:00:00Z"
+    headline: "Second wave of COVID-19 infections hits US and Latin America; recovery plans stall"
+    goldstein: -5.0
+    score: 0.8
+    themes: [covid, second-wave]
+    source: "https://en.wikipedia.org/wiki/COVID-19_pandemic"
+    window: covid_2020
+
+  # ---------------- suez_2021 (2021-03-10 .. 2021-04-20) ----------------
+  - ts: "2021-03-23T07:40:00Z"
+    headline: "Container ship Ever Given runs aground and blocks the Suez Canal"
+    goldstein: -8.0
+    score: 0.95
+    themes: [suez, canal, container, shipping]
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+    window: suez_2021
+  - ts: "2021-03-25T12:00:00Z"
+    headline: "Salvage attempts fail; more than 150 ships queue as Suez Canal blockage continues"
+    goldstein: -7.0
+    score: 0.9
+    themes: [suez, canal, port-congestion, container]
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+    window: suez_2021
+  - ts: "2021-03-28T09:00:00Z"
+    headline: "Suez Canal blockage enters sixth day; shipping rates spike on rerouting fears"
+    goldstein: -6.0
+    score: 0.85
+    themes: [suez, canal, freight-rates, scfi]
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+    window: suez_2021
+  - ts: "2021-03-29T14:00:00Z"
+    headline: "Ever Given refloated; Suez Canal traffic resumes and backlog clears"
+    goldstein: 4.0
+    score: 0.85
+    themes: [suez, canal, recovery]
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction#Refloating"
+    window: suez_2021
+  - ts: "2021-04-13T12:00:00Z"
+    headline: "Egyptian court orders Ever Given seized pending compensation claims"
+    goldstein: -4.0
+    score: 0.7
+    themes: [suez, canal, legal]
+    source: "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction#Aftermath"
+    window: suez_2021
+
+  # ---------------- china_power_2021 (2021-09-01 .. 2021-11-15) ----------------
+  - ts: "2021-09-20T06:00:00Z"
+    headline: "Evergrande debt crisis deepens; contagion fears grip China property and commodities"
+    goldstein: -6.0
+    score: 0.85
+    themes: [china, credit-crisis, commodities]
+    source: "https://en.wikipedia.org/wiki/Evergrande#2021_liquidity_crisis"
+    window: china_power_2021
+  - ts: "2021-09-26T12:00:00Z"
+    headline: "Coal shortage forces power cuts across Chinese factories; rationing hits industrial output"
+    goldstein: -7.0
+    score: 0.9
+    themes: [china, coal, power-rationing, factory-shutdown]
+    source: "https://en.wikipedia.org/wiki/2021_China_power_shortage"
+    window: china_power_2021
+  - ts: "2021-09-28T08:00:00Z"
+    headline: "China orders coal mines to raise output and utilities to secure supply before winter"
+    goldstein: -5.0
+    score: 0.85
+    themes: [china, coal, energy, aluminium]
+    source: "https://en.wikipedia.org/wiki/2021_China_power_shortage"
+    window: china_power_2021
+  - ts: "2021-10-09T10:00:00Z"
+    headline: "China power crisis eases for residents but industrial rationing persists; metals smelters curbed"
+    goldstein: -5.0
+    score: 0.8
+    themes: [china, power, metals, smelter]
+    source: "https://en.wikipedia.org/wiki/2021_China_power_shortage"
+    window: china_power_2021
+  - ts: "2021-10-19T10:00:00Z"
+    headline: "China NDRC intervenes to cap coal prices; coal futures hit limit down"
+    goldstein: 2.0
+    score: 0.85
+    themes: [china, coal, price-caps, intervention]
+    source: "https://en.wikipedia.org/wiki/2021_China_power_shortage"
+    window: china_power_2021
+  - ts: "2021-11-10T09:00:00Z"
+    headline: "China coal output hits record as intervention takes hold; power crunch eases"
+    goldstein: 3.0
+    score: 0.7
+    themes: [china, coal, recovery]
+    source: "https://en.wikipedia.org/wiki/2021_China_power_shortage"
+    window: china_power_2021
+
+  # ---------------- russia_sanctions_2022 (2022-02-15 .. 2022-04-30) ----------------
+  - ts: "2022-02-21T21:00:00Z"
+    headline: "Russia recognises Donetsk and Luhansk republics; Western sanctions imminent"
+    goldstein: -8.0
+    score: 0.9
+    themes: [russia, ukraine, sanctions]
+    source: "https://en.wikipedia.org/wiki/Prelude_to_the_Russian_invasion_of_Ukraine"
+    window: russia_sanctions_2022
+  - ts: "2022-02-24T05:00:00Z"
+    headline: "Russia launches full-scale invasion of Ukraine"
+    goldstein: -10.0
+    score: 0.95
+    themes: [russia, ukraine, war, sanctions, energy]
+    source: "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine"
+    window: russia_sanctions_2022
+  - ts: "2022-02-26T14:00:00Z"
+    headline: "Western allies move to disconnect Russian banks from SWIFT financial system"
+    goldstein: -8.0
+    score: 0.9
+    themes: [swift, sanctions, russia]
+    source: "https://en.wikipedia.org/wiki/SWIFT#Ban_of_Russian_banks_(2022)"
+    window: russia_sanctions_2022
+  - ts: "2022-03-02T10:00:00Z"
+    headline: "Ukraine grain exports halt; Black Sea shipping and wheat supply disrupted"
+    goldstein: -7.0
+    score: 0.9
+    themes: [wheat, black-sea, grain-corridor, ukraine]
+    source: "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine#Grain_crisis"
+    window: russia_sanctions_2022
+  - ts: "2022-03-08T13:00:00Z"
+    headline: "US bans Russian oil imports; energy and metals prices spike as buyers self-sanction"
+    goldstein: -8.0
+    score: 0.9
+    themes: [oil, energy, metals, sanctions, copper]
+    source: "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine#Sanctions"
+    window: russia_sanctions_2022
+  - ts: "2022-03-08T08:00:00Z"
+    headline: "LME suspends nickel trading after historic short squeeze on sanctions fears"
+    goldstein: -6.0
+    score: 0.85
+    themes: [nickel, lme, metals, sanctions]
+    source: "https://en.wikipedia.org/wiki/2022_LME_nickel_affair"
+    window: russia_sanctions_2022
+  - ts: "2022-03-16T15:00:00Z"
+    headline: "Russia and Ukraine resume talks; ceasefire speculation rises"
+    goldstein: 3.0
+    score: 0.7
+    themes: [ukraine, talks, de-escalation]
+    source: "https://en.wikipedia.org/wiki/Peace_negotiations_of_the_Russian_invasion_of_Ukraine"
+    window: russia_sanctions_2022
+  - ts: "2022-04-07T16:00:00Z"
+    headline: "EU approves phased ban on Russian coal; first EU energy sanctions package"
+    goldstein: -7.0
+    score: 0.85
+    themes: [coal, energy, sanctions, eu]
+    source: "https://en.wikipedia.org/wiki/International_sanctions_during_the_Russo-Ukrainian_War"
+    window: russia_sanctions_2022
+
+  # ---------------- red_sea_2023_24 (2023-11-01 .. 2024-03-31) ----------------
+  - ts: "2023-11-19T12:00:00Z"
+    headline: "Houthi forces hijack cargo ship Galaxy Leader in the Red Sea"
+    goldstein: -8.0
+    score: 0.9
+    themes: [red-sea, houthi, shipping, hijack]
+    source: "https://en.wikipedia.org/wiki/Galaxy_Leader_hijacking"
+    window: red_sea_2023_24
+  - ts: "2023-12-11T10:00:00Z"
+    headline: "Houthi missile and drone attacks on Red Sea shipping intensify; tankers divert"
+    goldstein: -7.0
+    score: 0.85
+    themes: [red-sea, houthi, attack, oil-tankers]
+    source: "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+    window: red_sea_2023_24
+  - ts: "2023-12-16T09:00:00Z"
+    headline: "Maersk and major container lines pause Red Sea transits; reroute via Cape of Good Hope"
+    goldstein: -7.0
+    score: 0.9
+    themes: [red-sea, container, shipping-rerouting, scfi]
+    source: "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+    window: red_sea_2023_24
+  - ts: "2023-12-19T01:00:00Z"
+    headline: "US announces Operation Prosperity Guardian to protect Red Sea shipping"
+    goldstein: 1.0
+    score: 0.8
+    themes: [red-sea, us-navy, escort]
+    source: "https://en.wikipedia.org/wiki/Operation_Prosperity_Guardian"
+    window: red_sea_2023_24
+  - ts: "2024-01-02T12:00:00Z"
+    headline: "Maersk halts Red Sea transits again after attack on container ship Maersk Hangzhou"
+    goldstein: -7.0
+    score: 0.9
+    themes: [red-sea, houthi, container, attack]
+    source: "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+    window: red_sea_2023_24
+  - ts: "2024-01-12T19:00:00Z"
+    headline: "US and UK launch strikes on Houthi targets in Yemen after Red Sea attacks"
+    goldstein: -8.0
+    score: 0.9
+    themes: [houthi, yemen, strikes, red-sea]
+    source: "https://en.wikipedia.org/wiki/2024_United_States_strikes_in_Yemen"
+    window: red_sea_2023_24
+  - ts: "2024-01-17T14:00:00Z"
+    headline: "US redesignates Houthis as Specially Designated Global Terrorists"
+    goldstein: -6.0
+    score: 0.8
+    themes: [houthi, sanctions, designation]
+    source: "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+    window: red_sea_2023_24
+  - ts: "2024-02-03T00:00:00Z"
+    headline: "US strikes Iran-linked targets across Iraq, Syria and Yemen in retaliation wave"
+    goldstein: -7.0
+    score: 0.8
+    themes: [strikes, iran, iraq, syria, escalation]
+    source: "https://en.wikipedia.org/wiki/2024_United_States_strikes_in_Iraq_and_Syria"
+    window: red_sea_2023_24
+  - ts: "2024-03-06T12:00:00Z"
+    headline: "Houthi missile attack kills crew on Barbados-flagged ship True Confidence in Gulf of Aden"
+    goldstein: -8.0
+    score: 0.85
+    themes: [red-sea, houthi, attack, gulf-of-aden]
+    source: "https://en.wikipedia.org/wiki/MV_True_Confidence"
+    window: red_sea_2023_24
+  - ts: "2024-03-20T09:00:00Z"
+    headline: "Container freight rates ease from Red Sea spike as carriers settle into Cape routings"
+    goldstein: 2.0
+    score: 0.7
+    themes: [container, freight-rates, scfi, normalization]
+    source: "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+    window: red_sea_2023_24

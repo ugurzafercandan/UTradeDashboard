@@ -26,9 +26,23 @@ from newsetup.config import ROOT, load_inefficiencies, load_settings
 from newsetup.models import PriceBar, RawSignal
 
 from data.bar_cache import BarCache
+from data.historical_events import load_all_events, replay_event_signals
 from .runner import BacktestRunner
 
 log = logging.getLogger("newsetup.event_backtests")
+
+# Historical event store (curated + GDELT extract), loaded once per
+# process; see data/historical_events.py (UGT-17/19 work item 1).
+_EVENT_STORE: list | None = None
+
+
+def _event_store() -> list:
+    global _EVENT_STORE
+    if _EVENT_STORE is None:
+        _EVENT_STORE = load_all_events()
+        log.info("historical event store: %d events (curated + GDELT)",
+                 len(_EVENT_STORE))
+    return _EVENT_STORE
 
 RESULTS_DIR = ROOT + "/backtest/results"
 
@@ -117,6 +131,14 @@ def _symbol_owner(inefficiencies, symbol: str):
     return None
 
 
+def _settings_from_overrides(settings_overrides: Optional[dict]) -> dict:
+    """Shallow view of base settings with flat/nested overrides applied."""
+    from backtest.runner import _deep_merge, _nest_overrides
+    from newsetup.config import load_settings
+    return _deep_merge(load_settings(),
+                       _nest_overrides(load_settings(), settings_overrides))
+
+
 def run_event_backtest(window: str,
                        cache: BarCache,
                        symbols: Optional[list[str]] = None,
@@ -161,9 +183,25 @@ def run_event_backtest(window: str,
             price_data[symbol], ineff_id, ineff_name, symbol,
             start=start, end=end))
 
+    # UGT-17/19 item 1: event-conditioned triggers on the historical
+    # event store (curated playbook landmarks + GDELT export extract),
+    # same keyword/direction logic as the live layer-1 scanner.
+    window_events = [e for e in _event_store() if start <= e.ts <= end]
+    event_signals = replay_event_signals(
+        window_events, inefficiencies, available_symbols=set(price_data),
+        settings=settings_overrides and _settings_from_overrides(
+            settings_overrides) or None)
+    raw_signals.extend(event_signals)
+    log.info("window %s: %d events in-window -> %d EVENT signals "
+             "+ %d PRICE signals", window, len(window_events),
+             len(event_signals), len(raw_signals) - len(event_signals))
+
     runner = BacktestRunner(settings=settings_overrides)
     result = runner.run(price_data, raw_signals,
                         starting_balance=starting_balance)
+    by_type = {"EVENT": 0, "PRICE": 0}
+    for sig in raw_signals:
+        by_type[sig.trigger_type] = by_type.get(sig.trigger_type, 0) + 1
     report = {
         "window": window,
         "description": description,
@@ -172,6 +210,8 @@ def run_event_backtest(window: str,
         "symbols_used": sorted(price_data),
         "symbols_skipped": skipped,
         "raw_signals": len(raw_signals),
+        "raw_signals_by_type": by_type,
+        "events_in_window": len(window_events),
         "metrics": result.metrics,
         "acceptance_passed": result.acceptance_passed,
         "acceptance_failures": result.acceptance_failures,

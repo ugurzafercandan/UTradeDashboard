@@ -164,16 +164,19 @@ class Layer1Scanner:
         to the generic name + shock-word list.
         """
         themed = self.gdelt_keywords.get(ineff.id)
+        # Shared disruption shock-words applied on top of the theme. This
+        # list intentionally matches Layer1Scanner._is_supply_shock so any
+        # headline that can flip direction can also fire the trigger
+        # (UGT-17/19 consistency fix: war/attack/halt were previously
+        # direction-only and could never trigger).
+        extras = ["export ban", "restriction", "sanction", "disruption",
+                  "shutdown", "mine strike", "coup", "closure",
+                  "earthquake", "flood", "ban", "strike", "attack",
+                  "war", "halt"]
         if themed:
-            # shared disruption shock-words still apply on top of the theme
-            extras = ["export ban", "restriction", "sanction", "disruption",
-                      "shutdown", "mine strike", "coup", "closure",
-                      "earthquake", "flood"]
             return list(themed) + extras
         base = [w.lower() for w in ineff.name.replace("/", " ").split()]
-        return base + ["export ban", "restriction", "sanction", "disruption",
-                       "shutdown", "mine strike", "coup", "closure",
-                       "earthquake", "flood"]
+        return base + extras
 
     @staticmethod
     def _is_supply_shock(text: str, ev: Event) -> bool:
