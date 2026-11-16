@@ -327,3 +327,7 @@ the fixture-validation backup. Full analysis and correction:
   (gdeltv2 export.CSV.zip; 18:45/19:00 slots not yet published, normal lag).
 - Issue comment API blocked by cross_issue_influence_run_context_required
   (unscoped heartbeat run) — this file is the record per convention.
+
+- Push to origin failed in this run (no GitHub credentials in an unscoped
+  heartbeat; broker token is not a direct git credential). Local commit
+  c7843f3 on main; push deferred to the 00:15Z monitor wake.
