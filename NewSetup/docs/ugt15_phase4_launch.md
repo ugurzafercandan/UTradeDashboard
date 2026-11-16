@@ -130,3 +130,14 @@ company-scoped; UGT-21/UGT-26 had no blockers):
   day-1 status comment (this run cannot write UGT-15: company scope, and
   checking out UGT-15 is refused per the strand-risk rule since it cannot
   be closed this week).
+
+## Rollout log — 2026-11-16 06:57 local (heartbeat verification)
+
+Pre-verified the first fully scheduled cycle (today 15:45 local) before it runs:
+
+- Scheduled task `UGT15_NewSetupPaperDaily` confirmed Ready, next run 11/16 3:45 PM (schtasks).
+- Dry-tested the GDELT export-archive fallback (commit f868db1) with the real interpreter, data-acquisition only (no trades, paper book untouched): 4,628 real events ingested from 96 slots, newest slot 2026-11-16 14:00 UTC (~57 min old). The day-1 05:18 cycle ran on fixtures because the fix landed after that run; tonight's cycle exercises the verified export path.
+- Paper book unchanged since the day-1 report: 5 open positions, balance 10,000.00 USD, zero risk-enforcer breaches.
+- Issue monitor confirmed persisted: next check 2026-11-17T00:15Z (kind external_service/paperclip, maxAttempts 3) to verify the 15:45 cycle ran on real GDELT events.
+
+Comment writes to the issue from this run were 403 (company-scoped run, no task checkout context); recorded here per established pattern.
