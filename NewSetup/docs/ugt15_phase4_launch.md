@@ -638,3 +638,26 @@ material change since the 23:08Z check:
   was the regression; official-window clean state is correct). Push status
   current through 0544621; push of this record attempted once below.
 - Record only; no state files touched.
+
+## Pre-cycle heartbeat check (SCI Quant heartbeat run 5308506c, 2026-11-16 23:43Z / 15:43 local)
+
+All green, no action; ~2 min before the first official 23:45Z cycle.
+Material change since the 23:25Z check: GDELT head advanced one slot.
+
+- Paper book `data/paper_state.json`: official-window clean state intact
+  (balance/starting 10,000.00, 0 open, 0 closed; mtime 10:58 local,
+  untouched since the 19:05Z re-restore).
+- `schtasks UGT15_NewSetupPaperDaily`: Enabled, Ready, next run today
+  15:45 local (23:45Z first official cycle); Last Run never / last result
+  0x41303 (267011, task-not-yet-run, expected).
+- GDELT archive healthy: gdeltv2/lastupdate.txt head is
+  20261116234500.export.CSV.zip (export/mentions/gkg all at the 234500
+  slot; one slot newer than the 23:25Z check's 233000 head) - feed
+  publishing on cadence, no fallback expected for the 23:45Z cycle.
+- Funnel db `db/newsetup.sqlite3`: events/signals/trades/signal_quality/
+  degradation_state/inefficiencies all 0 rows (expected pre-cycle).
+- UGT-15 still `in_progress`, only open work.
+- Pending handoff for the 00:15Z monitor wake UNCHANGED: post the UGT-15
+  correction comment superseding the 18:22Z thread comment (5-position
+  book was the regression; official-window clean state is correct).
+- Record only; no state files touched.
