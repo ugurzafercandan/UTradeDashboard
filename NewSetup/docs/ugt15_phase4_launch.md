@@ -331,3 +331,30 @@ the fixture-validation backup. Full analysis and correction:
 - Push to origin failed in this run (no GitHub credentials in an unscoped
   heartbeat; broker token is not a direct git credential). Local commit
   c7843f3 on main; push deferred to the 00:15Z monitor wake.
+
+
+## Pre-cycle heartbeat check (SCI Quant heartbeat run fb27170f, 2026-11-16 19:34Z / 11:34 local)
+
+All green; duplicate of the 19:16Z check but with two closures:
+
+- Paper book: official-window clean state intact (balance/peak/starting
+  10,000.00, 0 open, 0 closed). Funnel db 0 rows in
+  events/signals/trades/signal_quality/degradation_state - consistent.
+- `schtasks UGT15_NewSetupPaperDaily`: Ready, next run today 15:45 local
+  (23:45Z first official cycle). Issue monitor unchanged (nextCheckAt
+  2026-11-17T00:15Z).
+- **Deferred push resolved without action**: origin/main is already at
+  e2583ca (local HEAD matches, working tree clean except the 4 intentional
+  untracked evidence/backup files). The 19:16Z push deferral is closed.
+- Thread-correction comment attempted on UGT-15 and blocked again with
+  `cross_issue_influence_run_context_required` (403; unscoped heartbeat
+  run, same as runs 8001622c/db13ecb3). The issue thread's latest comment
+  (18:22Z) still wrongly presents the 5-position day-1 book as the
+  "verified live state".
+
+**Pending for the next issue-scoped run (the 00:15Z monitor wake):** post a
+short correction comment on UGT-15 superseding the 18:22Z comment - the
+5-position book was the regression (re-entered by the 18:10Z misdiagnosis
+repair), the official-window clean state is correct, and cite this file plus
+the incident doc CORRECTION section. Keep the anti-wipe guard; do not
+"repair" the clean book again.
