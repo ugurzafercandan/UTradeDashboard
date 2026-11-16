@@ -358,3 +358,19 @@ short correction comment on UGT-15 superseding the 18:22Z comment - the
 repair), the official-window clean state is correct, and cite this file plus
 the incident doc CORRECTION section. Keep the anti-wipe guard; do not
 "repair" the clean book again.
+
+
+## Pre-cycle heartbeat check (SCI Quant heartbeat run 8cbf5e28, 2026-11-16 19:53Z / 11:53 local)
+
+All green, no action; 19 minutes after the 19:34Z check, nothing changed:
+
+- Paper book `data/paper_state.json`: official-window clean state intact
+  (balance 10,000.00, 0 open, 0 closed; mtime 10:58 local, untouched).
+  Funnel db 0 rows in events/signals/trades/signal_quality/degradation_state.
+- `schtasks UGT15_NewSetupPaperDaily`: Ready, enabled, next run today
+  15:45 local (23:45Z first official cycle); never run yet, expected.
+- Issue monitor armed: nextCheckAt 2026-11-17T00:15Z verifies the 23:45Z
+  cycle. Pending handoff unchanged: the 00:15Z monitor wake posts the
+  UGT-15 correction comment superseding the 18:22Z comment (see
+  fb27170f record above) and pushes local commits to origin.
+- Record only; no state files touched.
