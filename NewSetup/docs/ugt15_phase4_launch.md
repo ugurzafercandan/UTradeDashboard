@@ -244,3 +244,22 @@ trade data was generated from it. Lesson applied: consult this document before
 touching live state files.
 
 No other changes; working tree otherwise clean at HEAD 9c54e27.
+
+
+## Pre-cycle heartbeat verification (SCI Quant company-scoped run 0a453e44, 2026-11-16 ~16:0xZ)
+
+All green ahead of the first official-window cycle (today 15:45 server-local = 23:45Z);
+record only, no state touched:
+
+- Paper book `data/paper_state.json`: clean fresh account (balance/peak/starting
+  10,000.00, 0 open, 0 closed) — the intentional official-window reset, untouched
+  since 16:43Z revert. Pre-reset book preserved in the known untracked backup file.
+- Funnel db `db/newsetup.sqlite3`: 0 rows in events/signals/trades/signal_quality/
+  degradation_state.
+- `schtasks UGT15_NewSetupPaperDaily`: Status Ready, Next Run 11/16/2026 3:45:00 PM,
+  Last Result 0x267011 (never run; expected).
+- GDELT export-archive probe: slot 20261116161500 downloaded OK (102 KB, 1,671 events)
+  — tonight's cycle will ingest real events even if the DOC API keeps 429ing.
+- Repo at HEAD b3812e1, working tree clean except the two intentional untracked
+  backup files.
+- Issue monitor armed: nextCheckAt 2026-11-17T00:15Z verifies the 23:45Z cycle.
