@@ -283,3 +283,30 @@ docs/incidents/2026-11-16_paper_book_wipe.md.
   (same 403 as the launch run); this file is the record per convention.
 - Scheduled task UGT15_NewSetupPaperDaily Ready; next run today 15:45
   local. Issue monitor armed: next check 2026-11-17T00:15Z.
+
+
+## Official-window state re-restored after erroneous "wipe repair" (SCI Quant heartbeat run 8001622c, 2026-11-16 ~19:05Z)
+
+Pre-cycle check found the live paper book holding the 5 day-1 positions
+(opened 13:20:44Z, pre-fix code, stale fixture events) — the very fills the
+15:23:22Z official-window reset excluded. Root cause: the 18:10Z wipe-incident
+run (46c9423f) misread the intentional clean-reset state (written 16:43:26Z by
+the near-miss revert, mtime 08:43:26 local) as a wipe and rebuilt the book from
+the fixture-validation backup. Full analysis and correction:
+`docs/incidents/2026-11-16_paper_book_wipe.md` (CORRECTION section).
+
+- Day-1-repaired book preserved as
+  `data/paper_state.json.day1_repair_evidence_2026-11-16` (untracked).
+- `data/paper_state.json` restored to the official-window clean state
+  (balance/peak/starting 10,000.00, 0 open, 0 closed); load verified through
+  `PaperBroker` (C:/Python314): 0 open / 0 closed.
+- Funnel db still clean: 0 rows events/signals/trades/signal_quality/
+  degradation_state — consistent with the clean book.
+- `schtasks UGT15_NewSetupPaperDaily`: Ready, next run 11/16/2026 3:45 PM
+  (23:45Z, first fully scheduled official-window cycle).
+- GDELT export archive reachable: slot 20261116181500 = 89,638 bytes
+  (gdeltv2 export.CSV.zip; 18:45 slot not yet published, normal lag).
+- Anti-wipe guard (6b5601d) kept — sound hardening, unrelated to this
+  misdiagnosis.
+- Issue monitor unchanged: nextCheckAt 2026-11-17T00:15:00Z verifies the
+  23:45Z cycle ran on real export-archive events.
