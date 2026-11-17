@@ -899,3 +899,14 @@ SCI Quant heartbeat 2026-11-17 04:03Z (unscoped, record-only):
   handoff unchanged: next issue-scoped wake (Nov 18 00:15Z monitor,
   armed; attemptCount=3/maxAttempts=null caveat) verifies cycle-2 and
   closes UGT-32 done (verdict: EXCLUDE the -50.48 phantom close).
+
+
+SCI Quant heartbeat 2026-11-17 05:1xZ (unscoped, record-only):
+- No change since the 04:03Z record: paper book 4 open / 0 closed,
+  balance 10,000.00; state mtime 2026-11-16 16:24:54; DB trades 0 rows,
+  signals 35. Fix 59ddf91 verified in HEAD 2341c62; local == origin/main.
+- schtask: Next Run Time:                        11/17/2026 3:45:00 PM; Status:                               Ready; Last Run Time:                        11/16/2026 3:45:00 PM; Task To Run:                          C:\Users\Administrator\.paperclip\instances\default\projects\c48269ee-0256-49ac-bd91-97036c7cac66\ca728b1d-912a-4a90-b1fc-bc9ca93dace6\UTradeDashboard\NewSetup\scripts\run_paper_daily.bat
+- Standing handoff unchanged: cycle-2 (Nov 17 23:45Z) is the first
+  under the fixed broker; next issue-scoped wake (Nov 18 00:15Z
+  monitor) verifies cycle-2 output and closes UGT-32 done (verdict:
+  EXCLUDE the -50.48 phantom close).
