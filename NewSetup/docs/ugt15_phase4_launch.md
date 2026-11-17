@@ -788,3 +788,19 @@ SCI Quant heartbeat 2026-11-17 01:05Z (unscoped, record-only):
   logs/paper_daily.log. Next scheduled cycle: Nov 17 15:45 local - the first
   under the fixed broker; the Nov 18 monitor wake should verify it ran and
   progressed the 4 open positions.
+
+SCI Quant heartbeat 2026-11-17 01:02Z (unscoped, record-only):
+- Pre-cycle-2 health check green; paper book unchanged since the 01:05Z
+  record (4 open: LIN.US 0.23, USDCNH 208, USDZAR 13.96, MOS.US 2.41;
+  0 closed; balance 10,000.00; peak 10,000.00; all opened_at 23:45:38Z).
+  DB cross-check: trades 0 rows (phantom delete held), signals 35.
+- Scheduled task UGT15_NewSetupPaperDaily: Enabled/Ready, last run Nov 16
+  15:45 local exit 0 (cycle-1), next run Nov 17 15:45 local - the first
+  cycle under the fixed on_bar/opened_at broker; expect it to progress
+  SL/TP on the 4 open positions.
+- Repo: local main == origin/main at c4e3898; working tree clean apart
+  from intentional evidence backups. Git note: native git.exe rejects
+  '-C <repo>' here ("not a git repository") - use cwd=<repo> instead.
+- No quant-side action items this wake. Nov 18 00:15Z monitor wake
+  (armed, attemptCount=3/maxAttempts=null caveat noted) should verify
+  cycle-2 ran and progressed the book; re-arm if it does not fire.
