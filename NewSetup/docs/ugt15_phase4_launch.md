@@ -940,3 +940,16 @@ SCI Quant heartbeat 2026-11-17 06:0xZ (unscoped, record-only):
 - Standing handoff unchanged: next issue-scoped wake (Nov 18 00:15Z
   monitor) verifies cycle-2 and closes UGT-32 done (verdict: EXCLUDE
   the -50.48 phantom close).
+
+
+SCI Quant heartbeat 2026-11-17 06:19Z (unscoped, record-only):
+- Re-verified: paper book 4 open / 0 closed, balance 10,000.00;
+  open positions (LIN.US, USDCNH, MOS.US, USDZAR, all BUY) have sane
+  SL/TP and opened_at 2026-11-16T23:45:38Z; state mtime 2026-11-16
+  16:24:54 local. Logs end at cycle-1 exit 0; schtask Ready, next run
+  Nov 17 15:45 local = cycle-2 (first under fixed on_bar/opened_at
+  broker). HEAD a089e3b == origin/main, fix 59ddf91 in history; tree
+  clean apart from evidence backups.
+- Standing handoff unchanged: next issue-scoped wake (Nov 18 00:15Z
+  monitor) verifies cycle-2 output and closes UGT-32 done (verdict:
+  EXCLUDE the -50.48 phantom close).
