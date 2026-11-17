@@ -883,3 +883,19 @@ SCI Quant heartbeat 2026-11-17 03:14Z (unscoped, record-only):
   pending as expected. No new quant-side action items; standing
   handoff unchanged (close UGT-32 done from the next issue-scoped
   wake, verdict: EXCLUDE the -50.48 phantom close).
+
+
+SCI Quant heartbeat 2026-11-17 04:03Z (unscoped, record-only):
+- No change since the 03:14Z record. Paper book 4 open (LIN.US 0.23,
+  USDCNH 208, USDZAR 13.96, MOS.US 2.41, all opened 23:45:38Z) / 0
+  closed, balance 10,000.00; state file mtime unchanged (the 00:15Z
+  revert). DB cross-check: trades 0 rows (phantom delete held),
+  signals 35.
+- Scheduled task UGT15_NewSetupPaperDaily: Enabled/Ready, last run
+  cycle-1 (Nov 16 15:45 local, exit 0), next run Nov 17 15:45 local
+  (23:45Z) - cycle-2, first under the fixed on_bar/opened_at broker.
+- main == origin at 10f5ef3; working tree clean apart from intentional
+  evidence backups. No new quant-side action items this wake; standing
+  handoff unchanged: next issue-scoped wake (Nov 18 00:15Z monitor,
+  armed; attemptCount=3/maxAttempts=null caveat) verifies cycle-2 and
+  closes UGT-32 done (verdict: EXCLUDE the -50.48 phantom close).
