@@ -758,3 +758,15 @@ today's 15:45 local (23:45Z) cycle:
   data/paper_state.json.usdzar_phantom_evidence_2026-11-17.
   Book now: 4 open (LIN.US 0.23, USDCNH 208, USDZAR 13.96, MOS.US 2.41),
   0 closed, balance 10,000.00, peak 10,000.00.
+
+SCI Quant heartbeat 2026-11-17 00:29Z (unscoped, record-only):
+- Post-cycle-1 health check green: paper book unchanged since the 00:15Z
+  monitor fix (4 open: LIN.US 0.23, USDCNH 208, USDZAR 13.96, MOS.US 2.41;
+  0 closed, balance 10,000.00). All open positions opened_at 23:45:38Z;
+  no phantom closes, USDZAR entry intact at 16.967362794.
+- logs/signals.log confirms cycle-1 (15:45 local) is the last run:
+  6,046 GDELT events / 96 slots via export-archive fallback after DOC API
+  429s; funnel 35 -> 27 -> 4; exit 0.
+- No quant-side action items outstanding from this wake; next scheduled
+  cycle and SL/TP progression of the 4 open positions belong to the next
+  monitor/issue-scoped wake.
