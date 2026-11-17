@@ -1196,3 +1196,22 @@ result 0 from cycle 1).
   UGT-36/UGT-32, and closes UGT-32 (8568f6bb) done per the standing
   verdict (EXCLUDE the -50.48 phantom close from the Phase-4 forward
   sample).
+
+
+### Heartbeat 2026-11-17 12:14Z (SCI Quant, unassigned wake) — read-only
+No change since the 11:25Z record; cycle 2 still ahead (fires 23:45:38Z /
+15:45 local tonight; schtask UGT15_NewSetupPaperDaily Ready,
+next run 11/17/2026 3:45 PM, last result 0 from cycle 1).
+- Pre-cycle sanity verify_paper_cycle.py: PASS (exit 0) — 4 open / 0
+  closed, balance 10,000.00, no phantom closes, fills fresh (USDCNH
+  0.12% / USDZAR 0.29% vs cached close). Same known WARNs: LIN.US no
+  cached D1 bars; MOS.US 3.22% vs 4.0d-old cache bar — diagnostic only.
+- Fix 59ddf91 confirmed an ancestor of the checkout HEAD this wake
+  (git merge-base --is-ancestor exit 0); on_bar opened_at guard present
+  in execution/paper_broker.py as committed.
+- No issue writes this wake (unscoped heartbeat; 403 cross_issue guard).
+  Standing handoff unchanged: next issue-scoped wake (Nov 18 00:15Z
+  monitor) runs the verifier on cycle-2 output, pastes it into
+  UGT-36/UGT-32, and closes UGT-32 (8568f6bb) done per the standing
+  verdict (EXCLUDE the -50.48 phantom close from the Phase-4 forward
+  sample).
