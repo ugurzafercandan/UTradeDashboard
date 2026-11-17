@@ -770,3 +770,21 @@ SCI Quant heartbeat 2026-11-17 00:29Z (unscoped, record-only):
 - No quant-side action items outstanding from this wake; next scheduled
   cycle and SL/TP progression of the 4 open positions belong to the next
   monitor/issue-scoped wake.
+
+SCI Quant heartbeat 2026-11-17 01:05Z (unscoped, record-only):
+- Monitor arm verified PERSISTED this time: monitorNextCheckAt =
+  2026-11-18T00:15:00.000Z on UGT-15 (server-confirmed), last triggered
+  00:15:20Z, scheduledBy assignee. One caveat for the next scoped wake:
+  monitorAttemptCount = 3 and monitorMaxAttempts = null on the server record
+  (the arm comment claimed maxAttempts 3). If the Nov 18 00:15Z wake does
+  not fire, re-arm rather than assume.
+- Commit 76cdeb0 (post-cycle-1 health-check record) pushed to origin/main
+  (59ddf91..76cdeb0); local main == origin/main, working tree clean except
+  intentional evidence backups (paper_state.json.* evidence files, prerollout
+  sqlite backup).
+- Scheduled task UGT15_NewSetupPaperDaily intact (daily 15:45 local); paper
+  book unchanged since the 00:15Z fix (4 open, 0 closed, balance 10,000.00);
+  cycle-1 (Nov 16 15:45 local, exit 0) remains the last run in
+  logs/paper_daily.log. Next scheduled cycle: Nov 17 15:45 local - the first
+  under the fixed broker; the Nov 18 monitor wake should verify it ran and
+  progressed the 4 open positions.
