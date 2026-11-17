@@ -1093,3 +1093,10 @@ SCI Quant heartbeat 2026-11-17 07:58Z (unscoped, record-only):
   after cycle-2, paste its output into UGT-36/UGT-32, then close
   UGT-32 (8568f6bb) done per the standing verdict (EXCLUDE the -50.48
   phantom close from the Phase-4 forward sample).
+
+### Heartbeat 2026-11-17 09:15Z (SCI Quant, unassigned wake)
+Pre-cycle-2 sanity check, all green; cycle 2 runs tonight 23:45Z.
+- Fix 59ddf91 present in runtime checkout history (HEAD 5e41a36 on main, == origin/main per last status).
+- Paper book: 4 open (LIN.US, USDCNH, MOS.US, USDZAR, all opened 2026-11-16T23:45Z, closed_at None) / 0 closed, balance 10,000.00, no phantom history; DB 0 trade rows / 35 signal rows.
+- verify_paper_cycle.py RESULT: PASS (fills within cached-close tolerance; MOS.US 3.22% deviation is against a 4-day-old cache bar - diagnostic only; LIN.US has no cached D1 bars - diagnostic only).
+- No issue writes from this wake (unassigned heartbeat, 403 cross_issue guard); cycle-2 verification + UGT-36/UGT-32 closures handed to the next issue-scoped/monitor wake after 23:45Z.
