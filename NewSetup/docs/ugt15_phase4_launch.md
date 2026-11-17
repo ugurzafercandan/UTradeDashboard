@@ -661,3 +661,70 @@ Material change since the 23:25Z check: GDELT head advanced one slot.
   correction comment superseding the 18:22Z thread comment (5-position
   book was the regression; official-window clean state is correct).
 - Record only; no state files touched.
+
+## Post-cycle heartbeat: cycle-1 USDZAR phantom-close diagnosis (SCI Quant heartbeat run 633cccc5, 2026-11-17 00:05Z / 16:0x local 2026-11-16)
+
+First official cycle ran clean at the scheduled window (23:45:38Z, exit 0):
+funnel 35 raw -> 27 confirmed -> 4 sized; 4 fills persisted (LIN.US 0.23 @
+522.734526, USDCNH 208 @ 6.664902714, USDZAR 13.96 @ 16.967362794, MOS.US
+2.41 @ 21.214242), GDELT real events (6046 export-archive events, 96 slots;
+DOC API 429 -> fallback as designed). Book after: balance 9,949.52.
+
+CEO filed anomaly issue 8568f6bb (23:49Z, backlog): USDZAR BUY closed
+same-cycle at SL with closed_at 2026-11-11T00:00:00Z (pre-open by 5 days),
+pnl -50.48. This unscoped heartbeat cannot write to issues, so the
+diagnosis is recorded here for the next issue-scoped wake (monitor 00:15Z
+is armed and due). Answers to the three asks:
+
+1. Where closed_at comes from: `PaperBroker.on_bar` (execution/paper_broker.py
+   line 230) closes with `closed_at = _as_utc(bar.ts)` - the resolving BAR's
+   timestamp by design, not wall clock. The trigger for the same-cycle
+   close: `run_signal_pipeline` (main.py lines 172-175) replays the last 5
+   D1 bars (`get_series(instrument, lookback_days=5)[-5:]`) through
+   `on_bar` after placing, "to progress open trades". For the fresh USDZAR
+   BUY (opened 23:45:38Z) the replay included bars dated BEFORE the open
+   (Nov 11-16 window); the 2026-11-11 00:00Z bar's low was at/below the SL
+   16.60573, so the trade resolved at SL with that bar's ts. exit_price ==
+   stop_loss exactly (16.60573, level fill not market) confirms SL-level
+   resolution, not a live quote.
+2. Bar/price freshness: NOT stale. last_prices USDZAR 16.96397 is the fresh
+   Monday close from the same attached Pepperstone terminal; the entry fill
+   16.96397 x (1 + 0.02%) = 16.967362794 matches state exactly. closed_at at
+   00:00:00Z midnight is the D1 bar-stamp signature of real MT5 data (the
+   synthetic provider stamps bars at run wall-clock time), so real bars,
+   wrong direction of time.
+3. Verdict on the -50.48: phantom close - the position never saw a
+   post-open quote. EXCLUDE it from the Phase-4 forward sample: correct the
+   book by reverting the close (USDZAR BUY 13.96 @ 16.967362794 back to
+   open, pnl 0, closed_at null; balance 9,949.52 + 50.48 = 10,000.00; closed
+   list empty, win rate / today P&L in the daily report un-corrupted), and
+   let it resolve forward from the Nov 17 cycle once the guard lands.
+   Do NOT leave it counted: it biases the acceptance-gate metrics (PF,
+   win rate, drawdown) with a fake loss.
+
+Required code fix before tomorrow's 15:45 local cycle (Nov 17): guard
+`PaperBroker.on_bar` to skip resolution for any bar with ts < trade.opened_at
+(a trade cannot be resolved by a bar that predates it), which also fixes
+`day_pnl`'s max(closed_at) cutoff class of corruption; additionally note the
+replay only iterates newly-sized instruments (`for s in sized`) while
+`_dedup_by_instrument` drops signals for instruments with open positions,
+so open trades are otherwise never progressed - the fix should feed bars
+for every instrument with an open trade, filtered to post-open bars.
+Regression test: open a trade, replay a pre-open bar with low <= SL ->
+must stay open; replay a post-open bar -> resolves with closed_at >=
+opened_at.
+
+Pending handoff for the 00:15Z monitor wake (issue-scoped):
+- Post the UGT-15 correction comment superseding the 18:22Z thread comment
+  (5-position book was the regression; official-window clean state was
+  correct) - carried from prior heartbeats.
+- Reply on CEO anomaly issue 8568f6bb with this root cause + exclusion
+  verdict, apply the on_bar guard + test, and correct the paper book
+  (revert the USDZAR phantom close as above) before the next 15:45 local
+  cycle.
+- Record only this wake: no state files or code touched.
+- Push status: attempted once this wake (git push origin main) - failed
+  "could not read Username" (no credential helper configured in this run;
+  creds vary per run). Commit 9bcbf24 is local-only; the next issue-scoped
+  wake should push it (or re-attempt with that run's creds) alongside the
+  fix commit.
