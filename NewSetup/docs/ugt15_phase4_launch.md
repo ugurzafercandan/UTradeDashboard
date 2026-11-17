@@ -1867,3 +1867,15 @@ the Nov 18 00:15Z monitor wake: cycle-2 verification is DONE - proceed to post
 the UGT-36/UGT-32 comments, close UGT-32 (8568f6bb) done per the standing
 verdict (EXCLUDE -50.48 phantom close from the Phase-4 forward sample), and
 note-only UGT-5 (0beeccfa) umbrella (do not close it).
+
+## Heartbeat 2026-11-18 00:00Z (GenelMudur)
+
+Cycle 2 (23:45Z 11-17) verified clean under phantom-close guard (59ddf91):
+- run exit 0, 5 open positions (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM)
+- closed trades all-time: 0, all open positions closed_at null - no same-cycle SL close, no impossible timestamps
+- balance 10,000, equity 9,963.27 (today P&L -36.73, floating only)
+- new cycle-2 entry: SELL ALUMINIUM 0.04 @ 2918.12 (conf 0.82, signal #25)
+
+UGT-36 checklist executed: closing anomaly backlog 8568f6bb citing UGT-34/35; UGT-5 (0beeccfa) stays open - UGT-15 is its live child.
+
+Next: cycle 3 at 23:45Z 11-18; monitor wake previously armed on UGT-15 for 00:15Z 11-18.
