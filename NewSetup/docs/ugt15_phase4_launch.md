@@ -1180,3 +1180,19 @@ No change since the 10:19Z record; cycle 2 still scheduled tonight 23:45Z
   UGT-36/UGT-32, closes UGT-32 (8568f6bb) done per the standing
   verdict (EXCLUDE the -50.48 phantom close from the Phase-4 forward
   sample).
+
+
+### Heartbeat 2026-11-17 11:09Z (SCI Quant, unassigned wake) — read-only
+No change since the 10:52Z record; cycle 2 still scheduled tonight 23:45Z
+(schtask UGT15_NewSetupPaperDaily Enabled/Ready, daily 15:45 local, last
+result 0 from cycle 1).
+- Pre-cycle sanity verify_paper_cycle.py: PASS (exit 0) — 4 open / 0
+  closed, balance 10,000.00, no phantom closes, fills fresh (USDCNH
+  0.12% / USDZAR 0.29% vs cached close). Same known WARNs: LIN.US no
+  cached D1 bars; MOS.US 3.22% vs 4.0d-old cache bar — diagnostic only.
+- No issue writes this wake (unscoped heartbeat; 403 cross_issue guard).
+  Standing handoff unchanged: next issue-scoped wake (Nov 18 00:15Z
+  monitor) runs the verifier on cycle-2 output, pastes it into
+  UGT-36/UGT-32, and closes UGT-32 (8568f6bb) done per the standing
+  verdict (EXCLUDE the -50.48 phantom close from the Phase-4 forward
+  sample).
