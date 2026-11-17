@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import pytest
 
+from datetime import timedelta
+
 from newsetup.models import PriceBar, utcnow
 from execution.order_manager import OrderManager
 from execution.paper_broker import PaperBroker
@@ -71,6 +73,33 @@ def test_take_profit_closes_buy_with_positive_pnl():
     assert trade.pnl == pytest.approx((102.0 - fill) * 1.0 * 10.0)
     assert trade.pnl > 0
     assert trade in broker.closed_trades
+
+
+def test_on_bar_ignores_bars_at_or_before_open():
+    """UGT-15 cycle-1 defect: the pre-open D1 replay must never close a
+    fresh position on a bar stamped before the fill (phantom SL hit with
+    closed_at < opened_at)."""
+    broker = PaperBroker(spread_pct=0.02)
+    trade = broker.submit(make_sized(direction="BUY", entry=100.0,
+                                     sl=99.0, tp=102.0, lot=1.0))
+
+    # historical bar stamped 5 days BEFORE the fill; low pierces the SL
+    stale = PriceBar(ts=trade.opened_at - timedelta(days=5),
+                     open=100.0, high=100.5, low=98.0, close=98.5)
+    closed = broker.on_bar("XAUUSD", stale)
+    assert closed == []
+    assert trade in broker.open_trades
+    assert broker.closed_trades == []
+    assert trade.exit_reason == ""
+
+    # a bar stamped after the open still resolves SL normally
+    fresh = PriceBar(ts=trade.opened_at + timedelta(hours=1),
+                     open=100.0, high=100.5, low=98.0, close=98.5)
+    closed = broker.on_bar("XAUUSD", fresh)
+    assert len(closed) == 1
+    assert closed[0] is trade
+    assert trade.exit_reason == "sl"
+    assert trade.closed_at == fresh.ts
 
 
 def test_account_state_equity_tracks_open_pnl():

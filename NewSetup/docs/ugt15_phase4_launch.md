@@ -725,6 +725,36 @@ Pending handoff for the 00:15Z monitor wake (issue-scoped):
 - Record only this wake: no state files or code touched.
 - Push status: attempted once this wake (git push origin main) - failed
   "could not read Username" (no credential helper configured in this run;
-  creds vary per run). Commit 9bcbf24 is local-only; the next issue-scoped
+  creds vary per run). This record's commit is local-only; the next issue-scoped
   wake should push it (or re-attempt with that run's creds) alongside the
   fix commit.
+
+
+## Monitor wake 00:15Z: cycle-1 fix applied (SCI Quant monitor run 7f00c2f3, 2026-11-17 00:15Z)
+
+First-scheduled-cycle verification plus the cycle-1 fix, both done before
+today's 15:45 local (23:45Z) cycle:
+
+- Cycle-1 verification: the Nov 16 15:45 local cycle ran on REAL GDELT
+  events (export archive: 6,046 events from 96 slots after the DOC API 429s;
+  fallback chain worked as designed), funnel 35 raw -> 27 confirmed ->
+  4 sized, exit 0. Quality funnel populated: 35 signal rows + 35
+  signal_quality rows for month 2026-11 in db/newsetup.sqlite3.
+- on_bar opened_at guard landed (execution/paper_broker.py): on_bar now
+  skips SL/TP resolution for any bar with ts <= trade.opened_at; a trade can
+  no longer be resolved by a bar that predates its fill. Regression test
+  test_on_bar_ignores_bars_at_or_before_open added (pre-open bar with low
+  <= SL must leave the trade open; post-open bar resolves with
+  closed_at >= opened_at). Full suite: 150 passed.
+- main.py replay widened: the post-place bar replay now iterates EVERY
+  instrument with an open position (the old loop replayed only newly-sized
+  instruments, and _dedup_by_instrument drops signals for held instruments,
+  so held positions were never progressed). Guarded by the on_bar fix.
+- Phantom close reverted per the diagnosis verdict: USDZAR BUY 13.96 @
+  16.967362794 restored to OPEN (pnl 0, closed_at null); balance back to
+  10,000.00; closed list empty. DB: phantom trades row deleted,
+  signal_quality rebuilt (inefficiency 5: trades_taken 0, gross_pnl 0.0).
+  Pre-revert book preserved at
+  data/paper_state.json.usdzar_phantom_evidence_2026-11-17.
+  Book now: 4 open (LIN.US 0.23, USDCNH 208, USDZAR 13.96, MOS.US 2.41),
+  0 closed, balance 10,000.00, peak 10,000.00.

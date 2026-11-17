@@ -168,11 +168,17 @@ def run_signal_pipeline(p: dict) -> list[dict]:
     emitted = p["bus"].emit(sized)
     for s in sized:
         p["manager"].place(s, risk_enforcer=p["risk"])
-    # feed recent bars through the paper broker to progress open trades
-    for s in sized:
-        bars = p["prices"].get_series(s.signal.raw.instrument, lookback_days=5)
+    # feed recent bars through the paper broker to progress open trades.
+    # Iterate EVERY instrument with an open position, not just the newly
+    # sized ones: _dedup_by_instrument drops signals for instruments we
+    # already hold, so held positions would never be progressed otherwise.
+    # The PaperBroker.on_bar opened_at guard skips bars stamped at/before
+    # the trade's fill, so this replay can only resolve a position on bars
+    # that postdate its open (UGT-15 cycle-1 phantom-close fix).
+    for instrument in sorted({t.instrument for t in p["broker"].open_trades}):
+        bars = p["prices"].get_series(instrument, lookback_days=5)
         for b in bars[-5:]:
-            p["broker"].on_bar(s.signal.raw.instrument, b)
+            p["broker"].on_bar(instrument, b)
     for level, msg in p["broker"].pop_alerts() if hasattr(p["broker"], "pop_alerts") else []:
         p["alerter"].alert(level, msg)
     # Persist the funnel + closed trades (playbook 9.2), then run the

@@ -214,6 +214,14 @@ class PaperBroker:
         for trade in list(self._open):
             if trade.instrument != symbol:
                 continue
+            # UGT-15 cycle-1 defect guard: never resolve SL/TP against a bar
+            # stamped at/before the trade opened. The pre-open 5-day D1
+            # replay in main.py fed historical bars through on_bar and
+            # "closed" a freshly filled USDZAR position on a bar from five
+            # days before the fill (phantom SL, closed_at < opened_at).
+            if trade.opened_at is not None and \
+                    _as_utc(bar.ts) <= _as_utc(trade.opened_at):
+                continue
             hit = None
             if trade.direction == "BUY":
                 if bar.low <= trade.stop_loss:
