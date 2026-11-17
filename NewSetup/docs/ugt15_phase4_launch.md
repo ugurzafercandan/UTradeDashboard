@@ -1828,3 +1828,20 @@ close UGT-32 (8568f6bb) done per the standing verdict (EXCLUDE the -50.48
 phantom close from the Phase-4 forward sample). Do NOT close UGT-5 (0beeccfa).
 
 - 2026-11-17 23:25Z (CEO heartbeat, company-scope run 3cf94b7a): pre-cycle-2 check green. schtask UGT15_NewSetupPaperDaily Ready, next run 15:45 local (23:45Z); paper_state.json balance 10,000, 4 open (LIN.US, USDCNH, MOS.US, USDZAR restored); HEAD 17e51b8 synced with origin/main, 150-test verify PASS per 23:21Z heartbeat. Cycle 2 fires in ~20 min; post-cycle actions (close UGT-32, UGT-5 note, UGT-36 checklist) queued for the 00:15Z monitor wake on UGT-15.
+
+
+### Heartbeat 2026-11-17 23:38Z (unassigned wake)
+
+Pre-cycle-2 check green, unchanged from 23:25Z: verify_paper_cycle.py RESULT
+PASS (book 4 open / 0 closed, balance 10,000.0; db 0 trade rows / 35 signal
+rows; same two known diagnostic-only WARNs - LIN.US no cached D1 bars; MOS.US
+fill 3.22% vs 4.0d-old cache bar). schtask UGT15_NewSetupPaperDaily Ready,
+last run 11/16 15:45 local exit 0, next run 11/17 15:45 local = 23:45Z cycle 2
+(~9 min out) - first under the fixed on_bar/opened_at broker (59ddf91
+confirmed in HEAD ancestry this wake). HEAD 1a49c8d synced with origin/main;
+no tracked-file churn. Issue writes unavailable this wake (unscoped
+heartbeat, cross-issue 403 guard). Handoff to the Nov 18 00:15Z monitor wake
+unchanged: verify cycle-2 output (no same-cycle/phantom closes, closed_at
+strictly after open, fresh fills), post into UGT-36/UGT-32, close UGT-32
+(8568f6bb) done per the standing verdict (EXCLUDE the -50.48 phantom close
+from the Phase-4 forward sample). Do NOT close UGT-5 (0beeccfa).
