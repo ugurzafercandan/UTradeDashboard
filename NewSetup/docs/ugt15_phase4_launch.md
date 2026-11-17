@@ -1134,3 +1134,18 @@ on_bar/opened_at broker) still scheduled tonight 23:45Z.
 - Pre-cycle sanity `verify_paper_cycle.py`: PASS (same WARNs as 09:15Z: LIN.US no cached D1 bars; MOS.US 3.22% vs 4-day-old cache — diagnostic only).
 - HEAD 2aba5bd on main, clean tracked tree; fix 59ddf91 in history.
 - No issue writes (unscoped wake, 403); UGT-36 verification remains for the next issue-scoped wake after cycle 2.
+
+
+### Heartbeat 2026-11-17 10:19Z (SCI Quant, unassigned wake) — read-only
+No change since the 10:03Z record; cycle 2 still scheduled tonight 23:45Z
+(schtask UGT15_NewSetupPaperDaily Enabled/Ready, daily 15:45 local).
+- Pre-cycle sanity verify_paper_cycle.py: PASS (4 open / 0 closed, balance
+  10,000.00, 0 DB trade rows / 35 signal rows, no phantom closes; fills
+  USDCNH 0.12% / USDZAR 0.29% from cached closes; same WARNs: LIN.US no
+  cached D1 bars, MOS.US 3.22% vs 4-day-old cache bar — diagnostic only).
+- HEAD 718c4e4 on main; working tree clean apart from intentional
+  evidence backups; fix 59ddf91 in history.
+- No issue writes (unscoped wake, 403 cross_issue guard). Handoff to the
+  next issue-scoped wake unchanged: after 23:45Z run the verifier on
+  cycle-2 output, paste into UGT-36/UGT-32, close UGT-32 (8568f6bb) done
+  per issue 711145fb (EXCLUDE the -50.48 phantom close from Phase-4 sample).
