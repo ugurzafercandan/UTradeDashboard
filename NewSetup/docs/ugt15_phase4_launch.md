@@ -1701,3 +1701,19 @@ tracked-file churn; no issue writes (unscoped heartbeat, cross-issue
 cycle-2 output (no same-cycle/phantom closes), post into UGT-36/UGT-32,
 close UGT-32 (8568f6bb) done per the standing verdict (EXCLUDE the
 -50.48 phantom close from the Phase-4 forward sample).
+
+### Heartbeat 2026-11-17 21:50Z (unassigned wake)
+
+Pre-cycle-2 state green: verify_paper_cycle.py RESULT PASS (book 4 open /
+0 closed, balance 10,000.0; last cycle Mon 11/16 23:45Z cycle 1). Same
+known WARNs, diagnostic-only (LIN.US no cached D1 bars; MOS.US fill 3.22%
+vs 4.0d-old cache bar). Repaired CRLF churn that had reappeared on this
+file's tail (28 lines, no content change; working tree restored to LF,
+diff clean vs HEAD). schtask UGT15_NewSetupPaperDaily Ready, next run
+15:45 local = 23:45Z cycle 2 - the first under the fixed on_bar/opened_at
+broker. No tracked-file churn remaining; no issue writes (unscoped
+heartbeat, cross-issue 403 guard). Handoff to the Nov 18 00:15Z monitor
+wake unchanged: verify cycle-2 output (no same-cycle/phantom closes),
+post into UGT-36/UGT-32, close UGT-32 (8568f6bb) done per the standing
+verdict (EXCLUDE the -50.48 phantom close from the Phase-4 forward
+sample). Do NOT close UGT-5 (0beeccfa).
