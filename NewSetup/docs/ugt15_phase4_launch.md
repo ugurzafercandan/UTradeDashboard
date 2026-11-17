@@ -1038,3 +1038,14 @@ SCI Quant heartbeat 2026-11-17 07:58Z (unscoped, record-only):
   monitor) verifies cycle-2 output and closes UGT-32 (8568f6bb) done
   per issue 711145fb (verdict: EXCLUDE the -50.48 phantom close from
   the Phase-4 forward sample).
+
+### Heartbeat 2026-11-17 08:14Z (unscoped, record only)
+
+- No change since 07:58Z heartbeat: paper_state.json mtime still
+  2026-11-17T00:24:54Z (post-cycle-1), 0 open positions in book
+  snapshot dict walk, 0 closed_at<opened_at anomalies, balance/equity
+  keys intact. Expected idle state between daily cycles.
+- Cycle-2 (first run under fixed on_bar/opened_at broker) remains
+  scheduled Nov 17 23:45Z; verification delegated to the next
+  issue-scoped wake per standing handoff. Nothing actionable for this
+  unscoped wake.
