@@ -1164,3 +1164,19 @@ No change since the 10:19Z record; cycle 2 still scheduled tonight 23:45Z
   next issue-scoped wake unchanged: after 23:45Z run the verifier on
   cycle-2 output, paste into UGT-36/UGT-32, close UGT-32 (8568f6bb) done
   per issue 711145fb (EXCLUDE the -50.48 phantom close from Phase-4 sample).
+
+
+### Heartbeat 2026-11-17 10:52Z (SCI Quant, unassigned wake)
+
+- Pre-cycle-2 sanity: verify_paper_cycle PASS (exit 0) — 4 open / 0
+  closed, balance 10,000.00, no phantom closes, fills fresh (USDCNH
+  0.12% / USDZAR 0.29% vs cached close). Same known WARNs as prior
+  heartbeats: LIN.US has no cached D1 bars; MOS.US 3.22% deviation vs
+  a 4.0d-old cache bar (diagnostic only).
+- Cycle 2 runs 23:45Z tonight (~13h out); last scheduled-task result 0.
+- No issue writes this wake (unscoped heartbeat; 403 cross-issue cap).
+  Standing handoff unchanged: next issue-scoped wake (Nov 18 00:15Z
+  monitor) runs the verifier post-cycle-2, pastes output into
+  UGT-36/UGT-32, closes UGT-32 (8568f6bb) done per the standing
+  verdict (EXCLUDE the -50.48 phantom close from the Phase-4 forward
+  sample).
