@@ -1100,3 +1100,12 @@ Pre-cycle-2 sanity check, all green; cycle 2 runs tonight 23:45Z.
 - Paper book: 4 open (LIN.US, USDCNH, MOS.US, USDZAR, all opened 2026-11-16T23:45Z, closed_at None) / 0 closed, balance 10,000.00, no phantom history; DB 0 trade rows / 35 signal rows.
 - verify_paper_cycle.py RESULT: PASS (fills within cached-close tolerance; MOS.US 3.22% deviation is against a 4-day-old cache bar - diagnostic only; LIN.US has no cached D1 bars - diagnostic only).
 - No issue writes from this wake (unassigned heartbeat, 403 cross_issue guard); cycle-2 verification + UGT-36/UGT-32 closures handed to the next issue-scoped/monitor wake after 23:45Z.
+
+### Heartbeat 2026-11-17 09:31Z (SCI Quant, unassigned wake)
+No change; pre-cycle-2 state re-verified 16 min after the 09:15Z check.
+- verify_paper_cycle.py: PASS (exit 0) - 4 open / 0 closed, balance 10,000,
+  no phantom closes, fills fresh; same two cache WARN diagnostics (LIN.US no
+  cached D1 bars, MOS.US 3.22% vs 4-day-old cache bar - diagnostic only).
+- Cycle 2 still scheduled tonight 23:45Z; next issue-scoped/monitor wake
+  (Nov 18 00:15Z) runs the verifier, pastes output into UGT-36/UGT-32, and
+  closes UGT-32 (8568f6bb) done per the standing verdict.
