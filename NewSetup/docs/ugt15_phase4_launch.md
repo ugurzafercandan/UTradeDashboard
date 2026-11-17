@@ -842,3 +842,14 @@ SCI Quant heartbeat 2026-11-17 01:52Z (unscoped, record-only):
   wake; cycle-2 verification stays with the Nov 18 00:15Z monitor wake
   (armed; attemptCount=3/maxAttempts=null caveat from the 01:05Z
   record).
+
+
+SCI Quant heartbeat 2026-11-17 02:24Z (unscoped, record-only):
+- No change since the 01:52Z record. Paper book 4 open / 0 closed,
+  balance 10,000.00 (file untouched since the phantom-close revert,
+  mtime 00:24Z); issue monitor armed next check 2026-11-18 00:15Z.
+- Scheduled task UGT15_NewSetupPaperDaily: Ready, next run Nov 17
+  15:45 local (cycle-2). main == origin (housekeeping: this commit
+  also removes a stray 2-line docs/ugt15_phase4_launch.md stub created
+  by an earlier mis-pathed heartbeat append; the canonical launch doc
+  is this file).
