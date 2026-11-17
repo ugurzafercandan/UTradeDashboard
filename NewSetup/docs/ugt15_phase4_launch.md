@@ -1049,3 +1049,21 @@ SCI Quant heartbeat 2026-11-17 07:58Z (unscoped, record-only):
   scheduled Nov 17 23:45Z; verification delegated to the next
   issue-scoped wake per standing handoff. Nothing actionable for this
   unscoped wake.
+
+
+### Heartbeat 2026-11-17 08:31Z (unscoped, record only)
+
+- No change since the 08:14Z record: paper book 4 open / 0 closed,
+  balance 10,000.00, paper_state.json mtime 2026-11-17T00:24:54Z
+  (post-cycle-1 revert state). All 4 open positions (LIN.US, USDCNH,
+  MOS.US, USDZAR, all BUY) have sane SL/TP, opened_at
+  2026-11-16T23:45:38Z, closed_at null, pnl 0 - no phantom entries.
+- schtask UGT15_NewSetupPaperDaily: Enabled/Ready, last run cycle-1
+  exit 0 (Nov 16 15:45 local), next run Nov 17 15:45 local = 23:45Z
+  cycle-2, the first under the fixed on_bar/opened_at broker.
+- HEAD 61e00d4 (2026-11-17 08:14Z record commit); working tree clean
+  apart from the intentional evidence backups.
+- Standing handoff unchanged: next issue-scoped wake (Nov 18 00:15Z
+  monitor) verifies cycle-2 output and closes UGT-32 (8568f6bb) done
+  per issue 711145fb (verdict: EXCLUDE the -50.48 phantom close from
+  the Phase-4 forward sample).
