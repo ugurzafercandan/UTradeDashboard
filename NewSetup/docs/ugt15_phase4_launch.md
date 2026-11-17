@@ -1583,3 +1583,19 @@ Phase-4 forward sample).
 - schtask UGT15_NewSetupPaperDaily: Status Ready, next run 11/17 15:45 local = 23:45Z cycle 2 (~3.5h out); last run cycle 1 on 11/16.
 - Known diagnostics unchanged (MOS.US fill vs 4-day-old cache bar; LIN.US no cached D1 bars) - diagnostic-only.
 - No issue writes from this unscoped wake. Handoff to the Nov 18 00:15Z monitor wake unchanged: verify cycle-2 book (no same-cycle/phantom closes), then CTO backlog 711145fb closes anomaly 8568f6bb + umbrella 0beeccfa per UGT-34/35 evidence.
+
+
+### Heartbeat 2026-11-17 20:20Z (unassigned wake)
+
+Pre-cycle-2 state re-verified green: verify_paper_cycle.py PASS (last
+cycle Mon 11/16 15:45Z; 4 open / 0 closed, balance 10,000.00; USDCNH
+0.12% / USDZAR 0.29% fill freshness; same known WARNs: LIN.US no cached
+D1 bars, MOS.US 3.22% vs 4.0d-old cache bar - diagnostic only). schtask
+UGT15_NewSetupPaperDaily Enabled/Ready, next run Nov 17 15:45 local
+(23:45Z) - cycle 2, the first under the fixed on_bar/opened_at broker.
+No tracked-file churn (only long-standing untracked evidence/backup
+files). No issue writes this wake (unscoped heartbeat; 403 cross-issue
+guard). Handoff to the Nov 18 00:15Z monitor wake unchanged: verify
+cycle-2 output, post into UGT-36/UGT-32, close UGT-32 (8568f6bb) done
+per the standing verdict (EXCLUDE the -50.48 phantom close from the
+Phase-4 forward sample).
