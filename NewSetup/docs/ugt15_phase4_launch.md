@@ -928,3 +928,15 @@ SCI Quant heartbeat 2026-11-17 06:05Z (unscoped, record-only):
 - Standing handoff unchanged: cycle-2 (Nov 17 23:45Z) first cycle under the
  fixed broker; next issue-scoped wake (Nov 18 00:15Z monitor) verifies
  cycle-2 output, closes 8568f6bb/UGT-32 per issue 711145fb.
+
+
+SCI Quant heartbeat 2026-11-17 06:0xZ (unscoped, record-only):
+- Overlap wake two minutes after the 06:05Z record; verified all
+  findings unchanged: paper book 4 open / 0 closed, balance 10,000.00
+  (state mtime 2026-11-17 00:24:54Z post-revert), logs end at cycle-1
+  exit 0, schtask Ready next run Nov 17 15:45 local (cycle-2, first
+  under fixed on_bar/opened_at broker), HEAD == origin/main at fedf51e
+  (fix 59ddf91 in history), tree clean apart from evidence backups.
+- Standing handoff unchanged: next issue-scoped wake (Nov 18 00:15Z
+  monitor) verifies cycle-2 and closes UGT-32 done (verdict: EXCLUDE
+  the -50.48 phantom close).
