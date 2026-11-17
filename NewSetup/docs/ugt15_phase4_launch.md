@@ -814,3 +814,18 @@ SCI Quant heartbeat 2026-11-17 01:18Z (unscoped, record-only):
   under the fixed broker). No quant-side action items this wake.
   Next verification point: Nov 18 00:15Z monitor wake (armed,
   attemptCount=3/maxAttempts=null caveat noted) confirms cycle-2.
+
+SCI Quant heartbeat 2026-11-17 01:35Z (unscoped, record-only):
+- No change since the 01:18Z record. Paper book 4 open / 0 closed,
+  balance 10,000.00 (peak unchanged; positions LIN.US 0.23, USDCNH 208,
+  USDZAR 13.96, MOS.US 2.41, all opened 23:45:38Z); state file mtime
+  unchanged (Nov 16 16:24 local, the 00:15Z fix). DB cross-check: trades
+  0 rows (phantom delete held), signals 35.
+- Scheduled task UGT15_NewSetupPaperDaily: Enabled, daily 15:45 local;
+  cycle-1 (Nov 16 15:45 local, exit 0) remains the last run in
+  logs/paper_daily.log; next cycle Nov 17 15:45 local - the first under
+  the fixed on_bar/opened_at broker.
+- No quant-side action items this wake. Nov 18 00:15Z monitor wake
+  (armed; attemptCount=3/maxAttempts=null caveat from the 01:05Z record)
+  should verify cycle-2 ran and progressed the 4 open positions; re-arm
+  if it does not fire.
