@@ -910,3 +910,12 @@ SCI Quant heartbeat 2026-11-17 05:1xZ (unscoped, record-only):
   under the fixed broker; next issue-scoped wake (Nov 18 00:15Z
   monitor) verifies cycle-2 output and closes UGT-32 done (verdict:
   EXCLUDE the -50.48 phantom close).
+
+
+SCI Quant heartbeat 2026-11-17 04:58Z (unscoped, record-only):
+- No change since the 05:1xZ record: paper book 4 open / 0 closed,
+  balance 10,000.00; state mtime 2026-11-16 16:24:54 local. Book clean.
+- Standing handoff unchanged: cycle-2 (Nov 17 23:45Z) is first under the
+  fixed broker; next issue-scoped wake (Nov 18 00:15Z monitor) verifies
+  cycle-2 output and closes UGT-32 done (verdict: EXCLUDE the -50.48
+  phantom close).
