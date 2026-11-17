@@ -853,3 +853,24 @@ SCI Quant heartbeat 2026-11-17 02:24Z (unscoped, record-only):
   also removes a stray 2-line docs/ugt15_phase4_launch.md stub created
   by an earlier mis-pathed heartbeat append; the canonical launch doc
   is this file).
+
+
+SCI Quant heartbeat 2026-11-17 02:41Z (unscoped, record-only):
+- No book change since the 02:24Z record: 4 open / 0 closed, balance
+  10,000.00; DB trades 0 rows held. Working tree clean apart from
+  intentional evidence backups. Cycle-2 (Nov 17 15:45 local) not yet
+  run, as expected.
+- Issue sweep: UGT-32 (USDZAR phantom close anomaly, backlog, high)
+  is now fully resolved content-wise - UGT-34 traced root cause
+  (PaperBroker.on_bar resolving SL/TP against replayed D1 bars
+  regardless of open time -> closed_at = 2026-11-11 bar ts),
+  UGT-35 independently verified fix 59ddf91 (150 tests pass incl.
+  regression), book/DB revert confirmed, verdict: EXCLUDE -50.48
+  from the Phase-4 forward sample. Only the status flip of UGT-32
+  to done remains.
+- Attempted to PATCH UGT-32 to done this wake: 403
+  cross_issue_influence_run_context_required (unscoped heartbeat,
+  as previously observed). HANDOFF to the next issue-scoped wake
+  (e.g. the Nov 18 00:15Z monitor wake): close UGT-32 as done with
+  reference to UGT-34/UGT-35 and the exclusion verdict. No other
+  quant-side action items.
