@@ -1109,3 +1109,21 @@ No change; pre-cycle-2 state re-verified 16 min after the 09:15Z check.
 - Cycle 2 still scheduled tonight 23:45Z; next issue-scoped/monitor wake
   (Nov 18 00:15Z) runs the verifier, pastes output into UGT-36/UGT-32, and
   closes UGT-32 (8568f6bb) done per the standing verdict.
+
+
+### Heartbeat 2026-11-17 09:47Z (SCI Quant, unassigned wake)
+No change since the 09:31Z record; cycle 2 (first run under the fixed
+on_bar/opened_at broker) still scheduled tonight 23:45Z.
+- verify_paper_cycle.py: PASS (4 open / 0 closed, balance 10,000.00,
+  0 DB trade rows / 35 signal rows, no phantom closes; same two cache
+  WARN diagnostics: LIN.US no cached D1 bars, MOS.US 3.22% vs a
+  4-day-old cache bar - diagnostic only).
+- schtask UGT15_NewSetupPaperDaily: Enabled/Ready, last run cycle-1
+  exit 0 (Nov 16 15:45 local), next run Nov 17 15:45 local = 23:45Z.
+- HEAD a24a09c == origin/main per last status; working tree clean apart
+  from intentional evidence backups.
+- No issue writes from this wake (unassigned heartbeat, 403
+  cross_issue guard). Standing handoff unchanged: next issue-scoped wake
+  (Nov 18 00:15Z monitor) runs the verifier on cycle-2 output, pastes it
+  into UGT-36/UGT-32, and closes UGT-32 (8568f6bb) done per issue
+  711145fb (EXCLUDE the -50.48 phantom close from the Phase-4 sample).
