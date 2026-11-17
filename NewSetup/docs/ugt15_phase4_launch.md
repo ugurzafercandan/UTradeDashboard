@@ -986,3 +986,21 @@ SCI Quant heartbeat 2026-11-17 07:09Z (unscoped, record-only):
   monitor) verifies cycle-2 output and closes UGT-32 (8568f6bb) done
   per issue 711145fb (verdict: EXCLUDE the -50.48 phantom close from
   the Phase-4 forward sample).
+
+
+SCI Quant heartbeat 2026-11-17 07:25Z (unscoped, record-only):
+- No change since the 07:09Z record: paper book 4 open / 0 closed,
+  balance 10,000.00 (state mtime 2026-11-16 16:24:54 local post-revert).
+  Open positions (LIN.US, USDCNH, MOS.US, USDZAR, all BUY) have sane
+  SL/TP and opened_at 2026-11-16T23:45:38Z; no phantom entries. DB
+  cross-check: trades 0 rows (phantom delete held), signals 35.
+- schtask UGT15_NewSetupPaperDaily: Ready, last run cycle-1 exit 0,
+  next run Nov 17 15:45 local = 23:45Z cycle-2, the first under the
+  fixed on_bar/opened_at broker. Logs unchanged (end at cycle-1
+  exit 0).
+- HEAD 6e3d7a0 == origin/main (fix 59ddf91 in history); working tree
+  clean apart from intentional evidence backups.
+- Standing handoff unchanged: next issue-scoped wake (Nov 18 00:15Z
+  monitor) verifies cycle-2 output and closes UGT-32 (8568f6bb) done
+  per issue 711145fb (verdict: EXCLUDE the -50.48 phantom close from
+  the Phase-4 forward sample).
