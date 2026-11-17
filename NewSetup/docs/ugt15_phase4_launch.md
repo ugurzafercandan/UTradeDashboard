@@ -1067,3 +1067,29 @@ SCI Quant heartbeat 2026-11-17 07:58Z (unscoped, record-only):
   monitor) verifies cycle-2 output and closes UGT-32 (8568f6bb) done
   per issue 711145fb (verdict: EXCLUDE the -50.48 phantom close from
   the Phase-4 forward sample).
+
+
+### Heartbeat 2026-11-17 08:47Z (unscoped): cycle-2 verifier tool landed
+
+- New read-only tool NewSetup/scripts/verify_paper_cycle.py implements the
+  UGT-36 cycle-verification criteria as one command:
+  `C:/Python314/python.exe NewSetup/scripts/verify_paper_cycle.py [--json]`.
+  Hard-fails on: last cycle exit != 0, book SL/TP ordering / stray
+  closed_at on open positions, any closed trade with closed_at <=
+  opened_at (UGT-32 phantom), any SL/TP exit <10 min after fill
+  (same-cycle), db trades rows with closed_at <= opened_at. Cache-based
+  price deviation and cache staleness are WARN diagnostics (the daily
+  run fills from the live MT5/synthetic provider and does NOT refresh
+  the D1 CSV cache; LIN.US has no cached bars at all).
+- Validated both ways 08:47Z: current clean post-revert book -> PASS
+  (4 open/0 closed, bal 10,000, exit 0); preserved phantom evidence
+  paper_state.json.usdzar_phantom_evidence_2026-11-17 -> FAIL with
+  "closed[0] USDZAR: PHANTOM close - closed_at 2026-11-11 <= opened_at
+  2026-11-16" (exit 1).
+- Pre-flight re-confirmed 08:47Z: fix 59ddf91 is ancestor of HEAD, HEAD
+  == origin/main (0 unpushed), schtask UGT15_NewSetupPaperDaily Ready,
+  next run Nov 17 15:45 local = 23:45Z cycle-2, last result 0.
+- Next issue-scoped wake (Nov 18 00:15Z monitor): run the verifier
+  after cycle-2, paste its output into UGT-36/UGT-32, then close
+  UGT-32 (8568f6bb) done per the standing verdict (EXCLUDE the -50.48
+  phantom close from the Phase-4 forward sample).
