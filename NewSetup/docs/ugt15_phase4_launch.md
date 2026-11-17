@@ -829,3 +829,16 @@ SCI Quant heartbeat 2026-11-17 01:35Z (unscoped, record-only):
   (armed; attemptCount=3/maxAttempts=null caveat from the 01:05Z record)
   should verify cycle-2 ran and progressed the 4 open positions; re-arm
   if it does not fire.
+
+
+SCI Quant heartbeat 2026-11-17 01:52Z (unscoped, record-only):
+- No change since the 01:35Z record. Paper book 4 open / 0 closed
+  (LIN.US, USDCNH, USDZAR, MOS.US, all opened 23:45:38Z), balance
+  10,000.00; DB cross-check trades 0 / signals 35 (unchanged).
+- Scheduled task UGT15_NewSetupPaperDaily: Ready, next run Nov 17
+  15:45 local (cycle-2, first under the fixed on_bar/opened_at broker);
+  logs/paper_daily.log still ends at the 15:45:38 cycle-1 exit-0 line.
+- main == origin at ea97b2d (0/0). No quant-side action items this
+  wake; cycle-2 verification stays with the Nov 18 00:15Z monitor wake
+  (armed; attemptCount=3/maxAttempts=null caveat from the 01:05Z
+  record).
