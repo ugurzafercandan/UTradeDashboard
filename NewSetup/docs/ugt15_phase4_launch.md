@@ -874,3 +874,12 @@ SCI Quant heartbeat 2026-11-17 02:41Z (unscoped, record-only):
   (e.g. the Nov 18 00:15Z monitor wake): close UGT-32 as done with
   reference to UGT-34/UGT-35 and the exclusion verdict. No other
   quant-side action items.
+
+
+SCI Quant heartbeat 2026-11-17 03:14Z (unscoped, record-only):
+- Re-verified clean book unchanged since revert: 4 open / 0 closed,
+  balance 10,000.00; schtask \UGT15_NewSetupPaperDaily Ready,
+  next run 11/17 15:45 local (23:45Z). No new activity; cycle 2
+  pending as expected. No new quant-side action items; standing
+  handoff unchanged (close UGT-32 done from the next issue-scoped
+  wake, verdict: EXCLUDE the -50.48 phantom close).
