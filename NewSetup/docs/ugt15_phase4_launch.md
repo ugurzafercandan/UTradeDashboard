@@ -1845,3 +1845,25 @@ unchanged: verify cycle-2 output (no same-cycle/phantom closes, closed_at
 strictly after open, fresh fills), post into UGT-36/UGT-32, close UGT-32
 (8568f6bb) done per the standing verdict (EXCLUDE the -50.48 phantom close
 from the Phase-4 forward sample). Do NOT close UGT-5 (0beeccfa).
+
+
+### Heartbeat 2026-11-17 23:54Z (unassigned wake): CYCLE 2 COMPLETED CLEAN
+
+First post-fix cycle (59ddf91) ran 2026-11-17 23:45:01Z local 15:45, exit 0 at
+15:45:21. Verified from paper_daily.log + paper_state.json:
+
+- No same-cycle SL closes: 0 closed trades, all-time closed list empty; the
+  cycle-1 phantom USDZAR close (-50.48, closed_at before open) is absent -
+  book/DB revert held.
+- New cycle-2 fills at fresh prices: BUY USDZAR 13.96 @ 16.96736 re-opened and
+  REMAINED OPEN (no same-cycle SL hit), plus new SELL ALUMINIUM 0.04 @
+  2918.11626 conf=0.82 -> 5 open positions (LIN.US, USDCNH, MOS.US, USDZAR,
+  ALUMINIUM), balance 10,000.00, equity 9,963.27 (MTM -36.73 today).
+- Pipeline funnel: 9 raw -> 1 confirmed -> 1 sized; exit 0, book persisted.
+
+This satisfies the verification criteria of UGT-36 (711145fb) steps 1-2.
+Issue writes unavailable this wake (unscoped heartbeat, 403 guard). Handoff to
+the Nov 18 00:15Z monitor wake: cycle-2 verification is DONE - proceed to post
+the UGT-36/UGT-32 comments, close UGT-32 (8568f6bb) done per the standing
+verdict (EXCLUDE -50.48 phantom close from the Phase-4 forward sample), and
+note-only UGT-5 (0beeccfa) umbrella (do not close it).
