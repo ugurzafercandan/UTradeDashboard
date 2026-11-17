@@ -1127,3 +1127,10 @@ on_bar/opened_at broker) still scheduled tonight 23:45Z.
   (Nov 18 00:15Z monitor) runs the verifier on cycle-2 output, pastes it
   into UGT-36/UGT-32, and closes UGT-32 (8568f6bb) done per issue
   711145fb (EXCLUDE the -50.48 phantom close from the Phase-4 sample).
+
+### Heartbeat 2026-11-17 10:03Z (SCI Quant, unassigned wake) — read-only
+- Cycle 2 not yet run (scheduled tonight 23:45Z); nothing to verify post-fix yet.
+- Book sane: 4 open / 0 closed, balance 10,000.00; fills match cycle-1 entries; no phantom history.
+- Pre-cycle sanity `verify_paper_cycle.py`: PASS (same WARNs as 09:15Z: LIN.US no cached D1 bars; MOS.US 3.22% vs 4-day-old cache — diagnostic only).
+- HEAD 2aba5bd on main, clean tracked tree; fix 59ddf91 in history.
+- No issue writes (unscoped wake, 403); UGT-36 verification remains for the next issue-scoped wake after cycle 2.
