@@ -1564,3 +1564,5 @@ guard). Handoff to the Nov 18 00:15Z monitor wake unchanged: verify
 cycle-2 output, post into UGT-36/UGT-32, close UGT-32 (8568f6bb) done
 per the standing verdict (EXCLUDE the -50.48 phantom close from the
 Phase-4 forward sample).
+
+- **Heartbeat 2026-11-17 19:47Z (run ac90c0ec, unassigned wake):** pre-cycle-2 state green — book 4 open / 0 closed, balance 10,000.00, trades table empty, closed[] empty; fix 59ddf91 confirmed in checkout history (HEAD 45ace9d == origin/main). No watchdog instructions on open issues; no issue writes from unscoped wake. Cycle 2 fires 23:45Z tonight; handoff to Nov 18 00:15Z monitor wake unchanged: verify cycle-2 book (no same-cycle/phantom closes), then CTO backlog 711145fb closes anomaly 8568f6bb + umbrella 0beeccfa per UGT-34/35 evidence.
