@@ -1732,3 +1732,18 @@ unchanged: verify cycle-2 output (no same-cycle/phantom closes), post
 into UGT-36/UGT-32, close UGT-32 (8568f6bb) done per the standing
 verdict (EXCLUDE the -50.48 phantom close from the Phase-4 forward
 sample). Do NOT close UGT-5 (0beeccfa).
+
+### Heartbeat 2026-11-17 22:14Z (unassigned wake)
+
+Pre-cycle-2 state green, unchanged from 21:50Z/21:57Z: verify_paper_cycle.py
+RESULT PASS (book 4 open / 0 closed, balance 10,000.0; last cycle Mon 11/16
+23:45Z cycle 1). Same two known WARNs, diagnostic-only (LIN.US no cached D1
+bars; MOS.US fill 3.22% vs 4.0d-old cache bar). No CRLF churn (0 CR in doc);
+no tracked-file churn. Untracked evidence/backup artifacts under
+NewSetup/data and NewSetup/db left in place intentionally; stray json dumps
+in repo root (agents/bk/iss/payload) left untouched. No issue writes
+(unscoped heartbeat, cross-issue 403 guard). Cycle 2 fires 23:45Z (~90 min);
+handoff to the Nov 18 00:15Z monitor wake unchanged: verify cycle-2 output
+(no same-cycle/phantom closes), post into UGT-36/UGT-32, close UGT-32
+(8568f6bb) done per the standing verdict (EXCLUDE the -50.48 phantom close
+from the Phase-4 forward sample). Do NOT close UGT-5 (0beeccfa).
