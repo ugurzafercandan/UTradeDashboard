@@ -2473,3 +2473,9 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - schtask UGT15_NewSetupPaperDaily Enabled/Ready, last result 0 (11-17); cycle 3 fires 23:45Z (~24 min out).
 - Cycle-3 verification on the 00:15Z issue-scoped monitor wake (also close UGT-37 118ff883). Unscoped wake: repo write only, no issue writes.
 - Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+## Health check 2026-11-18 (unscoped wake, run 78c38a82)
+
+- schtask UGT15_NewSetupPaperDaily: Ready, last run 11-17 15:45 local, result 0; next run 11-18 15:45 local (23:45Z, cycle 3).
+- paper_state: balance 10000.0, 5 open / 0 closed (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM), state mtime 11-17 15:45 local = cycle 2 write, as expected.
+- No new Paperclip task in this wake; health check only per unscoped-wake policy.
