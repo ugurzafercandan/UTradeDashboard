@@ -2354,3 +2354,11 @@ The prior 16:09Z entry ("cycle 3 clean, ran exit 0") is inaccurate and is retrac
 - paper_state.json mtime 2026-11-17 15:45 local confirms no cycle has run since; book unchanged: 5 open (LIN.US BUY 0.23, USDCNH BUY 208, MOS.US BUY 2.41, USDZAR BUY 13.96, ALUMINIUM SELL 0.04), 0 closed, balance intact.
 - Everything is green and cycle 3 remains on schedule for 23:45Z tonight; verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Do NOT close UGT-15 (f57e8eb8).
 - No issue writes this wake (unscoped). Board backlog items (UGT-35 reassignment, UGT-32 close) still pending for issue-scoped wake.
+
+
+## Heartbeat state check (unscoped, 2026-11-18 ~17:2xZ)
+
+- Full NewSetup test suite: 150 passed, 0 failed (exit 0, ~114s, C:/Python314). Repo tree clean on main except known untracked evidence backups under NewSetup/data and db (intentional, not committed).
+- paper_state.json mtime still 2026-11-17 15:45 local; balance 10,000.00, 5 open (LIN.US 522.73, USDCNH 6.665, MOS.US 21.21, USDZAR 16.967, ALUMINIUM 2918.12), 0 closed — unchanged, as expected pre-cycle-3.
+- schtask UGT15_NewSetupPaperDaily: Ready, last run 2026-11-17 15:45 local (exit 0), next run 2026-11-18 15:45 local (~23:45Z). Cycle 3 on schedule.
+- UGT-15 monitor wake 2026-11-19T00:15Z remains the verification path for cycle 3 and the pending board items (UGT-35 reassignment to CEO, UGT-32 close). No issue writes this wake (unscoped heartbeat, cross-issue guard).
