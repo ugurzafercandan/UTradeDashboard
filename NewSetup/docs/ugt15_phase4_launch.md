@@ -2155,3 +2155,9 @@ Health check green, no changes. schtask UGT15_NewSetupPaperDaily Ready (Last Run
 - schtask UGT15_NewSetupPaperDaily: Next Run Time: 11/18/2026 3:45:00 PM
 Status:        Ready - cycle 3 fires 11-18 23:45Z; cycle-3 verification due on the 2026-11-19T00:15Z monitor wake.
 - No state changes made; issue writes unavailable this wake (unscoped heartbeat). Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa).
+
+## Heartbeat 2026-11-18 08:55Z (unscoped health check)
+
+- API health: ok. paper_state.json: 5 open / 0 closed trades; ALUMINIUM SELL 0.04 @ 2918.12 (cycle 2) present, USDZAR BUY intact, balance 10k.
+- schtask UGT15_NewSetupPaperDaily Ready, last run 11-17 15:45 local, next run 11-18 15:45 local (23:45Z = cycle 3).
+- Cycle-3 verification due on next monitor wake after 23:45Z. No changes made.
