@@ -2049,3 +2049,10 @@ Heartbeat 2026-11-18 06:5xZ (run feab25ab): unscoped wake health check green. ve
 - Book: 5 open / 0 closed, balance 10,000.00, equity 9,963.27, open floating P&L -36.73 USD.
 - Closed-trade table empty; no phantom history. Cycle-2 sample is clean for the 4-week forward record.
 - Next: cycle 3 fires 2026-11-18 23:45Z; verification due at the 11-19 00:15Z monitor wake. Weekly metrics + degradation ladder due 2026-11-23.
+
+## Unscoped heartbeat wake 2026-11-18 05Z (run b69bd887-fbef-4824-8db3-17c5e50e1fb6)
+
+- Health check green. verify_paper_cycle.py RESULT PASS - book 5 open / 0 closed, balance 10,000.0; fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29% vs cached closes); db 0 trade rows / 44 signal rows; same two known diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US fill vs 5.0d-old cache bar, 3.22%).
+- schtasks UGT15_NewSetupPaperDaily: Status Ready, last run 2026-11-17 15:45 local (result 0, cycle verified above), next run 2026-11-18 15:45 local = 23:45Z cycle 3.
+- Tracked files clean. Issue writes unavailable this wake (unscoped heartbeat, no PAPERCLIP_TASK_ID).
+- Handoff: cycle-3 verification due at the 2026-11-19T00:15Z monitor wake; weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa).
