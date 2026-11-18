@@ -2486,3 +2486,11 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - schtask UGT15_NewSetupPaperDaily Enabled/Ready, last result 0 (11-17); cycle 3 fires 23:45Z (~8 min out). state mtime still 2026-11-17T23:45Z (pre-cycle-3, expected).
 - Cycle-3 verification on the 00:15Z issue-scoped monitor wake (also close UGT-37 118ff883). Unscoped wake: repo write only, no issue writes.
 - Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+## Heartbeat 2026-11-18 23:54Z
+- Unscoped wake, post-cycle-3 check: verify_paper_cycle.py RESULT PASS (exit 0).
+- Cycle 3 fired 23:45:02Z (schtask UGT15_NewSetupPaperDaily last result 0, next run 11-19 15:45 local / 23:45Z). paper_state mtime 23:45:40Z = cycle-3 write, as expected.
+- Book zero drift: 5 open / 0 closed (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM), balance 10,000.0, all entries/SL/TP unchanged from the 23:37Z entry; last_prices refreshed by cycle 3 (LIN.US 512.08, USDCNH 6.66646, USDZAR 17.26078, MOS.US 19.89, ALUMINIUM 2811.6). No position near SL/TP breach: MOS.US 19.89 vs SL 19.15 is the tightest (3.9% above stop).
+- db: 0 trade rows, 79 signal rows (was 44 pre-cycle-3; cycle-3 signal scan added 35).
+- Same two diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
+- No new Paperclip task in this wake; unscoped-wake policy: repo write only. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8). Weekly metrics + degradation ladder due 2026-11-23.
