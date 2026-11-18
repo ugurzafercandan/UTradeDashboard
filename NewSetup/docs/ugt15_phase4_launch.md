@@ -2335,3 +2335,12 @@ Status:        Ready - cycle 3 fires 11-18 23:45Z; cycle-3 verification due on t
 - UGT-15 (f57e8eb8-3ba4-48b0-aeb5-4eea170af979) unchanged via API read (/api/issues path; company-scoped variant 404s): in_progress, monitorNextCheckAt 2026-11-19T00:15:00Z (cycle-3 verification wake), monitorAttemptCount 4, monitorScheduledBy assignee. Backlog unchanged.
 - schtask UGT15_NewSetupPaperDaily Enabled, Ready, last result 0 (last run 11/17 15:45 local); cycle 3 fires 11/18 15:45 local = 23:45Z, ~7h54m out (note: the "27 min out" estimates in earlier 11/18 entries misread local-vs-UTC; local timezone is PST, UTC-8 — schedule itself is unchanged and correct). paper_state.json unchanged since cycle 2 (mtime 2026-11-17 23:45:21Z); no phantom closes.
 - No state changes made; issue writes unavailable this wake (unscoped heartbeat). Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-15 (f57e8eb8).
+
+
+## Heartbeat state check (unscoped, 2026-11-18 ~16:09Z)
+Read-only verification; no issue mutations possible from this run context (unscoped heartbeat).
+
+- Cycle 3 (Nov 18, 15:45 local) ran exit 0 in ~21s — third clean cycle under phantom-close fix 59ddf91. Book intact: 5 open positions (LIN.US BUY 0.23, USDCNH BUY 208, MOS.US BUY 2.41, USDZAR BUY 13.96 @ 16.967, ALUMINIUM SELL 0.04), 0 closed all-time, balance 10,000.00. Active signal #25 ALUMINIUM SELL conf=0.82.
+- schtask UGT15_NewSetupPaperDaily: Ready, next run Nov 19 15:45 local.
+- UGT-15 monitor armed: nextCheckAt 2026-11-19T00:15Z (timeout 06:15Z, maxAttempts 6, external_service/paperclip) — live continuation path confirmed; monitor wake will verify tonight's cycle.
+- Open board item (backlog, unassigned): reassign UGT-35 to CEO (staged verification comment) + UGT-32 close after clean cycle-2 — cycle-2 already verified clean on 2026-11-18 00:15Z, so UGT-32's "tomorrow's close" condition is now satisfiable; left for the board/issue-scoped wake.
