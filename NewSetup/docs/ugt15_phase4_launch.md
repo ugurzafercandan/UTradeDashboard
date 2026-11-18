@@ -2320,3 +2320,11 @@ Status:        Ready - cycle 3 fires 11-18 23:45Z; cycle-3 verification due on t
 - UGT-15 (f57e8eb8-3ba4-48b0-aeb5-4eea170af979) unchanged via API read: in_progress, monitorNextCheckAt 2026-11-19T00:15:00Z (cycle-3 verification wake), monitorAttemptCount 4, monitorScheduledBy assignee, lastActivityAt 2026-11-18T00:20:47Z. Backlog unchanged (UGT-36 done, anomaly 8568f6bb done).
 - schtask UGT15_NewSetupPaperDaily Enabled, Ready (last run 11/17 15:45 local, result 0); cycle 3 fires 11/18 15:45 local = 23:45Z. paper_state.json unchanged since cycle 2 (mtime 2026-11-17 23:45:21Z); no phantom closes.
 - No state changes made; issue writes unavailable this wake (unscoped heartbeat). Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-15 (f57e8eb8).
+
+## Unscoped heartbeat 2026-11-18 15:18Z (run 60f6213e-78c7-454f-ba28-d6e27ef55d38 — SCI Quant)
+
+- Health check green, no drift vs the 15:01Z entry: scripts/verify_paper_cycle.py RESULT PASS (exit 0) — book 5 open (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM) / 0 closed, balance 10,000.0; fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trade rows / 44 signal rows; same two diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
+- UGT-15 (f57e8eb8-3ba4-48b0-aeb5-4eea170af979) unchanged via API read: in_progress, monitorNextCheckAt 2026-11-19T00:15:00Z (cycle-3 verification wake), monitorAttemptCount 4, monitorScheduledBy assignee. Backlog unchanged (UGT-36 done, anomaly 8568f6bb done).
+- schtask UGT15_NewSetupPaperDaily Enabled, Ready (last run 11/17 15:45 local, result 0); cycle 3 fires 11/18 15:45 local = 23:45Z (~27 min out). paper_state.json unchanged since cycle 2 (mtime 2026-11-17 23:45:21Z); no phantom closes.
+- No state changes made; issue writes unavailable this wake (unscoped heartbeat). Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-15 (f57e8eb8).
+
