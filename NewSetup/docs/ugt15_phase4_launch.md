@@ -2012,3 +2012,6 @@ monitor wake; weekly metrics + degradation ladder due 2026-11-23. Do
 NOT close UGT-5 (0beeccfa).
 
 Heartbeat 2026-11-18 02:04Z (run 222522cd): unscoped wake health check green. repo in sync with origin/main (02:00Z heartbeat commits 3348df9/7ac023c pushed), schtask UGT15_NewSetupPaperDaily Ready, next run 11-18 15:45 local (23:45Z). UGT-15 monitor next check 2026-11-19T00:15Z. Issue writes unavailable this wake (403 unscoped guard). No state changes made.
+
+
+Heartbeat 2026-11-18 02:16Z (run 5d1ce6c2): unscoped wake health check green. verify_paper_cycle.py RESULT PASS - book 5 open / 0 closed, balance 10,000.0, fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29% vs cached closes); db 0 trade rows / 44 signal rows; same two known diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US fill vs 5.0d-old cache bar). schtask UGT15_NewSetupPaperDaily Ready, next run 11/18 15:45 local = 23:45Z cycle 3. UGT-15 monitor re-arm confirmed via API: monitorNextCheckAt 2026-11-19T00:15:00Z (attempt 4) - covers cycle-3 verification. Tracked files clean before this write. Issue writes unavailable this wake (unscoped heartbeat 403 guard). Next: cycle-3 verification on the 00:15Z monitor wake; weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa).
