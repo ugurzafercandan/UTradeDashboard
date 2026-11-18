@@ -2147,3 +2147,11 @@ Health check green, no changes. schtask UGT15_NewSetupPaperDaily Ready (Last Run
 - paper_state.json intact: LIN.US / USDCNH / MOS.US / USDZAR from cycle 1, ALUMINIUM opened 2026-11-17T23:45:21Z (cycle 2); no phantom closes.
 - schtask UGT15_NewSetupPaperDaily: Ready, last run 11-17 15:45 local result 0 (cycle 2), next run 11-18 15:45 local = 23:45Z cycle 3. UGT-15 monitor wake 2026-11-19T00:15Z covers cycle-3 verification.
 - No state changes made; issue writes unavailable this wake (unscoped heartbeat). Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa).
+
+## Heartbeat 2026-11-18 08:51Z (unscoped wake)
+
+- Health check green, no changes vs 08:34Z entry: verify_paper_cycle.py RESULT PASS - book 5 open / 0 closed, balance 10,000.0; fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trade rows / 44 signal rows; same two diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
+- paper_state.json intact: LIN.US / USDCNH / MOS.US / USDZAR from cycle 1, ALUMINIUM from cycle 2; no phantom closes.
+- schtask UGT15_NewSetupPaperDaily: Next Run Time: 11/18/2026 3:45:00 PM
+Status:        Ready - cycle 3 fires 11-18 23:45Z; cycle-3 verification due on the 2026-11-19T00:15Z monitor wake.
+- No state changes made; issue writes unavailable this wake (unscoped heartbeat). Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa).
