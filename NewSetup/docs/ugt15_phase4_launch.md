@@ -2273,3 +2273,11 @@ Status:        Ready - cycle 3 fires 11-18 23:45Z; cycle-3 verification due on t
 - schtask UGT15_NewSetupPaperDaily Enabled (Daily 15:45 local = 23:45Z); paper_state.json unchanged since cycle 2 (mtime 2026-11-17 23:45:21Z); no phantom closes.
 - Note: prior entry's "14:25Z" header appears to have been local time mislabeled as Z (actual UTC at that wake was earlier than 13:37Z); no data discrepancy, same findings.
 - No state changes made; issue writes unavailable this wake (unscoped heartbeat). Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-15 (f57e8eb8).
+
+
+## Heartbeat 2026-11-18 13:54Z (unscoped wake, run 62b9589c — SCI Quant)
+
+- Health check green, no drift vs the 13:37Z entry: scripts/verify_paper_cycle.py RESULT PASS — book 5 open (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM) / 0 closed, balance 10,000.0; fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trade rows / 44 signal rows; same two diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
+- Monitor persistence verified server-side via API read: UGT-15 in_progress, monitorNextCheckAt 2026-11-19T00:15:00Z (cycle-3 verification wake), monitorAttemptCount 4, monitorScheduledBy assignee, lastActivityAt 2026-11-18T00:20:47Z, activeRun none. Unchanged from prior wake.
+- schtask UGT15_NewSetupPaperDaily Ready, last run 11/17 15:45 local result 0, next run 11/18 15:45 local = 23:45Z cycle 3. paper_state.json unchanged since cycle 2 (mtime 2026-11-17 23:45:21Z); no phantom closes.
+- No state changes made; issue writes unavailable this wake (unscoped heartbeat). Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-15 (f57e8eb8).
