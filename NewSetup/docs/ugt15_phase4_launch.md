@@ -2368,3 +2368,9 @@ The prior 16:09Z entry ("cycle 3 clean, ran exit 0") is inaccurate and is retrac
 - Cycle 3 not yet fired (schtask next run 11-18 15:45 PST / 23:45Z, Status: Ready). State mtime 11-17 15:45 local confirms last write was cycle 2.
 - Book intact: 5 open / 0 closed (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM), balance 10k baseline unchanged.
 - No new commits needed; repo tip c71986f. UGT-37 board action still pending human board (no agent-side path).
+
+## Unscoped heartbeat 2026-11-18 ~18:20Z health check green (no change)
+
+- Cycle 3 not yet fired: schtask Ready, next run 11-18 15:45 PST (23:45Z), last run 11-17 15:45 local exit 0. paper_state.json mtime 2026-11-17T23:45:21Z = cycle 2, as expected.
+- Book intact: balance 10,000.00, 5 open / 0 closed. No phantom closes, no writes.
+- Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z; pending board items (UGT-35 reassignment, UGT-32 close) left for issue-scoped wake. Do NOT close UGT-15 (f57e8eb8).
