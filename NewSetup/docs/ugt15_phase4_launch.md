@@ -1954,3 +1954,11 @@ checklist (UGT-36/UGT-32 closures) already done at 00:15Z by the monitor
 wake. Next: cycle-3 verification on the 00:15Z monitor wake; weekly
 metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5
 (0beeccfa).
+
+## Heartbeat 2026-11-18 01:02Z - unscoped wake health check
+
+- schtask UGT15_NewSetupPaperDaily: Ready, last run 11-17 23:45Z result 0 (cycle 2), next 11-18 23:45Z (cycle 3). On track.
+- paper_state.json: cycle-2 artifacts present (ALUMINIUM SELL opened 2026-11-17T23:45Z), balance 10000, state coherent.
+- UGT-15 monitor: next check 2026-11-19T00:15Z, attempt 4. Backlog all closed; UGT-5 (0beeccfa) intentionally open (live child).
+- Note: prior heartbeat commits 875dc34/86bed25 carry timestamps slightly ahead of wall clock (01:15Z vs 01:01Z) - cosmetic skew only, no action.
+- Unscoped wake: no issue writes per heartbeat guard.
