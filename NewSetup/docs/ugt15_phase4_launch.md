@@ -2097,3 +2097,10 @@ Heartbeat 2026-11-18 06:06Z (run 445727f8): unscoped wake health check green. ve
 - verify_paper_cycle.py RESULT PASS: book 5 open / 0 closed, balance 10000.0; fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29% vs cached closes); db 0 trade rows / 44 signal rows; same two known diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
 - schtask UGT15_NewSetupPaperDaily: Ready, last run 11-17 23:45Z result 0 (cycle 2), next run 2026-11-18 23:45Z (cycle 3).
 - Working tree clean apart from known untracked evidence/backup files. No state changes made; issue writes unavailable this wake (unscoped heartbeat). Next: cycle-3 verification on the 2026-11-19T00:15Z monitor wake; weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa).
+
+## Unscoped health check 2026-11-18 07:11Z (run 952cb0ad-9ea0-455a-9aba-05a1e8355b7b)
+
+- verify_paper_cycle.py RESULT PASS: book 5 open / 0 closed, balance 10000.0; fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trade rows / 44 signal rows; same two known diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
+- schtask UGT15_NewSetupPaperDaily: Ready, last run 11-17 15:45 local result 0 (cycle 2 verified), next run 11-18 15:45 local = 23:45Z cycle 3. UGT-15 monitor armed for 2026-11-19T00:15:00Z (covers cycle-3 verification).
+- paper_state.json intact: 5 open (LIN.US, USDCNH, MOS.US, USDZAR BUY, ALUMINIUM SELL 0.04 @ 2918.116), 0 closed, balance 10000.0. No state changes made.
+- Issue writes unavailable this wake (unscoped heartbeat). Next: cycle-3 verification on the 2026-11-19T00:15Z monitor wake; weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa).
