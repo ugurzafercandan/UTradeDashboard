@@ -2388,3 +2388,11 @@ The prior 16:09Z entry ("cycle 3 clean, ran exit 0") is inaccurate and is retrac
 - Health check green, no drift vs 17:33Z entry: verify_paper_cycle.py RESULT PASS (exit 0) - book 5 open (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM) / 0 closed, balance 10,000.0; db 0 trade rows / 44 signal rows; same two diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
 - schtask UGT15_NewSetupPaperDaily Ready; last run 11/17 15:45 local exit 0; cycle 3 fires 11/18 15:45 local = 23:45Z (~6h out). paper_state.json unchanged since cycle 2; no phantom closes. Working tree clean apart from intentional evidence/backup files.
 - No state changes; issue writes unavailable this wake (unscoped). Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-15 (f57e8eb8).
+
+
+## Unscoped heartbeat 2026-11-18 17:50Z (run 8e2b45ad — SCI Quant)
+
+- Health check green, no drift vs the 17:50Z entry: scripts/verify_paper_cycle.py RESULT PASS (exit 0) — book 5 open (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM) / 0 closed, balance 10,000.0; fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trade rows / 44 signal rows; same two diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs a 5.0d-old cache bar).
+- UGT-15 (f57e8eb8-3ba4-48b0-aeb5-4eea170af979) unchanged via API read (company-scoped /issues list; /api/issues returns 400): in_progress, monitorNextCheckAt 2026-11-19T00:15:00Z (cycle-3 verification wake), monitorAttemptCount 4, lastActivityAt 2026-11-18T00:20:47Z. Backlog unchanged except: UGT-32 root-cause and the UGT-35 reassignment/comment one-shots now show done; only the "BOARD ACTION: reassign UGT-35 to CEO" item remains in backlog (human board, no agent-side path).
+- schtask UGT15_NewSetupPaperDaily Ready, last run 11/17 15:45 local (exit 0); cycle 3 fires 11/18 15:45 local = 23:45Z. paper_state.json unchanged since cycle 2 (mtime 2026-11-17T23:45:21Z); no phantom closes.
+- No state changes made; issue writes unavailable this wake (unscoped heartbeat). Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-15 (f57e8eb8).
