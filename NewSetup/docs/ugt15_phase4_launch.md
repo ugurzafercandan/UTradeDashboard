@@ -2460,3 +2460,9 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - Unscoped wake, pre-cycle-3 health check PASS
 - paper_state: 5 open / 0 closed, prices unchanged; schtask Ready, next run 23:45Z
 - Cycle 3 fires 23:45Z; verify on 11-19 00:15Z wake
+
+## Heartbeat 2026-11-18 23:05Z
+- Unscoped wake: verify_paper_cycle.py RESULT PASS (exit 0), zero drift vs 23:03Z entry.
+- Book 5 open / 0 closed (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM), balance 10,000.0; state mtime still 2026-11-17T23:45:21Z (pre-cycle-3, expected).
+- schtask Ready/Enabled, last result 0; cycle 3 fires 23:45Z (~40 min). Verify cycle 3 on the 00:15Z issue-scoped monitor wake (also close UGT-37 118ff883).
+- Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
