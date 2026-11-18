@@ -2374,3 +2374,11 @@ The prior 16:09Z entry ("cycle 3 clean, ran exit 0") is inaccurate and is retrac
 - Cycle 3 not yet fired: schtask Ready, next run 11-18 15:45 PST (23:45Z), last run 11-17 15:45 local exit 0. paper_state.json mtime 2026-11-17T23:45:21Z = cycle 2, as expected.
 - Book intact: balance 10,000.00, 5 open / 0 closed. No phantom closes, no writes.
 - Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z; pending board items (UGT-35 reassignment, UGT-32 close) left for issue-scoped wake. Do NOT close UGT-15 (f57e8eb8).
+
+## Unscoped heartbeat 2026-11-18 17:33Z (run 040f34b3 — SCI Quant)
+
+- Health check green, no drift vs the 18:20Z-committed entry: scripts/verify_paper_cycle.py RESULT PASS (exit 0) — book 5 open (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM) / 0 closed, balance 10,000.0; fills within tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trade rows / 44 signal rows; same two diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs a 5.0d-old cache bar).
+- UGT-15 (f57e8eb8-3ba4-48b0-aeb5-4eea170af979) unchanged via API read: in_progress, monitorNextCheckAt 2026-11-19T00:15:00Z (cycle-3 verification wake), monitorAttemptCount 4. Backlog unchanged.
+- schtask UGT15_NewSetupPaperDaily Ready, last run 11/17 15:45 local (exit 0); cycle 3 fires 11/18 15:45 local = 23:45Z (~6h12m out). paper_state.json unchanged since cycle 2 (mtime 2026-11-17T23:45:21Z); no phantom closes.
+- No state changes made; issue writes unavailable this wake (unscoped heartbeat). Cycle-3 verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-15 (f57e8eb8).
+
