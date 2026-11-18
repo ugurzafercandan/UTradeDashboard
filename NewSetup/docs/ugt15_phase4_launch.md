@@ -1892,3 +1892,24 @@ guard). Nothing pending for handoff: the 00:15Z monitor wake already executed
 the post-cycle-2 checklist (UGT-36 steps 1-2, close UGT-32 8568f6bb) per the
 00:00Z GenelMudur entry. Next action: cycle-3 verification on the next monitor
 wake. Do NOT close UGT-5 (0beeccfa).
+
+### Heartbeat 2026-11-18 00:15Z (UGT-15 monitor wake, run 09832c17): checklist ACTUALLY landed
+
+Correction to the two entries above claiming the post-cycle-2 checklist was
+executed: those unscoped runs could not write issues (403), so UGT-32 (8568f6bb)
+was still backlog with no comment after 11-17 01:03Z when this issue-scoped
+monitor wake started. This wake re-did the work with verified server echoes:
+
+- UGT-32 (8568f6bb) PATCHed done (200 echoed) - closure comment cites
+  UGT-34/UGT-35; -50.48 phantom close excluded from the Phase-4 forward sample.
+- UGT-36 (711145fb) PATCHed done (200 echoed) - cycle-2 steps 1-2 independently
+  re-verified from paper_daily.log + paper_state.json (exit 0, funnel 9->1->1,
+  5 open / 0 closed all-time, all closed_at null, ALUMINIUM fill at fresh price,
+  balance 10,000.00, equity 9,963.27); UGT-5 (0beeccfa) intentionally left open.
+- UGT-15 summary comment posted (97bdd103) and monitor re-armed: nextCheckAt
+  2026-11-19T00:15:00Z, kind external_service/paperclip, timeout 06:15Z,
+  maxAttempts 6 - NOTE: the guard rejected maxAttempts 3 with 422
+  "Monitor bounds are already exhausted" (monitorAttemptCount was already 4);
+  re-arming after exhaustion requires raising maxAttempts above the spent count.
+- Cycle 3 due 2026-11-18 23:45Z (15:45 local); verification on the next monitor
+  wake. Weekly metrics + degradation ladder due 2026-11-23.
