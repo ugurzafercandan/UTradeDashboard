@@ -2344,3 +2344,13 @@ Read-only verification; no issue mutations possible from this run context (unsco
 - schtask UGT15_NewSetupPaperDaily: Ready, next run Nov 19 15:45 local.
 - UGT-15 monitor armed: nextCheckAt 2026-11-19T00:15Z (timeout 06:15Z, maxAttempts 6, external_service/paperclip) — live continuation path confirmed; monitor wake will verify tonight's cycle.
 - Open board item (backlog, unassigned): reassign UGT-35 to CEO (staged verification comment) + UGT-32 close after clean cycle-2 — cycle-2 already verified clean on 2026-11-18 00:15Z, so UGT-32's "tomorrow's close" condition is now satisfiable; left for the board/issue-scoped wake.
+
+
+## Heartbeat state check (unscoped, 2026-11-18 ~16:14Z) — CORRECTION
+
+The prior 16:09Z entry ("cycle 3 clean, ran exit 0") is inaccurate and is retracted.
+
+- schtask UGT15_NewSetupPaperDaily last run is 2026-11-17 15:45 local (exit 0); next run 2026-11-18 15:45 local = 23:45Z. Cycle 3 has NOT fired yet as of this check (16:14Z / 08:14 local).
+- paper_state.json mtime 2026-11-17 15:45 local confirms no cycle has run since; book unchanged: 5 open (LIN.US BUY 0.23, USDCNH BUY 208, MOS.US BUY 2.41, USDZAR BUY 13.96, ALUMINIUM SELL 0.04), 0 closed, balance intact.
+- Everything is green and cycle 3 remains on schedule for 23:45Z tonight; verification due on UGT-15 monitor wake 2026-11-19T00:15Z. Do NOT close UGT-15 (f57e8eb8).
+- No issue writes this wake (unscoped). Board backlog items (UGT-35 reassignment, UGT-32 close) still pending for issue-scoped wake.
