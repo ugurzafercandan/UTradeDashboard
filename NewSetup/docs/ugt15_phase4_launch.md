@@ -2591,3 +2591,11 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - schtask UGT15_NewSetupPaperDaily Ready, last result 0 (11-18 15:45 local), next run 11-19 15:45 local = 2026-11-19T23:45Z (cycle 4). Monitor armed nextCheckAt 2026-11-20T00:15Z.
 - paper_state.json: 5 open (LIN.US/USDCNH/MOS.US/USDZAR/ALUMINIUM), 0 closed, balance 10000.0 - unchanged since cycle-3 write. No phantom closes, dedup guard live.
 - Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+## Unscoped-wake health check — 2026-11-18 ~19:20 PST (run 5d540f67)
+
+- Scheduled cycle 3 (2026-11-18 15:45 local / 23:45Z) ran, exit 0.
+- Paper book: balance 10,000.00, equity 10,030.39 (day P&L +30.39), 5 open positions unchanged from day-1 composition (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM), 0 closed. Zero drift vs prior checks.
+- Data path: GDELT DOC API returned HTTP 429 twice; pipeline fell back to export archive — 7,327 real events from 96 slots. Signals: 35 raw -> 26 confirmed -> 0 sized (2 duplicate-instrument dedups). No enforcer breaches.
+- Cycle 4 due 2026-11-19 23:45Z. Weekly metrics report due 2026-11-23 (issue-scoped wake or manual run).
+- No anomalies; no issue writes attempted (unscoped wake).
