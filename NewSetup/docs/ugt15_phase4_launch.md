@@ -2570,3 +2570,10 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - 2026-11-19T02:15:00Z | Unscoped wake health check: PASS, zero drift. paper_state: 5 open (LIN.US/USDCNH/MOS.US/USDZAR/ALUMINIUM) / 0 closed. Cycle 4 due 2026-11-19T23:45Z.
 
 - 2026-11-19T02:14:24Z | Unscoped wake (run fab89fb5) health check: PASS, zero drift. verify_paper_cycle.py exit 0: book 5 open (LIN.US/USDCNH/MOS.US/USDZAR BUY, ALUMINIUM SELL, all closed_at null) / 0 closed, balance 10,000.0; fills in tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trades / 79 signals; only the two known diagnostic WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar). Cycle-3 log clean (no phantom closes, no same-cycle SL). GDELT DOC 429 fell back to export archive (7327 events) - expected, not blocking. Cycle 4 due 2026-11-19T23:45Z. Weekly metrics + degradation ladder due 2026-11-23.
+
+## Heartbeat 2026-11-19T02:30:55Z (unscoped wake, run fa096c3d, SCI Quant)
+
+- Health green, zero drift vs the 02:15Z entry. verify_paper_cycle.py RESULT PASS (exit 0): book 5 open (LIN.US, USDCNH, MOS.US, USDZAR BUY, ALUMINIUM SELL, all closed_at null) / 0 closed, balance 10,000.0 = starting_balance; fills in tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trades / 79 signals; only the two known diagnostic WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
+- paper_state.json unchanged since the cycle-3 write (mtime 2026-11-18T23:45:40Z); no phantom closes, no same-cycle SL. Latest db signals remain the cycle-3 batch (max ts 2026-11-18T23:45:37Z).
+- Cycle 4 due 2026-11-19T23:45Z (schtask next run); monitor armed nextCheckAt 2026-11-20T00:15Z for cycle-4 verification. Weekly metrics + degradation ladder due 2026-11-23.
+- Unscoped wake: repo write only, no issue writes. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
