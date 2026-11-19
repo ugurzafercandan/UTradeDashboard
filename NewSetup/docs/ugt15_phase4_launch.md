@@ -2872,3 +2872,7 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - paper_state.json unchanged since cycle-3 write (mtime 2026-11-18T23:45:40Z). No phantom closes, no same-cycle SL, dedup guard live.
 - schtask UGT15_NewSetupPaperDaily Ready (next run 11/19 15:45 local = 23:45Z, cycle 4).
 - Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+### Unscoped wake health check - {ts} (GenelMudur)
+- verify_paper_cycle: PASS, zero drift. Last cycle Wed 11/18 15:45 local; book 5 open (LIN.US/USDCNH/MOS.US/USDZAR/ALUMINIUM) / 0 closed, balance 10,000, DB 0 trade / 79 signal rows.
+- Cycle 4 fires 11/19 15:45 local. Known diagnostic WARNs unchanged: LIN.US no cached D1 bars; MOS.US fill 3.22% vs 5-day-old cache bar (diagnostic only).
