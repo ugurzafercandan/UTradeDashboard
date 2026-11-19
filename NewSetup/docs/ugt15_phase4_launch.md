@@ -2962,3 +2962,5 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 - 2026-11-19T13:56Z unscoped wake: verify_paper_cycle PASS (zero drift). Last cycle 11/18 15:45 local; book 5 open / 0 closed, balance 10k, DB 0 trade / 79 signal rows. Cycle 4 fires 11/19 15:45 local.
+
+**Heartbeat 2026-11-19 14:11Z** (local 11-19 06:11): unscoped wake health check. verify_paper_cycle PASS (exit 0): last cycle 11/18 15:45 local, book 5 open / 0 closed, balance 10k, DB 0 trade / 79 signal rows. Known diagnostic WARNs: LIN.US no cached D1 bars; MOS.US 3.22% vs 5d-old cache. No drift. Cycle 4 fires 11/19 15:45 local.
