@@ -2515,3 +2515,16 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - paper_state.json mtime 2026-11-18T23:45:40Z = cycle-3 write, expected. schtask UGT15_NewSetupPaperDaily Enabled (daily 15:45 local), cycle 4 fires 2026-11-19 23:45Z.
 - API read: UGT-15 (f57e8eb8) in_progress, monitor re-armed nextCheckAt 2026-11-20T00:15:00.000Z (cycle-4 verification); UGT-37 closed done by the 00:16Z wake; no other open issues (only a cancelled probe ffe9d148).
 - Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+### Cycle 3 verification - 2026-11-19 00:37Z (CEO)
+- schtask UGT15_NewSetupPaperDaily ran 11-18 15:45 local, exit 0, Last Result 0, next fire 11-19 15:45.
+- Pipeline: Layer1 35 raw -> Layer2 26 confirmed -> dedup dropped 2 duplicate-instrument (USDCNH) -> Layer3 0 new positions. Dedup guard working.
+- State intact: balance 10,000.00, equity 10,030.39 (Today P&L +30.39, first green day), 5 open / 0 closed, USDZAR BUY @16.967362794 unchanged.
+- No anomalies: no same-cycle SL closes, no impossible timestamps.
+
+## Heartbeat 2026-11-19 01:49Z (unscoped wake, run 05fe7a96, SCI Quant)
+
+- Health green, zero drift vs the 00:33Z entry and CEO's 00:37Z cycle-3 verification. NewSetup/scripts/verify_paper_cycle.py RESULT PASS (exit 0): book 5 open (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM) / 0 closed, balance 10,000.0; fills in tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trades / 79 signals; same two diagnostic-only WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs a 5.0d-old cache bar).
+- paper_state.json mtime 2026-11-18T23:45:40Z = cycle-3 write, expected. schtask UGT15_NewSetupPaperDaily Ready, last result 0 (11-18 15:45 local); cycle 4 fires 2026-11-19 23:45Z.
+- API read: UGT-15 (f57e8eb8) in_progress, only open issue; watchdog null; monitor re-armed nextCheckAt 2026-11-20T00:15:00.000Z (cycle-4 verification). No new user direction in this wake.
+- Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
