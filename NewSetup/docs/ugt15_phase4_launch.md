@@ -3340,3 +3340,12 @@ Health check PASS, zero drift. Scheduled task UGT15_NewSetupPaperDaily confirmed
 - data/paper_state.json mtime 2026-11-18 15:45:40 local (cycle-3 write), unchanged. Cycle 4 still pending at 23:36Z: schtask UGT15_NewSetupPaperDaily Enabled/Ready, Last Result 0, next run 11/19 3:45 PM local = 23:45Z (~9 min out).
 - Worktree == HEAD before append; only intentional untracked evidence/backup files in data/ and db/. Doc append via bytes write, LF-only (0 stray CRLF). Unscoped wake: repo write only, no issue writes.
 - Next wake after 23:45Z must verify cycle 4 ran (expect paper_state.json mtime 2026-11-19T23:45Z + state write). Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+## Heartbeat 2026-11-19T23:45Z - cycle 4 verify PASS
+
+- schtask UGT15_NewSetupPaperDaily: Last Run Time 11/19 3:45:01 PM, Last Result 0, Enabled, next run 11/20 3:45 PM local. paper_state.json mtime 2026-11-19 15:45:22 local (cycle-4 write confirmed).
+- Cycle 4 pipeline clean: 10 raw, 3 confirmed, 1 sized, 1 emitted. Zero WARNs in the 11/19 15:45 log block (5 lines).
+- State after cycle 4: 6 open / 0 closed, balance 10000, peak equity 10030.39. New position EURUSD SELL lot 393.92 entry 1.09703 opened 2026-11-19T23:45:21Z (first EURUSD fill; existing five unchanged: LIN.US, USDCNH, MOS.US, USDZAR from 11/16, ALUMINIUM from 11/17).
+- DB: 89 signals (79 + 10 new from cycle 4), 0 trades. Positions backstopped by signals 134-136 (COPPER SELL, SOXX.US SELL also emitted at 23:45:21Z, unsized).
+- Worktree == HEAD before append; only intentional untracked evidence/backup files. Doc append via bytes write, LF-only (0 stray CRLF). Unscoped wake: repo write only, no issue writes.
+- Next: monitor nextCheckAt 2026-11-22T03:00Z (attempt 3 of 10) covers the pre-weekly check; weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
