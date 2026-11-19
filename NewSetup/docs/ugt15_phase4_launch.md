@@ -2502,3 +2502,9 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - DB: 0 trade rows, 79 signal rows — consistent with 5 positions open, cycle-3 in progress.
 - Zero drift: no tracked state/db changes since last heartbeat commit (01df4b8).
 - No anomalies; no action needed.
+
+## Issue-scoped monitor wake 2026-11-19 00:16Z (UGT-15, run 96e9603d - SCI Quant)
+
+- Cycle 3 (2026-11-18 23:45Z) verified clean from logs/paper_daily.log + data/paper_state.json + schtask: exit 0 in 38s; export-archive events (7,327 / 96 slots; DOC API 429 x2, fallback worked); funnel 35 raw -> 26 confirmed -> 0 sized (2 dedup drops, USDCNH dup BUY); 5 open / 0 closed, all closed_at null, entries/SL/TP identical to cycle-2 baseline; balance 10,000.00, equity 10,030.39 (+30.39 day); db 0 trades / 79 signals. 3 of >=20 trading days recorded; 0 closed trades flagged for the weekly drought watch (target >=30).
+- Issue writes landed this wake (issue-scoped): cycle-3 verification comment posted on UGT-15 (f57e8eb8); UGT-37 (118ff883, board action) closed done - both asks verified landed (UGT-35 done + CEO reassigned with staged verification comment; UGT-32 done 11-18 00:18Z wake); monitor re-armed with verified echo: nextCheckAt 2026-11-20T00:15:00.000Z, timeout 2026-11-20T06:15:00Z, maxAttempts 90, externalRef ugt15-cycle4-verify-20261120T0015Z.
+- Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
