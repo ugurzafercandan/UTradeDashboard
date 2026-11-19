@@ -3349,3 +3349,11 @@ Health check PASS, zero drift. Scheduled task UGT15_NewSetupPaperDaily confirmed
 - DB: 89 signals (79 + 10 new from cycle 4), 0 trades. Positions backstopped by signals 134-136 (COPPER SELL, SOXX.US SELL also emitted at 23:45:21Z, unsized).
 - Worktree == HEAD before append; only intentional untracked evidence/backup files. Doc append via bytes write, LF-only (0 stray CRLF). Unscoped wake: repo write only, no issue writes.
 - Next: monitor nextCheckAt 2026-11-22T03:00Z (attempt 3 of 10) covers the pre-weekly check; weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+## Heartbeat 2026-11-19T23:55Z - post-cycle-4 check PASS, drift zero
+
+- verify_paper_cycle.py PASS (rc 0): last cycle 11/19 15:45:02 local, book 6 open / 0 closed, balance 10000, db 0 trades / 89 signals. All fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%).
+- schtask UGT15_NewSetupPaperDaily: Ready, Last Result 0, next run 11/20 3:45 PM local = 23:45Z. paper_state.json mtime 2026-11-19 15:45:22 local; no drift since cycle-4 write.
+- Known WARNs only: D1 caches 7.0d stale (manual/scripted downloads, not the daily run); MOS.US fill deviation 3.22% diagnostic-only against stale cache. No action for the daily loop.
+- Worktree == HEAD before append; only intentional untracked evidence/backup files in data/ and db/. Doc append via bytes write, LF-only. Unscoped wake: repo write only, no issue writes.
+- Next: monitor nextCheckAt 2026-11-22T03:00Z (attempt 3 of 10); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
