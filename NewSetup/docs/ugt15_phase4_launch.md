@@ -2559,3 +2559,11 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - paper_state.json unchanged since the cycle-3 write (mtime 2026-11-18T23:45:40Z); all positions closed_at null, no phantom closes. Latest db signals remain the cycle-3 batch (max ts 2026-11-18T23:45:37Z).
 - schtask UGT15_NewSetupPaperDaily Ready, next run 2026-11-19 15:45 local = 23:45Z (cycle 4). Monitor armed nextCheckAt 2026-11-20T00:15Z for cycle-4 verification.
 - Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+## Heartbeat 2026-11-19T01:58:06Z (unscoped wake, run a3007f1e, SCI Quant)
+
+- Health green, zero drift vs the 01:41Z entry. verify_paper_cycle.py RESULT PASS (exit 0): book 5 open (LIN.US, USDCNH, MOS.US, USDZAR BUY, ALUMINIUM SELL, all closed_at null) / 0 closed, balance 10,000.0 = starting_balance; fills in tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trades / 79 signals; only the two known diagnostic WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
+- paper_state.json unchanged since the cycle-3 write (mtime 2026-11-18T23:45:40Z); no phantom closes.
+- schtask UGT15_NewSetupPaperDaily Ready, next run 2026-11-19 15:45 local = 23:45Z (cycle 4). Monitor armed nextCheckAt 2026-11-20T00:15Z for cycle-4 verification.
+- API read: UGT-15 (f57e8eb8) in_progress, assigned to SCI Quant, the only open issue; watchdog null (endpoint 404 = not configured on this issue, unchanged).
+- Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
