@@ -2550,3 +2550,5 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - schtask UGT15_NewSetupPaperDaily Ready, last result 0 (11-18 15:45 local), next run 11-19 15:45 local = 2026-11-19 23:45Z (cycle 4, ~22h out).
 - API read: UGT-15 (f57e8eb8) in_progress, assigned to SCI Quant, the only open issue; monitor armed nextCheckAt 2026-11-20T00:15:00.000Z for cycle-4 verification. UGT-37 closed at the 00:16Z issue-scoped wake (d4d90c5); no new user direction since (lastActivity 2026-11-19T00:17:12Z).
 - Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+- 2026-11-19T01:40:48Z Unscoped wake health check: PASS. paper_state.json intact (balance $10,000; 5 open: LIN.US/USDCNH/MOS.US/USDZAR BUY, ALUMINIUM SELL; 0 closed). schtasks UGT15_NewSetupPaperDaily Ready, next run 2026-11-19 15:45 local (23:45Z, cycle 4). MT5 API :8000 degraded/IPC-off is expected Session-0 state, not blocking the NewSetup paper cycle.
