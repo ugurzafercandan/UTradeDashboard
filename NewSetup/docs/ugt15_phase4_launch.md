@@ -2599,3 +2599,10 @@ Heartbeat 2026-11-18 22:48Z (unscoped wake, SCI Quant): health green, zero drift
 - Data path: GDELT DOC API returned HTTP 429 twice; pipeline fell back to export archive — 7,327 real events from 96 slots. Signals: 35 raw -> 26 confirmed -> 0 sized (2 duplicate-instrument dedups). No enforcer breaches.
 - Cycle 4 due 2026-11-19 23:45Z. Weekly metrics report due 2026-11-23 (issue-scoped wake or manual run).
 - No anomalies; no issue writes attempted (unscoped wake).
+
+## Heartbeat 2026-11-19T03:36:34Z (unscoped wake, run 17c9f4c0-1caa-4ecf-863d-5b38fe46a12d, SCI Quant)
+
+- Health green, zero drift vs the 03:15Z entry. verify_paper_cycle.py RESULT PASS (exit 0): book 5 open (LIN.US, USDCNH, MOS.US, USDZAR, ALUMINIUM) / 0 closed, balance 10,000.0; fills in tolerance (ALUMINIUM 2.87%, USDCNH 0.12%, USDZAR 0.29%); db 0 trades / 79 signals; only the two known diagnostic WARNs (LIN.US no cached D1 bars; MOS.US 3.22% vs 5.0d-old cache bar).
+- paper_state.json unchanged since the cycle-3 write (mtime 2026-11-18T23:45:40Z); no phantom closes, no same-cycle SL.
+- schtask UGT15_NewSetupPaperDaily Ready, last result 0 (11-18 15:45 local), next run 11-19 15:45 local = 2026-11-19T23:45Z (cycle 4). Monitor armed nextCheckAt 2026-11-20T00:15Z for cycle-4 verification.
+- Unscoped wake: repo write only, no issue writes. Weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
