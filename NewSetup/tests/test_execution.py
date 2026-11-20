@@ -243,3 +243,41 @@ def test_anti_wipe_guard_on_save_state(tmp_path):
         broker.save_state()
     # the populated file is untouched
     assert json.loads(state.read_text())["open"]
+
+
+def test_save_state_persists_post_fill_high_water(tmp_path):
+    """save_state() persists the post-fill equity high-water mark.
+
+    UGT-15 cycle-4 audit: main.py last touches account_state BEFORE placing
+    fills, so a new post-fill equity mark only entered the in-memory peak
+    during the daily report -- after save_state. RiskEnforcer reads
+    broker.peak_equity as its drawdown reference each cycle, so the
+    persisted peak must include the post-fill mark (a stale low peak
+    understates drawdown and delays the 5/8/12% breakers).
+    """
+    state = tmp_path / "paper_state.json"
+    settings = {"paper_trading": {"starting_balance": 10000.0,
+                                  "spread_pct": 0.02,
+                                  "state_file": str(state)}}
+    b1 = PaperBroker(settings=settings)
+    trade = b1.submit(make_sized(direction="BUY", entry=100.0,
+                                  sl=90.0, tp=120.0, lot=1.0))
+    # price rallies past the fill AFTER the pre-fill account_state touches
+    # (no further account_state call before the save); wide SL/TP so the
+    # bar records the price WITHOUT resolving the position
+    bar = PriceBar(ts=trade.opened_at + timedelta(hours=1),
+                   open=100.0, high=103.0, low=100.0, close=102.5)
+    assert b1.on_bar("XAUUSD", bar) == []   # no SL/TP hit, price recorded
+    expected_equity = 10000.0 + (102.5 - trade.entry_price) * 1.0 * 10.0
+    assert expected_equity > 10000.0
+    # the in-memory peak has not seen the post-fill mark yet...
+    assert b1.peak_equity == pytest.approx(10000.0)
+    # ...but save_state must persist it, not the stale starting peak
+    b1.save_state()
+    b2 = PaperBroker(settings=settings)
+    assert b2.peak_equity == pytest.approx(expected_equity)
+    assert b2.account_state.equity == pytest.approx(expected_equity)
+    # balance and book contents are untouched by the re-mark
+    assert b2.balance == pytest.approx(10000.0)
+    assert len(b2.open_trades) == 1
+    assert b2.open_trades[0].instrument == trade.instrument

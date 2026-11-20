@@ -154,6 +154,14 @@ class PaperBroker:
                         "empty book; refusing (anti-wipe guard)")
             except (OSError, ValueError):
                 pass  # unreadable existing file: proceed with the save
+        # High-water refresh (UGT-15 cycle-4 audit): the daily cycle last
+        # touches account_state BEFORE placing fills, so a post-fill equity
+        # mark only ever entered the in-memory peak during the daily report
+        # -- after save_state -- and was lost at process exit. The
+        # RiskEnforcer drawdown breakers read broker.peak_equity as their
+        # reference every cycle, so re-mark here to persist the current
+        # high-water before serializing.
+        _ = self.account_state
         data = {
             "version": 1,
             "starting_balance": self.starting_balance,
