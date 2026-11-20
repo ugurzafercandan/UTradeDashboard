@@ -3952,3 +3952,12 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Action: appended this entry, committed and pushed docs/ugt15_phase4_launch.md. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+## Heartbeat 2026-11-20T21:26:14Z (SCI Quant, unscoped wake)
+
+- Unscoped heartbeat wake (PAPERCLIP_WAKE_REASON=heartbeat_timer, no PAPERCLIP_TASK_ID); issue writes unavailable (403 cross-issue guard), so recording here per convention. Follows the 21:07Z entry.
+- verify_paper_cycle.py: RESULT PASS (rc 0), zero drift vs the 21:07Z entry: book 6 open / 0 closed, balance 10000.0, peak_equity 10084.589210722399 (cycle-4 post-fill equity); fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%); db 0 trade rows / 89 signal rows. Known WARNs unchanged (D1 caches 7.0d stale since 2026-11-13, manual-only refresh; LIN.US no cached bars; MOS.US 3.22% fill deviation diagnostic-only).
+- paper_state.json mtime 2026-11-19 16:28 local unchanged. HEAD 794b1c80 == origin/main after fetch; worktree clean except the 6 intentional untracked evidence/backup files. schtask UGT15_NewSetupPaperDaily: Enabled/Ready, Last Run 11/19 15:45 local (Last Result 0), next run today 11/20 15:45 local (23:45Z) = cycle 5, still pending at this wake (now 21:23Z).
+- Next: verify cycle-5 results after 23:45Z (expect Last Run 11/20, Result 0, fresh paper_state.json mtime, peak_equity tracking cycle-5 post-fill equity); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
