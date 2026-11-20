@@ -3822,3 +3822,13 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Cycle 5 not yet due at wake time (2026-11-20T16:59Z). Next: verify cycle-5 results after 23:45Z (expect Last Run 11/20, Result 0, fresh paper_state.json mtime, peak_equity tracking latest post-fill equity); weekly metrics + degradation ladder due 2026-11-23. Unscoped wake: repo write only, no issue writes. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-20T17:16Z (SCI Quant, unscoped wake)
+
+- Wake reason heartbeat_timer, no PAPERCLIP_TASK_ID; repo write only, no issue writes. Follows 16:11Z/16:27Z/16:59Z heartbeats; CRLF->LF normalized again in this append write (36 CRLF pairs found before write).
+- verify_paper_cycle.py RESULT: PASS (RC 0). Last cycle: Thu 11/19 15:45 local (cycle 4, exit 0, 1 sized position -> SELL EURUSD #28 conf 0.82). Book: 6 open / 0 closed, balance 10,000.00, equity 10,084.59, peak_equity 10,084.589 (tracks cycle-4 post-fill equity per 45c8eeb fix). paper_state.json mtime 2026-11-19 16:28 local unchanged.
+- Known WARNs unchanged: D1 caches stale since 2026-11-13 (7.0d, cache only updated by manual/scripted downloads), LIN.US no cached bars, MOS.US 3.22% fill deviation diagnostic-only.
+- schtask UGT15_NewSetupPaperDaily: Enabled/Ready, Last Run 11/19 15:45 local (Result 0), next run today 11/20 15:45 local (23:45Z) = cycle 5, ~6.5h after this wake (now 09:16 local / 17:16Z).
+- Next: verify cycle-5 results after 23:45Z (expect Last Run 11/20, Result 0, fresh paper_state.json mtime, peak_equity tracking latest post-fill equity); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
