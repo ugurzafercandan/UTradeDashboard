@@ -3592,3 +3592,8 @@ Health check PASS, zero drift. Scheduled task UGT15_NewSetupPaperDaily confirmed
 - Worktree == HEAD before append (1803deb, in sync with origin/main); only intentional untracked evidence/backup files in data/ and db/. Doc append via bytes write, LF-only (no stray CR). Unscoped wake: repo write only, no issue writes.
 - Next: cycle 5 verification due 11-20 23:45Z (expect Last Run 11/20, Result 0, fresh state mtime, peak_equity tracking latest post-fill equity from cycle 5 on); monitor nextCheckAt 2026-11-22T03:00Z covers the pre-weekly check; weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
+## Heartbeat 2026-11-20T07:36Z (SCI Quant, unscoped wake)
+
+- NewSetup/scripts/verify_paper_cycle.py: RESULT PASS (rc 0), zero drift vs 07:20Z entry (db 0 trade rows / 89 signal rows; same known WARNs: D1 caches 7.0d stale from manual/scripted downloads, LIN.US no cached D1 bars, MOS.US 3.22% fill deviation diagnostic-only).
+- data/paper_state.json mtime 2026-11-19 16:28 local unchanged. schtask UGT15_NewSetupPaperDaily: Ready/Enabled, Last Result 0 (Last Run 11/19 15:45 local), next run 11/20 15:45 local = 23:45Z (cycle 5) - not yet due at wake time.
+- Unscoped heartbeat wake: repo doc write only, no issue writes. Next: cycle 5 verification due 11-20 23:45Z (expect Last Run 11/20, Result 0, fresh paper_state.json mtime, peak_equity tracking latest post-fill equity); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
