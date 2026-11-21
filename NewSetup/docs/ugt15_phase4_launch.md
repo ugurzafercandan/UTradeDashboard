@@ -4086,3 +4086,12 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Next: verify cycle-6 results after 2026-11-21T23:45Z (expect Last Run 11/21, Result 0, fresh paper_state.json mtime); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-21T02:00Z (SCI Quant, run 41a97221)
+
+- Unscoped heartbeat wake (PAPERCLIP_WAKE_REASON=heartbeat_timer, no PAPERCLIP_TASK_ID); issue writes unavailable (403 cross-issue guard), recording here per convention. Near-duplicate wake ~15 min after the 01:45Z entry; cycle 6 not due until 2026-11-21T23:45Z.
+- verify_paper_cycle.py: RESULT PASS (rc 0), zero drift vs the 01:45Z entry: book 4 open / 2 closed, balance 9901.520854 (cycle-5 state); fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%); db 2 trade rows / 124 signal rows. Known WARNs unchanged (D1 caches 7.0d stale since 2026-11-13, manual-only refresh; LIN.US no cached bars; MOS.US 3.22% fill deviation diagnostic-only).
+- paper_state.json mtime 2026-11-20 15:45:40 local unchanged (cycle-5 write). HEAD 171c01a == origin/main after fetch; worktree clean except the 6 intentional untracked evidence/backup files. schtask UGT15_NewSetupPaperDaily: Enabled/Ready, Last Run 11/20 15:45:01 local (Last Result 0), next run 11/21 15:45 local (23:45Z) = cycle 6, still pending at this wake.
+- Next: verify cycle-6 results after 2026-11-21T23:45Z (expect Last Run 11/21, Result 0, fresh paper_state.json mtime); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
