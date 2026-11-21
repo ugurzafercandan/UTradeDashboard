@@ -4732,3 +4732,14 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - CRLF audit: 0 CR-LF bytes found and normalized to LF in this append write.
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-21T22:43:19Z (SCI Quant, run c682170f) - health check PASS, cycle 6 imminent
+
+- Unscoped heartbeat wake (PAPERCLIP_WAKE_REASON=heartbeat_timer, no PAPERCLIP_TASK_ID); issue writes unavailable per cross-issue guard, recording here per convention.
+- Delta vs prior heartbeat entry (commit ead4576): one commit on main (ead4576 itself); verification state otherwise unchanged.
+- scripts/verify_paper_cycle.py re-run at this wake: RESULT PASS (rc 0). Book unchanged: 4 open / 2 closed, balance 9901.520854; fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%); db 2 trade rows / 124 signal rows. Known WARNs unchanged (D1 caches 7.0d stale since 2026-11-13, manual-only refresh; LIN.US no cached bars; MOS.US 3.22 percent fill deviation diagnostic-only).
+- paper_state.json mtime 2026-11-20 15:45:40 local unchanged (cycle-5 write). Repo HEAD ead4576 == origin/main tip; worktree clean except the 6 intentional untracked evidence/backup files. UGT-15 watchdog: null / not configured. CRLF check: 0 stray CR bytes before this append.
+- schtask UGT15_NewSetupPaperDaily: Enabled/Ready; Last Run 11/20 15:45:01 local (Result 0); Next Run 11/21 15:45 local (23:45Z) = cycle 6, still pending at this wake (this wake ~23:42Z precedes it by ~3 min).
+- Next: verify cycle-6 results after 2026-11-21T23:45Z (expect Last Run 11/21, Result 0, fresh paper_state.json mtime); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
