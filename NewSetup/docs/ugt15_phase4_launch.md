@@ -4709,3 +4709,14 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Next: verify cycle-6 results after 2026-11-21T23:45Z (expect Last Run 11/21, Result 0, fresh paper_state.json mtime); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-21T22:10Z (SCI Quant, run 67a2e2cd) - health check PASS, no drift
+
+- Unscoped heartbeat wake (PAPERCLIP_WAKE_REASON=heartbeat_timer, no PAPERCLIP_TASK_ID); issue writes unavailable per cross-issue guard, recording here per convention. No action needed: cycle 6 remains pending (schtask next run 11/21 15:45 local = 23:45Z; this wake at 22:10Z precedes it by ~1h35m).
+- Delta vs prior heartbeat (2026-11-21T21:53Z, run b2ac7e8b, HEAD b6b7eaf): one commit on main, 4fd541e == that heartbeat append itself; verification state otherwise unchanged.
+- scripts/verify_paper_cycle.py re-run at this wake: RESULT PASS (rc 0). Book unchanged: 4 open / 2 closed, balance 9901.520854; fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%); db 2 trade rows / 124 signal rows. Known WARNs unchanged (D1 caches 7.0d stale since 2026-11-13, manual-only refresh; LIN.US no cached bars; MOS.US 3.22 percent fill deviation diagnostic-only).
+- paper_state.json mtime 2026-11-20 15:45:40 local unchanged (cycle-5 write). Repo HEAD 4fd541e == origin/main tip; worktree clean except the 6 intentional untracked evidence/backup files (5x data/paper_state.json.* evidence, db/newsetup.sqlite3.prerollout_backup). UGT-15 watchdog: null / not configured. CRLF check: 0 stray CR bytes before this append, 0 after.
+- schtask UGT15_NewSetupPaperDaily: Enabled/Ready; Last Run 11/20 15:45:01 local (Result 0); Next Run 11/21 15:45 local (23:45Z) = cycle 6, still pending.
+- Next: verify cycle-6 results after 2026-11-21T23:45Z (expect Last Run 11/21, Result 0, fresh paper_state.json mtime); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
