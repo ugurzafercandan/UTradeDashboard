@@ -240,8 +240,8 @@
   <h1>AlgoSignal Lab</h1>
   <p class="hero-sub">ML-driven FX signal research · 22 production signals validated via MT5 Strategy Tester · 8-fold walk-forward · OOS 2021–2024 · All experiment waves complete.</p>
   <div class="hero-stats">
-    <div class="hero-stat"><span class="val" id="stat-runs">28,000+</span><span class="lbl">Total Experiments</span></div>
-    <div class="hero-stat"><span class="val positive" id="stat-best-sharpe">27</span><span class="lbl">Production Signals</span></div>
+    <div class="hero-stat"><span class="val" id="stat-runs">49,588</span><span class="lbl">Total Experiments</span></div>
+    <div class="hero-stat"><span class="val positive" id="stat-best-sharpe">5</span><span class="lbl">KEEP Signals</span></div>
     <div class="hero-stat"><span class="val" id="stat-best-return">24+</span><span class="lbl">Instruments Covered</span></div>
     <div class="hero-stat"><span class="val" id="stat-features">5</span><span class="lbl">Models Evaluated</span></div>
     <div class="hero-stat"><span class="val" id="stat-folds">8</span><span class="lbl">OOS Folds</span></div>
@@ -299,6 +299,7 @@ function toggleResearchNote(el) {
   <button data-tab="mt5-backtests" onclick="showTab('mt5-backtests')" style="color:#a78bfa">MT5 Backtests</button>
   <button data-tab="open-orders" onclick="showTab('open-orders')" style="color:#f59e0b">Live Trading</button>
   <button data-tab="algo-performance" onclick="showTab('algo-performance')" style="color:#10b981">Algo Performance</button>
+  <button data-tab="optimization" onclick="showTab('optimization')" style="color:#10b981">Optimization</button>
   <button data-tab="subscribe" onclick="showTab('subscribe')" style="color:#10b981;border-bottom-color:transparent">Subscribe</button>
 </nav>
 
@@ -7608,6 +7609,287 @@ h=24 avg Sharpe is **6.4x better** than h=6. News-driven signals require ~24h to
       </div>
     </div>
   </div><!-- end tab-algo-performance -->
+
+  <!-- ── OPTIMIZATION RESULTS (USO-470) ── -->
+  <div class="section" id="tab-optimization">
+    <div class="section-title">Optimization Results &amp; Signal Configuration</div>
+    <div class="section-desc">21,588 configs swept across 6 strategies, 3 timeframes, and 10 improvement methods. Updated 2026-11-21.</div>
+
+    <!-- Summary cards -->
+    <div class="grid-4" style="margin-bottom:24px">
+      <div class="card">
+        <div class="card-title">Configs Swept</div>
+        <div class="card-value" style="color:var(--accent)">21,588</div>
+        <div class="card-sub">6 strategies &middot; 3 timeframes &middot; 10 improvements</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Profitable Configs</div>
+        <div class="card-value positive">3,422</div>
+        <div class="card-sub">PnL&gt;0, PF&ge;1.05, &ge;20 trades (15.9%)</div>
+      </div>
+      <div class="card">
+        <div class="card-title">v2 Portfolio PnL</div>
+        <div class="card-value positive">+78,683 pips</div>
+        <div class="card-sub">10 algos &middot; avg Sharpe 8.90 &middot; avg PF 4.15</div>
+      </div>
+      <div class="card">
+        <div class="card-title">ML Signal Validation</div>
+        <div class="card-value" style="color:#ef4444">7/7 FAIL</div>
+        <div class="card-sub">All Tier A signals Sharpe-diverged from dashboard</div>
+      </div>
+    </div>
+
+    <!-- Board Decision: 5 KEEP Signals -->
+    <div class="chart-card" style="margin-bottom:20px">
+      <div class="chart-header" style="margin-bottom:12px">
+        <div>
+          <div class="chart-title">Board Decision: Signal Configuration (USO-425 Audit)</div>
+          <div class="chart-subtitle">5 KEEP signals from 20-signal portfolio review &middot; Oct 30, 2026</div>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Signal</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Symbol</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Trades</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Win%</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Equity Contrib</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Verdict</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#10b981">P32</td><td style="padding:6px 10px">GBPCAD</td><td style="text-align:right;padding:6px 10px">56</td><td style="text-align:right;padding:6px 10px;color:#10b981">96.4%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$2,472</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.15);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP</span></td><td style="padding:6px 10px;color:var(--muted);font-size:11px">Top equity contributor, clean data</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#10b981">P38</td><td style="padding:6px 10px">EURCHF</td><td style="text-align:right;padding:6px 10px">26</td><td style="text-align:right;padding:6px 10px;color:#10b981">96.2%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$710</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.15);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP</span></td><td style="padding:6px 10px;color:var(--muted);font-size:11px">Zero drawdown, clean data</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#10b981">P33</td><td style="padding:6px 10px">EURCHF</td><td style="text-align:right;padding:6px 10px">97</td><td style="text-align:right;padding:6px 10px;color:#10b981">56.7%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+$965</td><td style="padding:6px 10px"><span style="background:rgba(16,185,129,0.1);color:#10b981;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP / MONITOR</span></td><td style="padding:6px 10px;color:var(--muted);font-size:11px">Good WR, moderate drawdown (-2.7%)</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;font-weight:700;color:#f59e0b">P46</td><td style="padding:6px 10px">USDCAD</td><td style="text-align:right;padding:6px 10px">56</td><td style="text-align:right;padding:6px 10px;color:#10b981">100%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$2,087</td><td style="padding:6px 10px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP &#9888;&#65039;</span></td><td style="padding:6px 10px;color:var(--muted);font-size:11px">Data artifact &mdash; 100% WR from corrupted subset</td></tr>
+            <tr><td style="padding:6px 10px;font-weight:700;color:#f59e0b">P16</td><td style="padding:6px 10px">USDCAD</td><td style="text-align:right;padding:6px 10px">32</td><td style="text-align:right;padding:6px 10px;color:#10b981">100%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-$227</td><td style="padding:6px 10px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">KEEP &#9888;&#65039;</span></td><td style="padding:6px 10px;color:var(--muted);font-size:11px">Data artifact &mdash; 100% WR from corrupted subset</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:14px 18px;margin-top:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px">Key Takeaway</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">Only <strong style="color:#10b981">3 signals (P32, P38, P33)</strong> have both positive equity contribution and clean data. P46 and P16 show 100% win rate but this is an artifact of corrupted exit_price data &mdash; their equity contribution is negative. <strong style="color:var(--text)">Remaining 15 signals: 11 PAUSE, 1 REMOVE (P45), 3 REVIEW.</strong></div>
+      </div>
+    </div>
+
+    <!-- v2 Portfolio: News Event Optimization -->
+    <div class="chart-card" style="margin-bottom:20px">
+      <div class="chart-header" style="margin-bottom:12px">
+        <div>
+          <div class="chart-title">v2 Recommended Portfolio: 10-Algo Diversified News Event System</div>
+          <div class="chart-subtitle">Greedy forward selection from 21,588 configs &middot; max pairwise cosine similarity &lt; 0.85 &middot; 2023&ndash;2025 backtest</div>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">#</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Strategy</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">TF</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">SL</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">TP</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Trades</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Win%</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">PnL Pips</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">PF</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Sharpe</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Key Filters</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">1</td><td style="padding:6px 10px">bb_breakout</td><td style="padding:6px 10px">H1</td><td style="text-align:right;padding:6px 10px">60</td><td style="text-align:right;padding:6px 10px">20</td><td style="text-align:right;padding:6px 10px">21</td><td style="text-align:right;padding:6px 10px;color:#10b981">95.2%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+340</td><td style="text-align:right;padding:6px 10px">6.67</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">15.09</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">VIX&gt;22, Vol&gt;2.0, BB:2.0</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">2</td><td style="padding:6px 10px">fade</td><td style="padding:6px 10px">M5</td><td style="text-align:right;padding:6px 10px">15</td><td style="text-align:right;padding:6px 10px">100</td><td style="text-align:right;padding:6px 10px">685</td><td style="text-align:right;padding:6px 10px;color:#10b981">53.4%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+16,522</td><td style="text-align:right;padding:6px 10px">4.74</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">8.83</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">Spike&gt;30</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">3</td><td style="padding:6px 10px">fade</td><td style="padding:6px 10px">M5</td><td style="text-align:right;padding:6px 10px">15</td><td style="text-align:right;padding:6px 10px">100</td><td style="text-align:right;padding:6px 10px">79</td><td style="text-align:right;padding:6px 10px;color:#10b981">57.0%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+2,200</td><td style="text-align:right;padding:6px 10px">5.36</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">9.63</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">VIX&lt;18, Vol&gt;2.0, Spike&gt;10</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">4</td><td style="padding:6px 10px">fade</td><td style="padding:6px 10px">M5</td><td style="text-align:right;padding:6px 10px">25</td><td style="text-align:right;padding:6px 10px">60</td><td style="text-align:right;padding:6px 10px">545</td><td style="text-align:right;padding:6px 10px;color:#10b981">54.9%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+8,214</td><td style="text-align:right;padding:6px 10px">2.59</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">6.63</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">Spike&gt;15, vol regime</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">5</td><td style="padding:6px 10px">fade</td><td style="padding:6px 10px">M15</td><td style="text-align:right;padding:6px 10px">15</td><td style="text-align:right;padding:6px 10px">60</td><td style="text-align:right;padding:6px 10px">169</td><td style="text-align:right;padding:6px 10px;color:#10b981">59.2%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+3,160</td><td style="text-align:right;padding:6px 10px">4.67</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">9.80</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">VIX&lt;18, Vol&lt;0.5, Spike&gt;30</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">6</td><td style="padding:6px 10px">macd_fade</td><td style="padding:6px 10px">M5</td><td style="text-align:right;padding:6px 10px">15</td><td style="text-align:right;padding:6px 10px">100</td><td style="text-align:right;padding:6px 10px">499</td><td style="text-align:right;padding:6px 10px;color:#10b981">52.1%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+11,141</td><td style="text-align:right;padding:6px 10px">4.52</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">8.38</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">Gold:negative, Spike&gt;10</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">7</td><td style="padding:6px 10px">fade</td><td style="padding:6px 10px">M5</td><td style="text-align:right;padding:6px 10px">25</td><td style="text-align:right;padding:6px 10px">100</td><td style="text-align:right;padding:6px 10px">261</td><td style="text-align:right;padding:6px 10px;color:#10b981">50.2%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+5,243</td><td style="text-align:right;padding:6px 10px">2.95</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">6.74</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">Spike&gt;20, mean reversion gate</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">8</td><td style="padding:6px 10px">fade</td><td style="padding:6px 10px">M5</td><td style="text-align:right;padding:6px 10px">15</td><td style="text-align:right;padding:6px 10px">40</td><td style="text-align:right;padding:6px 10px">442</td><td style="text-align:right;padding:6px 10px;color:#10b981">56.8%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+5,521</td><td style="text-align:right;padding:6px 10px">3.11</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">8.11</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">Vol&gt;0.5, Spike&gt;15</td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px;color:var(--accent);font-weight:700">9</td><td style="padding:6px 10px">fade</td><td style="padding:6px 10px">M5</td><td style="text-align:right;padding:6px 10px">15</td><td style="text-align:right;padding:6px 10px">60</td><td style="text-align:right;padding:6px 10px">685</td><td style="text-align:right;padding:6px 10px;color:#10b981">53.4%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+11,393</td><td style="text-align:right;padding:6px 10px">3.58</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">8.26</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">VIX&lt;18, Spike&gt;30</td></tr>
+            <tr><td style="padding:6px 10px;color:var(--accent);font-weight:700">10</td><td style="padding:6px 10px">fade</td><td style="padding:6px 10px">M15</td><td style="text-align:right;padding:6px 10px">15</td><td style="text-align:right;padding:6px 10px">60</td><td style="text-align:right;padding:6px 10px">1,092</td><td style="text-align:right;padding:6px 10px;color:#10b981">52.8%</td><td style="text-align:right;padding:6px 10px;color:#10b981;font-weight:700">+14,948</td><td style="text-align:right;padding:6px 10px">3.30</td><td style="text-align:right;padding:6px 10px;color:var(--accent)">7.53</td><td style="padding:6px 10px;font-size:11px;color:var(--muted)">Spike&gt;30</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:14px 18px">
+          <div style="font-size:12px;font-weight:700;color:#10b981;margin-bottom:6px">Portfolio Summary</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8">
+            Combined PnL: <strong style="color:#10b981">+78,683 pips</strong><br>
+            Avg Sharpe: <strong style="color:var(--text)">8.90</strong> &middot; Avg PF: <strong style="color:var(--text)">4.15</strong><br>
+            Total trades: <strong style="color:var(--text)">4,478</strong> &middot; 3 strategy types, 3 TFs<br>
+            Avg pairwise similarity: 0.67 (max 0.84)
+          </div>
+        </div>
+        <div style="flex:1;min-width:200px;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:10px;padding:14px 18px">
+          <div style="font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:6px">Caveats</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8">
+            Backtested on <strong style="color:#f59e0b">synthetic data</strong> (simulated calendar events)<br>
+            Similarity is config-fingerprint, not return-correlation<br>
+            Forward-testing with live MT5 needed to validate<br>
+            Some configs share base params (fade M5 15/100)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Optimization Findings -->
+    <div class="chart-card" style="margin-bottom:20px">
+      <div class="chart-header" style="margin-bottom:12px">
+        <div>
+          <div class="chart-title">Key Optimization Findings (21,588 Experiments)</div>
+          <div class="chart-subtitle">6 strategies &middot; M5/M15/H1 &middot; 10 improvement methods &middot; 2023&ndash;2025</div>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:16px">
+        <div style="background:var(--surface2);border-radius:8px;padding:14px 16px">
+          <div style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Strategy Rankings</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8">
+            <span style="color:#10b981;font-weight:600">macd_fade</span> &mdash; 62.4% profitable, best mean-reversion<br>
+            <span style="color:#10b981;font-weight:600">fade</span> &mdash; 61.1% profitable, strong and simple<br>
+            <span style="color:var(--muted)">bb_breakout</span> &mdash; 7.1% profitable, too selective<br>
+            <span style="color:#ef4444">straddle</span> &mdash; 4.8% profitable, raw breakout bleeds<br>
+            <span style="color:#ef4444">atr_straddle</span> &mdash; 6.2%, high variance<br>
+            <span style="color:#ef4444">rsi_straddle</span> &mdash; 4.1%, worst average
+          </div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:14px 16px">
+          <div style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Feature Value Rankings</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8">
+            <span style="color:#10b981;font-weight:600">#1 Volume filter</span> &mdash; cuts losses by 90%<br>
+            <span style="color:#10b981;font-weight:600">#2 Gold negative corr</span> &mdash; reduces losses 69%<br>
+            <span style="color:#10b981;font-weight:600">#3 VIX regime (high)</span> &mdash; improves by 36%<br>
+            <span style="color:var(--text)">#4 Timeframe</span> &mdash; M5 edges out H1<br>
+            <span style="color:var(--text)">#5 SL:TP ratio</span> &mdash; tight SL / wide TP best
+          </div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:14px 16px">
+          <div style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Best Risk-Adjusted Config</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8">
+            <strong style="color:var(--text)">fade M15 15SL/100TP</strong><br>
+            Sharpe: <span style="color:var(--accent);font-weight:600">5.78 &ndash; 5.97</span><br>
+            PF: 2.74 &ndash; 2.83<br>
+            Trades: 808 &ndash; 1,183<br>
+            Win%: 48.4% &ndash; 49.0%<br>
+            <span style="color:#f59e0b;font-size:11px">M5 monitoring recommended for news events</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ML Signal Validation -->
+    <div class="chart-card" style="margin-bottom:20px">
+      <div class="chart-header" style="margin-bottom:12px">
+        <div>
+          <div class="chart-title">ML Signal Validation: Tier A Walk-Forward Test</div>
+          <div class="chart-subtitle">7 signals &middot; 8-fold walk-forward &middot; &plusmn;20% Sharpe tolerance &middot; 2026-11-21</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px">
+        <div style="font-size:18px;padding-top:2px">&#10060;</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#ef4444;margin-bottom:4px">All 7 Tier A Signals Failed Walk-Forward Validation</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">Dashboard Sharpe values (4.5&ndash;39.4) diverged 75&ndash;103% from our out-of-sample Sharpe (-0.79 to 2.84). <strong style="color:var(--text)">Do not deploy ML signals live</strong> until divergence source identified. Root causes: no pre-trained models available, Sharpe methodology gap, feature drift in 4/7 signals.</div>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Signal</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Instrument</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Model</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Dashboard Sharpe</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Our OOS Sharpe</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">Deviation</th>
+              <th style="text-align:right;padding:6px 10px;color:var(--muted);font-weight:600">WF Folds Pass</th>
+              <th style="text-align:left;padding:6px 10px;color:var(--muted);font-weight:600">Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">P11</td><td style="padding:6px 10px">GBPCHF</td><td style="padding:6px 10px">xgboost</td><td style="text-align:right;padding:6px 10px">24.58</td><td style="text-align:right;padding:6px 10px;color:#f59e0b">2.84</td><td style="text-align:right;padding:6px 10px;color:#ef4444">88.4%</td><td style="text-align:right;padding:6px 10px;color:#10b981">7/8</td><td style="padding:6px 10px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">DIVERGED</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">P16</td><td style="padding:6px 10px">GBPAUD</td><td style="padding:6px 10px">xgboost</td><td style="text-align:right;padding:6px 10px">8.50</td><td style="text-align:right;padding:6px 10px;color:#f59e0b">2.05</td><td style="text-align:right;padding:6px 10px;color:#ef4444">75.9%</td><td style="text-align:right;padding:6px 10px;color:#10b981">5/8</td><td style="padding:6px 10px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">DIVERGED</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">P17</td><td style="padding:6px 10px">GBPUSD</td><td style="padding:6px 10px">lightgbm</td><td style="text-align:right;padding:6px 10px">6.20</td><td style="text-align:right;padding:6px 10px;color:#ef4444">0.62</td><td style="text-align:right;padding:6px 10px;color:#ef4444">90.0%</td><td style="text-align:right;padding:6px 10px;color:#10b981">5/8</td><td style="padding:6px 10px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">DIVERGED</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">P18</td><td style="padding:6px 10px">CHFJPY</td><td style="padding:6px 10px">xgboost</td><td style="text-align:right;padding:6px 10px">4.50</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-0.13</td><td style="text-align:right;padding:6px 10px;color:#ef4444">102.9%</td><td style="text-align:right;padding:6px 10px;color:#10b981">5/8</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">DIVERGED</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">P6</td><td style="padding:6px 10px">AUDCHF</td><td style="padding:6px 10px">xgboost</td><td style="text-align:right;padding:6px 10px">34.48</td><td style="text-align:right;padding:6px 10px;color:#ef4444">0.26</td><td style="text-align:right;padding:6px 10px;color:#ef4444">99.3%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">4/8</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">DIVERGED</span></td></tr>
+            <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 10px">P7</td><td style="padding:6px 10px">USDCHF</td><td style="padding:6px 10px">xgboost</td><td style="text-align:right;padding:6px 10px">28.12</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-0.79</td><td style="text-align:right;padding:6px 10px;color:#ef4444">102.8%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">4/8</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">DIVERGED</span></td></tr>
+            <tr><td style="padding:6px 10px">P8</td><td style="padding:6px 10px">CADCHF</td><td style="padding:6px 10px">lightgbm</td><td style="text-align:right;padding:6px 10px">39.40</td><td style="text-align:right;padding:6px 10px;color:#ef4444">-0.73</td><td style="text-align:right;padding:6px 10px;color:#ef4444">101.9%</td><td style="text-align:right;padding:6px 10px;color:#ef4444">3/8</td><td style="padding:6px 10px"><span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">FAIL</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:14px 18px;margin-top:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px">Recommendations</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.8">
+          1. <strong style="color:var(--text)">Obtain dashboard&rsquo;s trained model weights</strong> to reproduce exact inference<br>
+          2. <strong style="color:var(--text)">Request exact Sharpe methodology</strong> &mdash; in-sample vs OOS, annualization factor<br>
+          3. <strong style="color:var(--text)">Normalize price-level features</strong> (MAs, BBs) to reduce feature drift<br>
+          4. <strong style="color:var(--text)">M5 monitoring for news events</strong> &mdash; fade/macd_fade strategies show real edge in synthetic backtest<br>
+          5. <strong style="color:#ef4444">Do not deploy ML signals live</strong> until Sharpe divergence resolved
+        </div>
+      </div>
+    </div>
+
+    <!-- Real Trading Performance Summary -->
+    <div class="chart-card" style="margin-bottom:20px">
+      <div class="chart-header" style="margin-bottom:12px">
+        <div>
+          <div class="chart-title">Real Trading Performance Summary</div>
+          <div class="chart-subtitle">$100K account &middot; Alpari-MT5-Demo &middot; May&ndash;Oct 2026 &middot; 20 signals</div>
+        </div>
+      </div>
+
+      <div class="grid-4" style="margin-bottom:16px">
+        <div style="background:var(--surface2);border-radius:8px;padding:14px 16px;text-align:center">
+          <div style="font-size:22px;font-weight:700;color:#ef4444">$74,145</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Account Balance (from $100K)</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:14px 16px;text-align:center">
+          <div style="font-size:22px;font-weight:700;color:#ef4444">-25.85%</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Total Return</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:14px 16px;text-align:center">
+          <div style="font-size:22px;font-weight:700;color:var(--text)">5,953</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Total Exits &middot; 35.7% WR</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:14px 16px;text-align:center">
+          <div style="font-size:22px;font-weight:700;color:#10b981">+$4,147</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">3 KEEP Signals Combined</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:0">
+        <div style="background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:14px 18px">
+          <div style="font-size:12px;font-weight:700;color:#10b981;margin-bottom:8px">Profitable Symbols (USO-408, 41-day window)</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8">
+            <strong style="color:#10b981">NZDUSD</strong> &mdash; +$2,140 &middot; 193 exits &middot; 62.7% WR &middot; validates QC Sharpe 3.12<br>
+            <strong style="color:#10b981">GBPUSD</strong> &mdash; +$785 &middot; 166 exits &middot; 50.0% WR<br>
+            <strong style="color:#10b981">EURUSD</strong> &mdash; +$772 &middot; 270 exits &middot; 46.7% WR<br>
+            <strong style="color:#10b981">AUDUSD</strong> &mdash; +$769 &middot; 100 exits &middot; 57.0% WR<br>
+            <strong style="color:var(--text)">Total: +$4,466 in 41 days</strong> &mdash; ~$27K/yr annualized
+          </div>
+        </div>
+        <div style="background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:14px 18px">
+          <div style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:8px">Root Cause: Position Stacking Bug</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8">
+            <strong style="color:#ef4444">79% of all losses</strong> caused by position stacking bug<br>
+            EURGBP (P30/P34/P36): -$14,734 &mdash; new SELLs every hour<br>
+            GBPCAD (P14+P32): -$3,554 &mdash; same stacking behavior<br>
+            USDCAD (P16+P46): -$3,065 &mdash; same stacking behavior<br>
+            <strong style="color:var(--text)">Fix:</strong> position guard checking mt5.positions_get(symbol, magic)<br>
+            <strong style="color:var(--text)">Deployed:</strong> cross-signal dedup fix (USO-423)
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end tab-optimization -->
 
 </div><!-- end .container -->
 
