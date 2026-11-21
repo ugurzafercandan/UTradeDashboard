@@ -4513,3 +4513,12 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Next: verify cycle-6 results (expect Last Run 11/21, Result 0, fresh paper_state.json mtime); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+## Heartbeat 2026-11-21T16:01Z (08:01 local)
+
+- Unscoped heartbeat wake (heartbeat_timer, no task ID); recording here per convention. Cycle 6 still pending: schtask shows Next Run 11/21 15:45 local (23:45Z), Last Run 11/20 15:45:01 (Result 0) — expected, since this wake fires ~16 min before the scheduled run.
+- scripts/verify_paper_cycle.py re-run at this wake: RESULT PASS (rc 0). Book unchanged: 4 open / 2 closed, balance 9901.520854; fills within tolerance; db 2 trade rows / 124 signal rows. Known WARNs unchanged (D1 caches 7.0d stale since 2026-11-13, manual-only refresh; LIN.US no cached bars; MOS.US 3.22% deviation diagnostic-only).
+- paper_state.json mtime 2026-11-20 15:45:40 local unchanged. HEAD 4162bf5 == origin/main after fetch; worktree clean except the 6 intentional untracked evidence/backup files.
+- Next: post-cycle-6 wake should confirm schtask Last Run 11/21 15:45 (Result 0) and fresh paper_state.json mtime; weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
