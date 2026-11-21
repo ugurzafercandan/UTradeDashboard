@@ -116,3 +116,46 @@ could not be retrieved headlessly; generating/reading it needs the GUI once
 - Pre-change chart profile + terminal-written originals:
   C:\workspace\fx_ml\backup_chr_20261121\
 - Pre-EA chart files: C:\workspace\fx_ml\backup_chr_20261121\pre_ea_reference\
+
+## News portfolio extension (2026-11-21, second wave, user-approved "attach all")
+
+All 10 news-event EAs from the USO-469 package (Experts\NewsPortfolio) are now
+also attached to live charts in the same Default profile (chart06-15.chr),
+built with the identical method from the chart02 template:
+
+| Chart | File | EA | Magic | Timeframe |
+|---|---|---|---|---|
+| 6 | chart06.chr | Algo01_BBBreakout_H1 | 461001 | H1 (period_type=1, period_size=1) |
+| 7 | chart07.chr | Algo02_FadeM5_Spike30 | 461002 | M5 |
+| 8 | chart08.chr | Algo03_FadeM5_VIX_Vol | 461003 | M5 |
+| 9 | chart09.chr | Algo04_FadeM5_VolRegime | 461004 | M5 |
+| 10 | chart10.chr | Algo05_FadeM15_VIX_LowVol | 461005 | M15 (0/15) |
+| 11 | chart11.chr | Algo06_MACDFade_Gold | 461006 | M5 |
+| 12 | chart12.chr | Algo07_FadeM5_MRG | 461007 | M5 |
+| 13 | chart13.chr | Algo08_FadeM5_VolFilter | 461008 | M5 |
+| 14 | chart14.chr | Algo09_FadeM5_VIX | 461009 | M5 |
+| 15 | chart15.chr | Algo10_FadeM15_Spike30 | 461010 | M15 (0/15) |
+
+All charts are EURUSD (the package README recommends any-pair/EURUSD; each EA
+trades all ~14 pairs affected by its triggering economic event). Inputs are the
+source-code defaults: 0.01 lots / 1000 EUR notional, per-EA SL/TP and filter
+thresholds per the README strategy table. expertmode=1 on every chart.
+
+Period encoding learned from terminal-written charts: minutes -> period_type=0,
+period_size=N (M5=5, M15=15); H1 -> period_type=1, period_size=1.
+
+Verification (experts log MQL5\logs\20261121.log):
+- 11:06:25 — first start with the new charts: all 10 Algo EAs logged
+  "Initialized: magic=4610xx" with correct symbol/timeframe (Algo01 EURUSD,H1;
+  Algo05/Algo10 EURUSD,M15; rest EURUSD,M5). No FATAL lines.
+- 11:08:42 — after one more graceful stop/start cycle: 15 init lines, magic set
+  exactly {209001,209043,209045,209047,209048, 461001..461010}. Persistence
+  confirmed; the terminal re-saved all 15 .chr files with expert sections
+  intact.
+- Journal 11:08:41: "trading has been enabled, demo account - hedging mode".
+- Algo01's init line prints "spike>0 pips" — expected (BB-breakout EA has no
+  spike threshold).
+
+Backups (second wave): C:\workspace\fx_ml\backup_chr_news_20261121\
+(pre-change Default profile with the 5 v2 charts only).
+Chart-builder script kept at C:\workspace\fx_ml\ugt42_attach_news_charts.py.
