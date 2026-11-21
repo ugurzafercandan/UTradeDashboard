@@ -1,0 +1,23 @@
+{
+  "action": "disable",
+  "reason": "USO-469 Board-approved optimization — kill 15 unprofitable signals",
+  "date": "2026-11-21",
+  "total_loss_eliminated": -31273.68,
+  "signals": [
+    {"signal_id": "P30", "magic": 208030, "symbol": "EURGBP", "trades": 376, "net_pnl": -6154.88, "win_rate": 23.9},
+    {"signal_id": "P36", "magic": 208036, "symbol": "EURGBP", "trades": 376, "net_pnl": -6142.30, "win_rate": 23.9},
+    {"signal_id": "P34", "magic": 208034, "symbol": "EURGBP", "trades": 369, "net_pnl": -5859.49, "win_rate": 24.7},
+    {"signal_id": "P46", "magic": 208046, "symbol": "USDCAD", "trades": 325, "net_pnl": -2748.98, "win_rate": 20.6},
+    {"signal_id": "P14", "magic": 208014, "symbol": "GBPCAD", "trades": 281, "net_pnl": -2661.86, "win_rate": 19.2},
+    {"signal_id": "P38", "magic": 208038, "symbol": "EURCHF", "trades": 243, "net_pnl": -1605.25, "win_rate": 36.6},
+    {"signal_id": "P32", "magic": 208032, "symbol": "GBPCAD", "trades": 216, "net_pnl": -1534.68, "win_rate": 25.5},
+    {"signal_id": "P16", "magic": 208016, "symbol": "USDCAD", "trades": 146, "net_pnl": -1087.34, "win_rate": 23.3},
+    {"signal_id": "P21", "magic": 208021, "symbol": "XAUUSD", "trades": 151, "net_pnl": -861.48, "win_rate": 27.2},
+    {"signal_id": "P23", "magic": 208023, "symbol": "XAUUSD", "trades": 147, "net_pnl": -839.00, "win_rate": 28.6},
+    {"signal_id": "P15", "magic": 208015, "symbol": "XAUUSD", "trades": 178, "net_pnl": -767.22, "win_rate": 23.6},
+    {"signal_id": "P33", "magic": 208033, "symbol": "EURCHF", "trades": 60,  "net_pnl": -409.60, "win_rate": 33.3},
+    {"signal_id": "P44", "magic": 208044, "symbol": "USDJPY", "trades": 65,  "net_pnl": -267.25, "win_rate": 38.5},
+    {"signal_id": "P31", "magic": 208031, "symbol": "AUDNZD", "trades": 82,  "net_pnl": -252.53, "win_rate": 36.6},
+    {"signal_id": "P22", "magic": 208022, "symbol": "XAUUSD", "trades": 46,  "net_pnl": -81.82,  "win_rate": 21.7}
+  ]
+}

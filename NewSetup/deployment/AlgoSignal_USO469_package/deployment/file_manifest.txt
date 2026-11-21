@@ -1,0 +1,43 @@
+# Deployment Package File Manifest — USO-469
+# Date: 2026-11-21
+#
+# Format: SOURCE (in deployment_package/) → TARGET (on 10.10.10.100 MT5 Data Folder)
+#
+# Copy these files to the server. The MT5 Data Folder is found via
+# MT5 → File → Open Data Folder (typically C:\Users\<user>\AppData\Roaming\MetaQuotes\Terminal\<hash>\)
+
+# ─── Phase 1: Kill Losers Script ───────────────────────────────────────────────
+
+Scripts/KillLosers.mq5          → MQL5/Scripts/KillLosers.mq5
+
+# ─── Phase 2: v2 Framework ────────────────────────────────────────────────────
+
+Include/M5MonitorFramework.mqh  → MQL5/Include/M5MonitorFramework.mqh
+
+# NOTE: NewsTraderFramework.mqh should already exist in MQL5/Include/ from the
+# original deployment. M5MonitorFramework.mqh extends it via #include.
+# If NewsTraderFramework.mqh is missing, also copy:
+# Include/NewsTraderFramework.mqh → MQL5/Include/NewsTraderFramework.mqh
+
+# ─── Phase 2: v2 Expert Advisors ──────────────────────────────────────────────
+
+Experts/P01_v2.mq5              → MQL5/Experts/V2/P01_v2.mq5
+Experts/P43_v2.mq5              → MQL5/Experts/V2/P43_v2.mq5
+Experts/P45_v2.mq5              → MQL5/Experts/V2/P45_v2.mq5
+Experts/P47_v2.mq5              → MQL5/Experts/V2/P47_v2.mq5
+Experts/P48_v2.mq5              → MQL5/Experts/V2/P48_v2.mq5
+
+# ─── Reference (do NOT deploy, for audit only) ────────────────────────────────
+
+# kill_signals.json              — JSON manifest of killed signals and their P&L
+# DEPLOY_INSTRUCTIONS.md         — This deployment guide
+
+# ─── v2 EA → Magic Number → Symbol mapping ────────────────────────────────────
+#
+# P01_v2.mq5   magic=209001   EURUSD   (v2 of P1,  original magic=208001)
+# P43_v2.mq5   magic=209043   EURUSD   (v2 of P43, original magic=208043)
+# P45_v2.mq5   magic=209045   NZDUSD   (v2 of P45, original magic=208045)
+# P47_v2.mq5   magic=209047   AUDUSD   (v2 of P47, original magic=208047)
+# P48_v2.mq5   magic=209048   GBPUSD   (v2 of P48, original magic=208048)
+#
+# Total files to copy: 7 (1 script + 1 framework + 5 EAs)
