@@ -4776,3 +4776,14 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Next: verify cycle-6 results after 2026-11-21T23:45Z (expect Last Run 11/21, Result 0, fresh paper_state.json mtime, post-fill peak_equity tracking from cycle 5 fix 45c8eeb); weekly metrics + degradation ladder due 2026-11-23. Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-21T23:47Z (SCI Quant, run ef98431b-cdb1-42fa-96b7-c633315476f9) - health check PASS, CYCLE 6 RAN CLEAN
+
+- Unscoped heartbeat wake (PAPERCLIP_WAKE_REASON=heartbeat_timer, no PAPERCLIP_TASK_ID); issue writes unavailable per cross-issue guard, recording here per convention.
+- CYCLE 6 CONFIRMED at this wake: schtask UGT15_NewSetupPaperDaily Last Run 11/21 15:45:01 local (Result 0, exit 0 at 15:45:38), Next Run 11/22 15:45 local (23:45Z). paper_state.json mtime 2026-11-21 15:45:38 local (23:45:38Z) = cycle-6 write.
+- scripts/verify_paper_cycle.py re-run at this wake: RESULT PASS (rc 0). Book advanced from 4 to 5 open / 2 closed, balance 9901.520854; new fill LIN.US BUY 0.24 @ 501.7503 (conf 0.89, SL 481.209 / TP 542.533) on real export-archive events (4497 events / 96 slots after GDELT DOC 429; 35 raw -> 26 confirmed -> dedup 2 USDCNH dupes -> 1 sized). db now 4 trade rows / 159 signal rows. Equity 10,033.08, today P&L +33.08; peak_equity 10,084.589 unchanged (post-fill equity below cycle-5 high-water - consistent with fix 45c8eeb, no lag).
+- Prior 4 open fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%). Known WARNs unchanged (D1 caches 9.0d stale since 2026-11-13, manual-only refresh; LIN.US previously had no cached bars - now traded off live MT5 quote; MOS.US 3.22 percent fill deviation diagnostic-only).
+- Delta vs prior heartbeat (2026-11-21T23:31Z, run b6945acb, commit f979f1f): commits through 7629712 == that heartbeat append + one later append (both doc-only); verification state advanced only by cycle 6 itself. HEAD 7629712 == origin/main (fetch confirmed); worktree clean except the 6 intentional untracked evidence/backup files. UGT-15 watchdog: null / not configured. CRLF audit: 0 stray CR bytes before this append, appended and normalized LF-only in the same write.
+- Next: cycle 7 expected after 2026-11-22T23:45Z; weekly metrics + degradation ladder due 2026-11-23 (day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
