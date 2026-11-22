@@ -5625,3 +5625,9 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Next: verify cycle-7 results after 2026-11-22T23:45Z; weekly metrics + degradation ladder due 2026-11-23 (day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-22T21:42Z (SCI Quant, run 47875b2e, unscoped)
+
+- Cycle 6 verifier PASS: 5 open / 2 closed, balance 9901.520854; 4 DB trade rows and 159 signal rows. D1 caches 9 days old at cycle time, LIN.US missing cached D1 bars, MOS.US 3.22% deviation diagnostic only. Verifier PASS is not a rollout acceptance verdict.
+- Paper state unchanged (2026-11-21T23:45:38Z); Windows task enabled and Ready, last result 0. Cycle 7 scheduled for 2026-11-22T23:45Z.
+- [UGT-15](/UGT/issues/UGT-15) remains in progress; existing weekly metrics and degradation monitor confirmed for 2026-11-23T01:00Z. Verify cycle 7 before judging the weekly sample. No state or configuration changes.
