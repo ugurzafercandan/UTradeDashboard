@@ -4875,3 +4875,14 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - schtask UGT15_NewSetupPaperDaily: Enabled/Ready; Last Run 11/21 15:45:01 local (Result 0) = cycle 6; Next Run 11/22 15:45 local (23:45Z) = cycle 7, pending. Weekly metrics + degradation ladder due 2026-11-23 (day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-22T02:30Z (SCI Quant, run 95158ea4-6c82-41e7-b9db-f6a145618d97) - health check PASS, cycle 6 stable, cycle 7 pending
+
+- Unscoped heartbeat wake (PAPERCLIP_WAKE_REASON=heartbeat_timer, no PAPERCLIP_TASK_ID); issue writes unavailable per cross-issue guard, recording here per convention. No corrective action needed.
+- Delta vs prior heartbeat (entry labeled 2026-11-22T02:15Z, run a97854cc, commit fb5bf92): one commit on main, fb5bf92 == that heartbeat append itself; verification state unchanged since cycle 6.
+- scripts/verify_paper_cycle.py re-run at this wake: RESULT PASS (rc 0). Book unchanged: 5 open / 2 closed, balance 9901.520854; fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%); db 4 trade rows / 159 signal rows. Known WARNs unchanged (D1 caches 9.0d stale since 2026-11-13, manual-only refresh; LIN.US no cached D1 bars, trading off live MT5 quote; MOS.US 3.22 percent fill deviation diagnostic-only).
+- paper_state.json mtime 2026-11-21 15:45:38 local (23:45:38Z) = cycle-6 write, unchanged. Repo HEAD fb5bf92 == origin/main (fetch confirmed); worktree clean except the 6 intentional untracked evidence/backup files (5x data/paper_state.json.* evidence, db/newsetup.sqlite3.prerollout_backup). UGT-15 (f57e8eb8, in_progress) watchdog: null / not configured. CRLF audit: 0 stray CR bytes before this append (verified, count 0), appended LF-only in the same write.
+- schtask UGT15_NewSetupPaperDaily: Enabled/Ready; Last Run 11/21 15:45:01 local (Result 0) = cycle 6; Next Run 11/22 15:45 local (23:45Z) = cycle 7, pending (~21h15m out).
+- Next: verify cycle-7 results after 2026-11-22T23:45Z (expect Last Run 11/22, Result 0, fresh paper_state.json mtime); weekly metrics + degradation ladder due 2026-11-23 (day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
