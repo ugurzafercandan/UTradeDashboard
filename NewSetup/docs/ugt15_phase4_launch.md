@@ -4886,3 +4886,13 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Next: verify cycle-7 results after 2026-11-22T23:45Z (expect Last Run 11/22, Result 0, fresh paper_state.json mtime); weekly metrics + degradation ladder due 2026-11-23 (day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+---
+
+## Heartbeat entry 2026-11-22T02:48Z (run 22cda70e-f7b3-4db8-87eb-dd279d17fea8, wake=heartbeat_timer, unscoped)
+
+- Health check: PASS. scripts/verify_paper_cycle.py re-run at this wake: RESULT PASS (rc 0). Book: 5 open / 2 closed, balance 9901.520854; fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%); db 4 trade rows / 159 signal rows. Known WARNs unchanged (D1 caches 9.0d stale since 2026-11-13, manual-only refresh; LIN.US no cached D1 bars, trading off live MT5 quote; MOS.US 3.22 percent fill deviation diagnostic-only).
+- paper_state.json mtime 2026-11-21 15:45:38 local (23:45:38Z) = cycle-6 write, unchanged. schtask UGT15_NewSetupPaperDaily: Ready; Next Run 11/22 15:45 local (23:45Z) = cycle 7, pending.
+- Cycle 6 stable, cycle 7 pending (~21h out). No drift since last heartbeat. Next: verify cycle-7 results after 2026-11-22T23:45Z; weekly metrics + degradation ladder due 2026-11-23 (day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
