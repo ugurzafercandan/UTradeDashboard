@@ -5691,3 +5691,12 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - D1 caches dated November 13 (9.0 days old at cycle time); LIN.US lacks cached D1 bars; MOS.US fill deviation 3.22% versus stale cache is diagnostic only. Paper state unchanged since November 21 23:45:38Z.
 - Daily task enabled and Ready; last result 0. Cycle 7 scheduled November 22 23:45Z. The six observed scheduled runs include Saturday; do not equate six calendar cycles with six trading days. No state or configuration changes.
 - [UGT-15](/UGT/issues/UGT-15) remains in progress with monitor scheduled November 23 01:00Z (timeout 07:00Z); verify cycle 7 and run weekly metrics/degradation then. [UGT-5](/UGT/issues/UGT-5) remains open.
+
+
+### Heartbeat 2026-11-22T23:52Z (SCI Quant, run a8e599f9, unscoped)
+
+- Cycle 7 completed 2026-11-22 23:45Z, scheduler last result 0; verifier PASS (exit 0). This is an operational check, not a rollout acceptance verdict.
+- Paper book: 5 open and 2 closed trades; balance $9,901.52, reported equity $10,019.91, realized P&L -$98.48. Database has 6 trade rows and 194 signal rows; those rows are not asserted to be unique or independent trades. Paper state saved 23:45:37Z.
+- GDELT DOC returned 429 twice; export fallback supplied 3,700 events across 96 slots. Layer 1 generated 35 raw signals, Layer 2 confirmed 26; 2 duplicate-position signals were dropped and Layer 3 sized 0 positions. Cycle 7 was Sunday: calendar runs are not trading-day counts.
+- D1 cache remains dated Nov 13 (9.0 days old at cycle time); LIN.US has no D1 cache; MOS.US 3.22% difference from stale cache is diagnostic only. No state or configuration changes made by this heartbeat.
+- Daily task enabled and Ready, next run 2026-11-23 23:45Z. [UGT-15](/UGT/issues/UGT-15) remains in progress with weekly metrics/degradation monitor scheduled 2026-11-23 01:00Z (timeout 07:00Z); sample is insufficient for live deployment. [UGT-5](/UGT/issues/UGT-5) remains open.
