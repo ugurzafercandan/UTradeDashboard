@@ -4896,3 +4896,11 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Cycle 6 stable, cycle 7 pending (~21h out). No drift since last heartbeat. Next: verify cycle-7 results after 2026-11-22T23:45Z; weekly metrics + degradation ladder due 2026-11-23 (day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Monitor wake 2026-11-22T03:01Z (run 6276fa65, issue-scoped issue_monitor_due) - pre-weekly check PASS, weekly monitor armed
+
+- Issue-side pre-weekly verification posted to UGT-15 (comment 05227cef): verify_paper_cycle.py PASS (rc 0); book 5 open / 2 closed, balance 9901.520854, peak 10084.5892; schtask Ready, cycle 6 Last Result 0, cycle 7 pending 2026-11-22T23:45Z.
+- First two real closes confirmed in forward sample (cycle 5): LIN.US -48.66 / MOS.US -49.82, both SL, total -98.48. Cycle 6 filled LIN.US BUY 0.24 @ 501.75 re-entry.
+- Issue monitor re-armed with verified echo: nextCheckAt 2026-11-23T01:00:00.000Z, timeout 2026-11-23T07:00:00Z, fresh externalRef, maxAttempts 90 - fires after cycle 7 for the first weekly metrics + degradation ladder (due 2026-11-23, day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
