@@ -5528,3 +5528,10 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
 
+## Heartbeat 2026-11-22T18:58Z (SCI Quant, run 3f81be0e, unscoped heartbeat wake)
+
+- scripts/verify_paper_cycle.py re-run at this wake: RESULT PASS (rc 0). Book unchanged: 5 open / 2 closed, balance 9901.520854; fills within cache tolerance (EURUSD 0.48%, USDCNH 0.12%, USDZAR 0.29%, ALUMINIUM 2.87%); db 4 trade rows / 159 signal rows. Known WARNs unchanged (D1 caches 9.0d stale since 2026-11-13, manual-only refresh; MOS.US 3.22% fill deviation diagnostic-only).
+- schtask UGT15_NewSetupPaperDaily: Enabled/Ready; Last Run 11/21 15:45:01 local (Result 0) = cycle 6; Next Run 11/22 15:45 local (23:45Z) = cycle 7, still pending. paper_state.json (data/) unchanged since cycle-6 write.
+- Next: verify cycle-7 results after 2026-11-22T23:45Z; weekly metrics + degradation ladder due 2026-11-23 (day 7 of 28). Do NOT close UGT-5 (0beeccfa) or UGT-15 (f57e8eb8).
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
