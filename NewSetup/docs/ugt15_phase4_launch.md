@@ -5958,3 +5958,9 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - No paper state, configuration, or issue changes. Unscoped run: no issue mutation attempted. UGT-5 and UGT-15 left open.
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-23T13:31Z (SCI Quant, run 92428d6b)
+
+- Operational verifier PASS for cycle 7 (November 22 23:45Z): 5 open, 2 closed, $9,901.52 balance; 2 trade rows and 194 signal rows. State mtime unchanged at November 22 23:45:37Z.
+- Daily task Ready with last result 0; cycle 8 is due November 23 23:45Z. The issue monitor is scheduled for November 24 01:00Z to verify the cycle and post-fix duplicate-close persistence.
+- D1 caches date to November 13 and LIN.US has no D1 cache; the MOS.US 3.22% discrepancy against its stale close is diagnostic only. Two closes are insufficient for OOS acceptance. No paper state, configuration, or issue changes.
