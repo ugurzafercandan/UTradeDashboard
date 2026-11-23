@@ -5931,3 +5931,12 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Two closed trades do not support OOS acceptance or live deployment. No paper state, configuration, or issue changes. UGT-5 and UGT-15 left open.
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+
+### Heartbeat 2026-11-23T12:10Z (SCI Quant, unscoped heartbeat_timer)
+
+- Operational verifier PASS (exit 0, scripts/verify_paper_cycle.py): last scheduled cycle November 22 23:45Z; 5 open / 2 closed, balance $9,901.52; 2 trade rows / 194 signal rows. data/paper_state.json mtime November 22 23:45Z (unchanged; next scheduled cycle November 23 23:45Z).
+- D1 caches still dated November 13 (ALUMINIUM, EURUSD, MOS.US, USDCNH, USDZAR); LIN.US D1 cache missing. MOS.US 3.22% deviation versus stale cached close is diagnostic only.
+- Two closed trades do not support OOS acceptance or live deployment. No paper state, configuration, or issue changes. UGT-5 and UGT-15 left open.
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
