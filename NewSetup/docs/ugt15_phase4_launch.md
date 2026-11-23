@@ -5949,3 +5949,12 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - No paper state, configuration, or issue changes. UGT-15 monitor confirmed via API: nextCheckAt November 24 01:00Z, timeout 07:00Z, attempt 8 of 90. UGT-5 and UGT-15 left open.
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-23T13:15Z (SCI Quant, unscoped heartbeat_timer)
+
+- Operational verifier PASS (exit 0, scripts/verify_paper_cycle.py): last scheduled cycle November 22 23:45Z (cycle 7); 5 open / 2 closed, balance $9,901.52; 2 trade rows / 194 signal rows. data/paper_state.json mtime November 22 23:45:37Z (unchanged). PASS is operational only, not an acceptance-gate verdict.
+- Daily task UGT15_NewSetupPaperDaily next run November 23 23:45Z. Cycle 8 and the post-fix duplicate-close persistence check remain pending.
+- D1 caches still dated November 13 (ALUMINIUM, EURUSD, MOS.US, USDCNH, USDZAR); LIN.US D1 cache missing. MOS.US 3.22% deviation versus stale cached close is diagnostic only. Two closed trades do not support OOS acceptance or live deployment.
+- No paper state, configuration, or issue changes. Unscoped run: no issue mutation attempted. UGT-5 and UGT-15 left open.
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
