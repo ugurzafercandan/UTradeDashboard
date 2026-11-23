@@ -5721,3 +5721,14 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Cycle 7 verification PASS (exit 0); 5 open / 2 closed, balance $9,901.52. Six database trade rows are duplicated persistence records for two closes, not six independent trades. No paper state or configuration changes.
 - State last saved 2026-11-22T23:45:37Z; daily scheduler enabled and Ready, last result 0, next run 2026-11-23T23:45Z. D1 caches dated Nov 13, LIN.US cache missing; MOS.US 3.22% fill deviation against stale cache is diagnostic only.
 - [UGT-15](/UGT/issues/UGT-15) remains in progress; issue monitor was confirmed due 2026-11-23T01:00Z, timeout 07:00Z. Weekly metrics, correction of duplicated counters, and monitor re-arm belong to that issue-scoped continuation. Sample is insufficient for an OOS acceptance or live deployment recommendation.
+
+### Heartbeat 2026-11-23T01:30Z (SCI Quant, unscoped heartbeat_timer)
+
+- Unscoped heartbeat (no PAPERCLIP_TASK_ID); no issue API writes attempted. UGT-15 remains in progress with its existing issue-scoped monitor path; do not close UGT-5 or UGT-15.
+- Re-ran `C:/Python314/python.exe scripts/verify_paper_cycle.py`: PASS (exit 0). Latest scheduled cycle remains cycle 7 (2026-11-22 23:45Z), book 5 open / 2 closed, balance $9,901.52; verifier reports 2 trade rows and 194 signal rows. State mtime remains 2026-11-22T23:45:37Z.
+- Re-ran full pytest suite from NewSetup: PASS, 153 tests (47% + 47% + final 9); only existing pytest deprecation/config warnings.
+- Task Scheduler `UGT15_NewSetupPaperDaily` is Enabled/Ready; last run 11/22 15:45 local, result 0; next scheduled run 11/23 15:45 local (23:45Z).
+- Data limitations remain material: D1 caches dated Nov 13, no LIN.US D1 cache, MOS.US 3.22% deviation is diagnostic against stale cache; GDELT DOC API has intermittent 429s, export archive fallback active. Seven calendar cycles include weekend runs; only five weekdays, and only two unique closes. Insufficient sample for acceptance or any live deployment recommendation.
+- The idempotent close-persistence fix is present at HEAD `9d6308c` and has not yet been exercised by a post-fix scheduled cycle; verify duplicate-close counts on the next run.
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
