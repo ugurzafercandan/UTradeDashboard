@@ -98,7 +98,22 @@ class NewSetupDB:
 
     # --------------------------------------------------------------- trades
     def insert_trade(self, trade: Trade) -> int:
-        """Persist a closed trade (open trades have closed_at/pnl unset)."""
+        """Persist a closed trade idempotently (open trades have closed_at/pnl unset)."""
+        opened_s = iso(_as_utc(trade.opened_at))
+        closed_s = iso(_as_utc(trade.closed_at)) if trade.closed_at else None
+        ineff_id = int(trade.inefficiency_id) if trade.inefficiency_id else None
+        if closed_s is not None:
+            existing = self.conn.execute(
+                """SELECT id FROM trades
+                   WHERE opened_at = ? AND closed_at = ? AND instrument = ?
+                     AND direction = ? AND lot_size = ? AND entry_price = ?
+                     AND COALESCE(inefficiency_id, 0) = ?""",
+                (opened_s, closed_s, trade.instrument, trade.direction,
+                 float(trade.lot_size), float(trade.entry_price),
+                 ineff_id or 0),
+            ).fetchone()
+            if existing is not None:
+                return int(existing["id"])
         cur = self.conn.execute(
             """INSERT INTO trades
                (opened_at, closed_at, instrument, direction, lot_size,

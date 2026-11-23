@@ -120,3 +120,75 @@ def test_monthly_report_markdown():
         report = tracker.monthly_report("2025-01")
         assert "ineff" in report or "#7" in report
         assert "gross_pnl" in report
+def test_closed_trade_persistence_idempotent_across_restarts(tmp_path):
+    """Replaying closed_trades across independent restarts must not duplicate
+    rows or inflate signal_quality, while new closes alongside history still
+    persist."""
+    from execution.paper_broker import PaperBroker
+
+    db_file = str(tmp_path / "test.sqlite3")
+    state_file = str(tmp_path / "paper_state.json")
+    settings = {"paper_trading": {"starting_balance": 10000.0, "spread_pct": 0.02, "state_file": state_file}}
+
+    t1 = _trade(1, -48.66, datetime(2026, 11, 20, 0, 0, tzinfo=timezone.utc))
+    t2 = _trade(7, -49.82, datetime(2026, 11, 20, 0, 0, tzinfo=timezone.utc))
+
+    # Cycle 1: first close persisted
+    b1 = PaperBroker(settings=settings)
+    b1._closed.append(t1)
+    b1.balance += t1.pnl
+    b1.save_state()
+    with NewSetupDB(db_file) as db:
+        tracker = SignalQualityTracker(db)
+        tracker.record_cycle([], [], [], b1.closed_trades)
+        tracker.refresh()
+
+    # Cycle 2: independent restart replays b2.closed_trades from disk
+    b2 = PaperBroker(settings=settings)
+    with NewSetupDB(db_file) as db:
+        tracker = SignalQualityTracker(db)
+        tracker.record_cycle([], [], [], b2.closed_trades)
+        tracker.refresh()
+        rows = db.conn.execute("SELECT * FROM trades").fetchall()
+        assert len(rows) == 1
+        q = db.quality_rows(month="2026-11", inefficiency_id=1)
+        assert len(q) == 1
+        assert q[0]["trades_taken"] == 1
+        assert abs(q[0]["gross_pnl"] - (-48.66)) < 1e-9
+
+    # Cycle 3: new close alongside existing history
+    b3 = PaperBroker(settings=settings)
+    b3._closed.append(t2)
+    b3.balance += t2.pnl
+    b3.save_state()
+    with NewSetupDB(db_file) as db:
+        tracker = SignalQualityTracker(db)
+        tracker.record_cycle([], [], [], b3.closed_trades)
+        tracker.refresh()
+        rows = db.conn.execute("SELECT * FROM trades ORDER BY id").fetchall()
+        assert len(rows) == 2
+        q1 = db.quality_rows(month="2026-11", inefficiency_id=1)
+        q7 = db.quality_rows(month="2026-11", inefficiency_id=7)
+        assert q1[0]["trades_taken"] == 1
+        assert q7[0]["trades_taken"] == 1
+        total_pnl = sum(r["gross_pnl"] for r in db.quality_rows(month="2026-11"))
+        assert abs(total_pnl - (-98.48)) < 1e-9
+def test_distinct_trade_instances_not_merged():
+    """Two distinct closes on the same instrument/inefficiency at different
+    timestamps must both be persisted and aggregated."""
+    t1 = _trade(1, -48.66, datetime(2026, 11, 20, 0, 0, tzinfo=timezone.utc))
+    t2 = _trade(1, 75.00, datetime(2026, 11, 25, 0, 0, tzinfo=timezone.utc))
+    with NewSetupDB() as db:
+        id1 = db.insert_trade(t1)
+        id2 = db.insert_trade(t2)
+        id1_replay = db.insert_trade(t1)
+        assert id1 != id2
+        assert id1_replay == id1
+        rows = db.conn.execute("SELECT * FROM trades ORDER BY id").fetchall()
+        assert len(rows) == 2
+        db.refresh_signal_quality()
+        q = db.quality_rows(month="2026-11", inefficiency_id=1)
+        assert len(q) == 1
+        assert q[0]["trades_taken"] == 2
+        assert q[0]["wins"] == 1
+        assert abs(q[0]["gross_pnl"] - 26.34) < 1e-9
