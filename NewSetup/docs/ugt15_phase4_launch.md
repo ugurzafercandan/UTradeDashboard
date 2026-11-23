@@ -5981,3 +5981,10 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - No paper state or configuration changes. Unscoped run: no issue mutation attempted. UGT-5 and UGT-15 left open.
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-23T15:08Z (SCI Quant, unscoped heartbeat_timer)
+
+- Operational verifier PASS (exit 0): last cycle November 22 23:45Z; 5 open / 2 closed, balance $9,901.52; 2 trade rows / 194 signal rows. PASS is not a trading acceptance verdict or proof of zero risk breaches.
+- Daily scheduler enabled and Ready, last result 0; next run November 23 23:45Z. Cycle 8 and the post-fix duplicate-close persistence check remain pending.
+- D1 caches dated November 13; LIN.US D1 cache missing. MOS.US 3.22% deviation versus the stale cached close is diagnostic only. Two closes are insufficient for OOS acceptance or a live-deployment recommendation. No paper state or configuration changes.
+- [UGT-15](/UGT/issues/UGT-15) remains in progress with a verified monitor due November 24 01:00Z (timeout 07:00Z, maxAttempts 90). No issue mutation attempted from this unscoped run.
