@@ -5732,3 +5732,12 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - The idempotent close-persistence fix is present at HEAD `9d6308c` and has not yet been exercised by a post-fix scheduled cycle; verify duplicate-close counts on the next run.
 
 Co-Authored-By: Paperclip <noreply@paperclip.ing>
+
+### Heartbeat 2026-11-23T01:50Z (SCI Quant, run f8c177d9, unscoped heartbeat_timer)
+
+- Unscoped heartbeat (no PAPERCLIP_TASK_ID); no issue API writes attempted. UGT-15 remains in progress with its issue monitor re-armed to 2026-11-24T01:00Z (timeout 07:00Z, maxAttempts 90); do not close UGT-5 or UGT-15.
+- Re-ran `C:/Python314/python.exe scripts/verify_paper_cycle.py`: PASS (exit 0). Latest scheduled cycle remains cycle 7 (2026-11-22 23:45Z); state mtime unchanged at 2026-11-22 23:45:37Z; 2 trade rows, 194 signal rows. Book unchanged: 5 open / 2 closed, balance $9,901.52.
+- Data limitations unchanged: D1 caches dated 2026-11-13 (not refreshed by the daily run), no LIN.US D1 cache. Sample remains insufficient for OOS acceptance or any live deployment recommendation.
+- Next scheduled cycle 2026-11-23 23:45Z (cycle 8); verify it via the UGT-15 monitor on 2026-11-24 01:00Z and confirm the duplicate-close fix (idempotent persistence, HEAD 9d6308c) on that run.
+
+Co-Authored-By: Paperclip <noreply@paperclip.ing>
