@@ -6131,3 +6131,11 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Cycle 7 (November 22 23:45Z) passed `scripts/verify_paper_cycle.py --json` (exit 0, operational only): 5 open / 2 closed, balance $9,901.52; paper state mtime November 22 23:45:37Z.
 - D1 cache warnings unchanged: November 13 bars, no LIN.US cache, MOS.US 3.22% deviation versus stale close diagnostic only. Two closed trades are not enough for OOS acceptance; no live deployment recommended.
 - Cycle 8 due November 23 23:45Z; post-fix duplicate-close persistence verification pending. [UGT-15](/UGT/issues/UGT-15) monitor due November 24 01:00Z. No paper state, configuration or issue status changes. CRLF pairs normalized: 0.
+
+### Heartbeat 2026-11-23T23:52Z (SCI Quant, run 4a0661af, unscoped heartbeat_timer)
+
+- Cycle 8 (November 23 23:45:02Z, scheduler `UGT15_NewSetupPaperDaily` last result 0, Enabled/Ready) completed before this entry; `C:/Python314/python.exe scripts/verify_paper_cycle.py --json` PASS (exit 0, operational only, not an acceptance verdict). Book 5 open / 2 closed, balance $9,901.52 unchanged from cycle 7; db 2 trade rows / 229 signal rows (was 194 at cycle 7, +35 new signals). `paper_state.json` mtime November 23 23:45:38Z.
+- No close event in cycle 8: the only two closed rows are still the November 20 stop-loss exits (LIN.US -$48.66, MOS.US -$49.82). Post-fix duplicate-close persistence verification therefore remains pending; it needs a cycle that actually closes a position. [UGT-15](/UGT/issues/UGT-15) monitor due November 24 01:00Z.
+- Open book: USDCNH BUY (Nov 16), USDZAR BUY (Nov 16), ALUMINIUM SELL (Nov 17), EURUSD SELL (Nov 19), LIN.US BUY (Nov 21). Peak equity $10,084.59; balance is -0.98% versus the $10,000 start.
+- D1 cache warnings unchanged: bars dated November 13 (9.0d old at cycle time), no LIN.US D1 cache, MOS.US fill 3.22% above its stale cached close is diagnostic only. Two closed trades are far below the sample needed for OOS acceptance; no live-deployment recommendation.
+- No paper state, configuration or issue-status changes made. Unscoped heartbeat_timer run: no issue mutation attempted. [UGT-15](/UGT/issues/UGT-15) remains in progress; [UGT-5](/UGT/issues/UGT-5) remains open. CRLF pairs normalized before append: 0.
