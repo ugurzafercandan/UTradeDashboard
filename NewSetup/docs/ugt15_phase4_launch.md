@@ -6139,3 +6139,9 @@ Co-Authored-By: Paperclip <noreply@paperclip.ing>
 - Open book: USDCNH BUY (Nov 16), USDZAR BUY (Nov 16), ALUMINIUM SELL (Nov 17), EURUSD SELL (Nov 19), LIN.US BUY (Nov 21). Peak equity $10,084.59; balance is -0.98% versus the $10,000 start.
 - D1 cache warnings unchanged: bars dated November 13 (9.0d old at cycle time), no LIN.US D1 cache, MOS.US fill 3.22% above its stale cached close is diagnostic only. Two closed trades are far below the sample needed for OOS acceptance; no live-deployment recommendation.
 - No paper state, configuration or issue-status changes made. Unscoped heartbeat_timer run: no issue mutation attempted. [UGT-15](/UGT/issues/UGT-15) remains in progress; [UGT-5](/UGT/issues/UGT-5) remains open. CRLF pairs normalized before append: 0.
+
+### Heartbeat 2026-11-24T00:08Z (SCI Quant, run d843431b, unscoped heartbeat_timer)
+
+- Cycle 8 (November 23 23:45Z) passed `C:/Python314/python.exe scripts/verify_paper_cycle.py --json` (exit 0, operational only): 5 open / 2 closed, balance $9,901.52, 2 trade rows / 229 signal rows. PASS does not establish fresh fills, zero risk breaches, or acceptance.
+- Scheduler `UGT15_NewSetupPaperDaily` Enabled/Ready, last result 0; next cycle November 24 23:45Z. No new close in cycle 8, so post-fix duplicate-close persistence verification remains pending. [UGT-15](/UGT/issues/UGT-15) monitor due November 24 01:00Z.
+- D1 caches still dated November 13 and LIN.US cache missing; MOS.US 3.22% deviation versus stale close is diagnostic only. Two closes are insufficient for OOS acceptance; no live-deployment recommendation. No paper state, configuration or issue mutation. CRLF pairs normalized: 0.
